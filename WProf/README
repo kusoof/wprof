@@ -1,0 +1,53 @@
+Steps to install and compile chromium:
+
+1. Linux Distribution:
+
+64 bit Linux Precise 12.04.5, amd-64 distribution.
+
+http://releases.ubuntu.com/12.04.5/
+
+64-bit linux is essential!!!! Will not build properly without more
+than 4GB of address space.
+
+2. According to the google instructions, make sure you have at least 8 GB swap.
+
+6. Get the google depot tools and add the path to the tools to my search paths
+
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
+
+Add 
+
+export PATH=`pwd`/depot_tools:"$PATH"
+
+to my .bashrc.
+
+http://www.chromium.org/developers/how-tos/install-depot-tools
+
+7. Get all the chrome dependencies using the instructions here:
+
+https://code.google.com/p/chromium/wiki/LinuxBuildInstructionsPrerequisites
+
+Using Sophia’s code copy, go to src/build and run the script
+install_build_deps.sh
+
+8. Configure the build using gyp
+
+From src directory:
+
+GYP_GENERATORS=ninja GYP_DEFINES="werror=" ./build/gyp_chromium
+
+If you want to link with the dynamic libraries, use this:
+
+GYP_GENERATORS=ninja GYP_DEFINES="werror=" ./build/gyp_chromium -D component=shared_library
+
+Using dynamic libraries makes builds faster.
+
+
+9. Build using ninja
+
+for release:
+ninja -C out/Release chrome
+
+for debug 
+
+ninja -C out/Debug chrome
