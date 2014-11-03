@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/chrome/!svn/ver/113199/trunk/tools/build/masters/master.client.tsan
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/chrome/!svn/ver/74809/trunk/tools/build/masters/master.client.tsan/README
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/113199/trunk/tools/build/masters/master.client.tsan/slaves.cfg
+END

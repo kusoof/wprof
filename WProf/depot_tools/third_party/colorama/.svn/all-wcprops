@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/chrome/!svn/ver/133705/trunk/tools/depot_tools/third_party/colorama
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/106865/trunk/tools/depot_tools/third_party/colorama/__init__.py
+END
+ansitowin32.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/106865/trunk/tools/depot_tools/third_party/colorama/ansitowin32.py
+END
+win32.py
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/106865/trunk/tools/depot_tools/third_party/colorama/win32.py
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/106865/trunk/tools/depot_tools/third_party/colorama/README.txt
+END
+winterm.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/106865/trunk/tools/depot_tools/third_party/colorama/winterm.py
+END
+README.chromium
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/106865/trunk/tools/depot_tools/third_party/colorama/README.chromium
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/106865/trunk/tools/depot_tools/third_party/colorama/LICENSE.txt
+END
+ansi.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/133705/trunk/tools/depot_tools/third_party/colorama/ansi.py
+END
+initialise.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/106865/trunk/tools/depot_tools/third_party/colorama/initialise.py
+END

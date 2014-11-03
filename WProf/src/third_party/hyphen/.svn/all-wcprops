@@ -1,0 +1,257 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/chrome/!svn/ver/103685/trunk/src/third_party/hyphen
+END
+ooopatch.sed
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/ooopatch.sed
+END
+configure.in
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/configure.in
+END
+README.hyphen
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/README.hyphen
+END
+depcomp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/depcomp
+END
+tbhyphext.sh
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/chrome/!svn/ver/103685/trunk/src/third_party/hyphen/tbhyphext.sh
+END
+hyphen.patch
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/hyphen.patch
+END
+README_hyph_en_US.txt
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/README_hyph_en_US.txt
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/README
+END
+ltmain.sh
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/ltmain.sh
+END
+hyph_en_US.dic
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/hyph_en_US.dic
+END
+TODO
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/TODO
+END
+INSTALL
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/INSTALL
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/COPYING
+END
+ligpatch.txt
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/ligpatch.txt
+END
+hnjalloc.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/hnjalloc.c
+END
+example.c
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/103685/trunk/src/third_party/hyphen/example.c
+END
+hyphen.c
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/hyphen.c
+END
+aclocal.m4
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/aclocal.m4
+END
+tbhyphext.tex
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/tbhyphext.tex
+END
+install-sh
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/install-sh
+END
+README.chromium
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/chrome/!svn/ver/78316/trunk/src/third_party/hyphen/README.chromium
+END
+README.compound
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/README.compound
+END
+hnjalloc.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/hnjalloc.h
+END
+hyphen.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/hyphen.h
+END
+substrings.c
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/chrome/!svn/ver/103685/trunk/src/third_party/hyphen/substrings.c
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/ChangeLog
+END
+THANKS
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/THANKS
+END
+config.guess
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/config.guess
+END
+hyphen.tex
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/hyphen.tex
+END
+lig.awk
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/lig.awk
+END
+config.sub
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/config.sub
+END
+COPYING.MPL
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/COPYING.MPL
+END
+checkme.lst
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/checkme.lst
+END
+COPYING.LGPL
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/COPYING.LGPL
+END
+README.nonstandard
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/README.nonstandard
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/Makefile.am
+END
+missing
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/missing
+END
+NEWS
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/NEWS
+END
+substrings.pl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/chrome/!svn/ver/103685/trunk/src/third_party/hyphen/substrings.pl
+END
+configure
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/configure
+END
+Makefile.in
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/Makefile.in
+END
+AUTHORS
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/chrome/!svn/ver/64368/trunk/src/third_party/hyphen/AUTHORS
+END

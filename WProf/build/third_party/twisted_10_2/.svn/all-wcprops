@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/chrome/!svn/ver/117852/trunk/tools/build/third_party/twisted_10_2
+END
+NEWS
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/NEWS
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/README
+END
+README.chromium
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/README.chromium
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/LICENSE
+END
+INSTALL
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/INSTALL
+END
+setup.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/setup.py
+END

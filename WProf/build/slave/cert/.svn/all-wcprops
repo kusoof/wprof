@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/chrome/!svn/ver/58652/trunk/tools/build/slave/cert
+END
+ssl_ui_test_root_ca.crt
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/58652/trunk/tools/build/slave/cert/ssl_ui_test_root_ca.crt
+END

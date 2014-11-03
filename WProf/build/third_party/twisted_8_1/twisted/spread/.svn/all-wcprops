@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/96465/trunk/tools/build/third_party/twisted_8_1/twisted/spread
+END
+flavors.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/spread/flavors.py
+END
+util.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/spread/util.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/spread/__init__.py
+END
+jelly.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/spread/jelly.py
+END
+banana.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/spread/banana.py
+END
+pb.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/96465/trunk/tools/build/third_party/twisted_8_1/twisted/spread/pb.py
+END
+interfaces.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/spread/interfaces.py
+END
+publish.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/spread/publish.py
+END
+refpath.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/spread/refpath.py
+END

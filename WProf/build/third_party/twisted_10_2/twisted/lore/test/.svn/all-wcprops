@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test
+END
+test_latex.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/test_latex.py
+END
+lore_index_test2.xhtml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/lore_index_test2.xhtml
+END
+lore_index_file_unnumbered_out.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/lore_index_file_unnumbered_out.html
+END
+test_man2lore.py
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/test_man2lore.py
+END
+test_docbook.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/test_docbook.py
+END
+template.tpl
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/template.tpl
+END
+test_slides.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/test_slides.py
+END
+simple3.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/simple3.html
+END
+simple4.html
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/simple4.html
+END
+lore_index_file_out.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/lore_index_file_out.html
+END
+lore_index_test.xhtml
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/lore_index_test.xhtml
+END
+lore_numbering_test_out2.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/lore_numbering_test_out2.html
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/__init__.py
+END
+test_lore.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/test_lore.py
+END
+test_lmath.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/test_lmath.py
+END
+lore_index_file_out_multiple.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/lore_index_file_out_multiple.html
+END
+simple.html
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/simple.html
+END
+test_lint.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/test_lint.py
+END
+lore_numbering_test_out.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/lore/test/lore_numbering_test_out.html
+END

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/changeset/databases
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/changeset/databases/__init__.py
+END
+visitor.py
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/changeset/databases/visitor.py
+END
+sqlite.py
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/changeset/databases/sqlite.py
+END
+mysql.py
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/changeset/databases/mysql.py
+END
+oracle.py
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/changeset/databases/oracle.py
+END
+firebird.py
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/changeset/databases/firebird.py
+END
+postgres.py
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/changeset/databases/postgres.py
+END

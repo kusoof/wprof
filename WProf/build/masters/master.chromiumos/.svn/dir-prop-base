@@ -1,0 +1,24 @@
+K 10
+svn:ignore
+V 316
+.status_password
+arm-beagleboard-bin
+arm-beagleboard-rel
+arm-generic-bin
+arm-generic-rel
+arm-st1q-bin
+arm-st1q-rel
+arm-tegra2-bin
+arm-tegra2-rel
+arm-voguev210-bin
+arm-voguev210-rel
+changes.pck
+twistd*
+x86-generic-bin
+x86-generic-pre-flight-queue
+x86-generic-rel
+x86-generic-rel-bvt
+x86-pineview-bin
+x86-pineview-rel
+
+END

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/138214/trunk/tools/build/masters/master.client.nacl.toolchain
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/63668/trunk/tools/build/masters/master.client.nacl.toolchain/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/63669/trunk/tools/build/masters/master.client.nacl.toolchain/run_master.bat
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/131580/trunk/tools/build/masters/master.client.nacl.toolchain/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/63668/trunk/tools/build/masters/master.client.nacl.toolchain/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/138214/trunk/tools/build/masters/master.client.nacl.toolchain/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/115848/trunk/tools/build/masters/master.client.nacl.toolchain/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/63668/trunk/tools/build/masters/master.client.nacl.toolchain/README
+END
+Makefile.win32
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/63669/trunk/tools/build/masters/master.client.nacl.toolchain/Makefile.win32
+END

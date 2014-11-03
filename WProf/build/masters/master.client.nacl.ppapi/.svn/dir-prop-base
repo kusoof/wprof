@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 75
+changes.pck
+lucid64-m32-n32-dbg
+lucid64-m32-n32-opt
+twistd.log*
+twistd.pid
+
+END

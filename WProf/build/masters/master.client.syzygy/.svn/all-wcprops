@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/134899/trunk/tools/build/masters/master.client.syzygy
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/85099/trunk/tools/build/masters/master.client.syzygy/buildbot
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/134712/trunk/tools/build/masters/master.client.syzygy/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/85099/trunk/tools/build/masters/master.client.syzygy/buildbot.tac
+END
+master_win_official_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/116052/trunk/tools/build/masters/master.client.syzygy/master_win_official_cfg.py
+END
+master_win_smoke_test_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/chrome/!svn/ver/134899/trunk/tools/build/masters/master.client.syzygy/master_win_smoke_test_cfg.py
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/134712/trunk/tools/build/masters/master.client.syzygy/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/95287/trunk/tools/build/masters/master.client.syzygy/Makefile
+END
+master_source_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/86449/trunk/tools/build/masters/master.client.syzygy/master_source_cfg.py
+END
+master_win_cont_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/129169/trunk/tools/build/masters/master.client.syzygy/master_win_cont_cfg.py
+END

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/regressions
+END
+test_oldpaths.py
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/regressions/test_oldpaths.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/regressions/__init__.py
+END
+test_bad_change_properties_rows.py
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/regressions/test_bad_change_properties_rows.py
+END
+test_shell_command_properties.py
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/regressions/test_shell_command_properties.py
+END
+test_sourcestamp_revision.py
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/regressions/test_sourcestamp_revision.py
+END
+test_unpickling.py
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/regressions/test_unpickling.py
+END
+test_import_unicode_changes.py
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/regressions/test_import_unicode_changes.py
+END
+test_steps_shell_WarningCountingShellCommand.py
+K 25
+svn:wc:ra_dav:version-url
+V 141
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/regressions/test_steps_shell_WarningCountingShellCommand.py
+END

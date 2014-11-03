@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/protocols/mice
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/protocols/mice/__init__.py
+END
+mouseman.py
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/protocols/mice/mouseman.py
+END

@@ -1,0 +1,215 @@
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/122875/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates
+END
+layout.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/layout.html
+END
+onelineperbuild.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/onelineperbuild.html
+END
+feed_atom10.xml
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/feed_atom10.xml
+END
+waterfall.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/waterfall.html
+END
+jsonhelp.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/jsonhelp.html
+END
+root.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/root.html
+END
+grid.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/grid.html
+END
+forms.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/forms.html
+END
+builder.html
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/builder.html
+END
+grid_transposed.html
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/grid_transposed.html
+END
+change_sources.html
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/change_sources.html
+END
+onelineperbuildonebuilder.html
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/onelineperbuildonebuilder.html
+END
+change_macros.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/chrome/!svn/ver/90780/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/change_macros.html
+END
+waterfallhelp.html
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/waterfallhelp.html
+END
+buildslave.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/buildslave.html
+END
+box_macros.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/box_macros.html
+END
+footer.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/footer.html
+END
+revmacros.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/revmacros.html
+END
+console.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/chrome/!svn/ver/122875/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/console.html
+END
+logs.html
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/logs.html
+END
+feed_description.html
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/feed_description.html
+END
+builders.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/builders.html
+END
+about.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/about.html
+END
+buildslaves.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/buildslaves.html
+END
+testresult.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/testresult.html
+END
+change.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/change.html
+END
+feed_rss20.xml
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/feed_rss20.xml
+END
+grid_macros.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/grid_macros.html
+END
+buildstep.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/buildstep.html
+END
+authfail.html
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/authfail.html
+END
+empty.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/empty.html
+END
+build.html
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/build.html
+END
+buildstatus.html
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/buildstatus.html
+END
+directory.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/directory.html
+END
+build_line.html
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/status/web/templates/build_line.html
+END

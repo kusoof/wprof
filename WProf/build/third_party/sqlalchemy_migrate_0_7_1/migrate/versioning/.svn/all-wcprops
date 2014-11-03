@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning
+END
+config.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/config.py
+END
+pathed.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/pathed.py
+END
+version.py
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/version.py
+END
+migrate_repository.py
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/migrate_repository.py
+END
+shell.py
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/shell.py
+END
+schemadiff.py
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/schemadiff.py
+END
+api.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/api.py
+END
+cfgparse.py
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/cfgparse.py
+END
+genmodel.py
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/genmodel.py
+END
+template.py
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/template.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/__init__.py
+END
+repository.py
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/repository.py
+END
+schema.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/schema.py
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/trial
+END
+runner.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/trial/runner.py
+END
+util.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/trial/util.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/trial/__init__.py
+END
+unittest.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/trial/unittest.py
+END
+reporter.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/trial/reporter.py
+END
+itrial.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/trial/itrial.py
+END

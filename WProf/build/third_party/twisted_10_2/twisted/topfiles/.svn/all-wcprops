@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/topfiles
+END
+ChangeLog.Old
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/topfiles/ChangeLog.Old
+END
+setup.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/topfiles/setup.py
+END
+NEWS
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/topfiles/NEWS
+END
+CREDITS
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/topfiles/CREDITS
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/topfiles/README
+END

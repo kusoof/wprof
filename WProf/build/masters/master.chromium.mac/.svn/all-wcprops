@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/143813/trunk/tools/build/masters/master.chromium.mac
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/142659/trunk/tools/build/masters/master.chromium.mac/Makefile
+END
+master_gatekeeper_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/143813/trunk/tools/build/masters/master.chromium.mac/master_gatekeeper_cfg.py
+END
+master_mac_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/143813/trunk/tools/build/masters/master.chromium.mac/master_mac_cfg.py
+END
+master_source_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/142659/trunk/tools/build/masters/master.chromium.mac/master_source_cfg.py
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/142659/trunk/tools/build/masters/master.chromium.mac/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/142659/trunk/tools/build/masters/master.chromium.mac/run_master.bat
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/142659/trunk/tools/build/masters/master.chromium.mac/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/142659/trunk/tools/build/masters/master.chromium.mac/buildbot.tac
+END
+master_site_config.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/142659/trunk/tools/build/masters/master.chromium.mac/master_site_config.py
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/143813/trunk/tools/build/masters/master.chromium.mac/slaves.cfg
+END

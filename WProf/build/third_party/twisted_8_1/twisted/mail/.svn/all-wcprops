@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail
+END
+relaymanager.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/relaymanager.py
+END
+imap4.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/imap4.py
+END
+bounce.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/bounce.py
+END
+relay.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/relay.py
+END
+pop3client.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/pop3client.py
+END
+pop3.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/pop3.py
+END
+maildir.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/maildir.py
+END
+mail.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/mail.py
+END
+smtp.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/smtp.py
+END
+tap.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/tap.py
+END
+protocols.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/protocols.py
+END
+_version.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/_version.py
+END
+alias.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/alias.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/__init__.py
+END
+pb.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/pb.py
+END

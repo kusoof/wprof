@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/scripts/test
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/scripts/test/__init__.py
+END
+test_mktap.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/scripts/test/test_mktap.py
+END

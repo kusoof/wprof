@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/113199/trunk/tools/build/scripts/slave/syzygy
+END
+gsutil_cp_dir.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/113199/trunk/tools/build/scripts/slave/syzygy/gsutil_cp_dir.py
+END

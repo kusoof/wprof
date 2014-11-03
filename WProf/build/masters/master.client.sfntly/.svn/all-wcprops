@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/144988/trunk/tools/build/masters/master.client.sfntly
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/103399/trunk/tools/build/masters/master.client.sfntly/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/97783/trunk/tools/build/masters/master.client.sfntly/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/144988/trunk/tools/build/masters/master.client.sfntly/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/97783/trunk/tools/build/masters/master.client.sfntly/Makefile
+END
+OWNERS
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/101827/trunk/tools/build/masters/master.client.sfntly/OWNERS
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/97783/trunk/tools/build/masters/master.client.sfntly/buildbot
+END

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/maxdb
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/maxdb/__init__.py
+END
+sapdb.py
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/maxdb/sapdb.py
+END
+base.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/maxdb/base.py
+END

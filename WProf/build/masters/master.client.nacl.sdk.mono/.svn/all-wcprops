@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/136722/trunk/tools/build/masters/master.client.nacl.sdk.mono
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/136722/trunk/tools/build/masters/master.client.nacl.sdk.mono/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/120812/trunk/tools/build/masters/master.client.nacl.sdk.mono/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/120812/trunk/tools/build/masters/master.client.nacl.sdk.mono/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/121762/trunk/tools/build/masters/master.client.nacl.sdk.mono/Makefile
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/120812/trunk/tools/build/masters/master.client.nacl.sdk.mono/buildbot
+END

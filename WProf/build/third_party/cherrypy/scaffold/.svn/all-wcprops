@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/chrome/!svn/ver/121393/trunk/tools/build/third_party/cherrypy/scaffold
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/121393/trunk/tools/build/third_party/cherrypy/scaffold/__init__.py
+END
+site.conf
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/121393/trunk/tools/build/third_party/cherrypy/scaffold/site.conf
+END
+apache-fcgi.conf
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/121393/trunk/tools/build/third_party/cherrypy/scaffold/apache-fcgi.conf
+END
+example.conf
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/121393/trunk/tools/build/third_party/cherrypy/scaffold/example.conf
+END

@@ -1,0 +1,268 @@
+10
+
+dir
+145420
+https://src.chromium.org/chrome/trunk/tools/build/masters
+https://src.chromium.org/chrome
+
+
+
+2012-07-03T13:49:45.717346Z
+145295
+csharp@chromium.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4ff67af0-8c30-449e-8e8b-ad334ec8d88c
+
+master.tryserver.chromium
+dir
+
+master.chromium.flaky
+dir
+
+master.tryserver.chromiumos
+dir
+
+master.chromiumos.tryserver
+dir
+
+master.experimental
+dir
+
+master.chromium.chrome
+dir
+
+master.chromium.pyauto
+dir
+
+master.client.skia
+dir
+
+master.client.dart
+dir
+
+master.chromium.webkit
+dir
+
+master.chromium.chromiumos
+dir
+
+master.client.nacl.toolchain
+dir
+
+master.client.nacl.sdk
+dir
+
+master.client.v8
+dir
+
+master.client.pagespeed
+dir
+
+master.client.drmemory
+dir
+
+master.chromium.swarm
+dir
+
+master.chromium.gpu
+dir
+
+master.chromium.lkgr
+dir
+
+master.chromium.mac
+dir
+
+master.chromium
+dir
+
+master.chromiumos
+dir
+
+master-common-rules.mk
+file
+
+
+
+
+2013-07-12T17:48:25.134452Z
+d121a393cf5c68da0bc1c6197d3f2d7c
+2012-05-07T21:40:05.674841Z
+135728
+petermayo@chromium.org
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3363
+
+master.chromium.memory
+dir
+
+master.client.nacl
+dir
+
+master.client.syzygy
+dir
+
+master.client.sfntly
+dir
+
+master.client.dart.fyi
+dir
+
+master-common.mk
+file
+
+
+
+
+2013-07-12T17:48:25.134452Z
+68c6654c4343952cdd38a65fc2758708
+2012-05-07T21:11:01.558904Z
+135720
+petermayo@chromium.org
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1478
+
+master.devtools
+dir
+
+master.client.nacl.ports
+dir
+
+master.client.nacl.ppapi
+dir
+
+master.client.omaha
+dir
+
+master.chromium.gpu.fyi
+dir
+
+master.client.nacl.llvm
+dir
+
+master.chromium.chromebot
+dir
+
+master.chromium.perf_av
+dir
+
+master.chromium.git
+dir
+
+master.client.nacl.chrome
+dir
+
+master.chromium.fyi
+dir
+
+state-template.txt
+file
+
+
+
+
+2013-07-12T17:48:25.134452Z
+bac388f03907212271dadd1db6a28644
+2012-05-07T21:40:05.674841Z
+135728
+petermayo@chromium.org
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5734
+
+master.chromium.perf
+dir
+
+master.reserved
+dir
+
+master.chromium.win
+dir
+
+master.chromium.memory.fyi
+dir
+
+master.tryserver.nacl
+dir
+
+master.chromium.linux
+dir
+
+master.client.nacl.sdk.mono
+dir
+
+master.client.tsan
+dir
+

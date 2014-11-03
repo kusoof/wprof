@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/143648/trunk/tools/build/masters/master.tryserver.chromium
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/63308/trunk/tools/build/masters/master.tryserver.chromium/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/63308/trunk/tools/build/masters/master.tryserver.chromium/run_master.bat
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/143648/trunk/tools/build/masters/master.tryserver.chromium/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/63308/trunk/tools/build/masters/master.tryserver.chromium/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/142379/trunk/tools/build/masters/master.tryserver.chromium/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/114794/trunk/tools/build/masters/master.tryserver.chromium/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/63308/trunk/tools/build/masters/master.tryserver.chromium/README
+END

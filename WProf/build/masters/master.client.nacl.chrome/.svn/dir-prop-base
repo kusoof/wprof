@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 72
+changes.pck
+hardy64-nacl-chrome
+mac-nacl-chrome
+twistd.*
+xp-nacl-chrome
+
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/news
+END
+news.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/news/news.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/news/__init__.py
+END
+nntp.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/news/nntp.py
+END
+_version.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/news/_version.py
+END
+database.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/news/database.py
+END
+tap.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/news/tap.py
+END

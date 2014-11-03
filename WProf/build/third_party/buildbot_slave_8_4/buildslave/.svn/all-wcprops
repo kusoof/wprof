@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/buildslave
+END
+VERSION
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/buildslave/VERSION
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/buildslave/__init__.py
+END
+pbutil.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/buildslave/pbutil.py
+END
+exceptions.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/buildslave/exceptions.py
+END
+interfaces.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/buildslave/interfaces.py
+END
+runprocess.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/buildslave/runprocess.py
+END
+bot.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/buildslave/bot.py
+END
+util.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/buildslave/util.py
+END

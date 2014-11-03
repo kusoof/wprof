@@ -1,0 +1,4680 @@
+Index: WTF/wtf/Assertions.h
+===================================================================
+--- WTF/wtf/Assertions.h	(revision 121787)
++++ WTF/wtf/Assertions.h	(working copy)
+@@ -99,14 +99,25 @@
+ #endif
+ #endif
+ 
++// Sophia turn on logger
+ #ifndef LOG_DISABLED
+ #if HAVE(VARIADIC_MACRO)
+ #define LOG_DISABLED ASSERTIONS_DISABLED_DEFAULT
+ #else
+-#define LOG_DISABLED 1
++#define LOG_DISABLED 0
+ #endif
+ #endif
+ 
++// Sophia turn on WebProf
++#ifndef WPROF_DISABLED
++#if HAVE(VARIADIC_MACRO)
++#define WPROF_DISABLED 0
++//#define WPROF_DISABLED ASSERTIONS_DISABLED_DEFAULT
++#else
++#define WPROF_DISABLED 0
++#endif
++#endif
++
+ #if COMPILER(GCC)
+ #define WTF_PRETTY_FUNCTION __PRETTY_FUNCTION__
+ #else
+Index: WebCore/CMakeLists.txt
+===================================================================
+--- WebCore/CMakeLists.txt	(revision 121787)
++++ WebCore/CMakeLists.txt	(working copy)
+@@ -69,6 +69,7 @@
+     "${WEBCORE_DIR}/svg/properties"
+     "${WEBCORE_DIR}/websockets"
+     "${WEBCORE_DIR}/workers"
++    "${WEBCORE_DIR}/wprof"
+     "${WEBCORE_DIR}/xml"
+     "${WEBCORE_DIR}/xml/parser"
+     "${JAVASCRIPTCORE_DIR}"
+Index: WebCore/DerivedSources.make
+===================================================================
+--- WebCore/DerivedSources.make	(revision 121787)
++++ WebCore/DerivedSources.make	(working copy)
+@@ -54,6 +54,7 @@
+     $(WebCore)/storage \
+     $(WebCore)/xml \
+     $(WebCore)/workers \
++    $(WebCore)/wprof \
+     $(WebCore)/svg \
+     $(WebCore)/testing \
+     $(WebCore)/websockets \
+Index: WebCore/GNUmakefile.am
+===================================================================
+--- WebCore/GNUmakefile.am	(revision 121787)
++++ WebCore/GNUmakefile.am	(working copy)
+@@ -93,6 +93,7 @@
+ 	-I$(srcdir)/Source/WebCore/testing/js \
+ 	-I$(srcdir)/Source/WebCore/websockets \
+ 	-I$(srcdir)/Source/WebCore/workers \
++	-I$(srcdir)/Source/WebCore/wprof \
+ 	-I$(srcdir)/Source/WebCore/xml \
+ 	-I$(srcdir)/Source/WebCore/xml/parser \
+ 	-I$(top_builddir)/WebCore/bindings/js \
+@@ -893,6 +894,7 @@
+     $(WebCore)/svg \
+     $(WebCore)/testing \
+     $(WebCore)/workers \
++    $(WebCore)/wprof \
+     $(WebCore)/xml
+ 
+ vpath %.idl $(IDL_PATH)
+Index: WebCore/WebCore.gyp/WebCore.gyp
+===================================================================
+--- WebCore/WebCore.gyp/WebCore.gyp	(revision 121787)
++++ WebCore/WebCore.gyp/WebCore.gyp	(working copy)
+@@ -146,6 +146,7 @@
+       '../svg/properties',
+       '../../ThirdParty/glu',
+       '../workers',
++      '../wprof',
+       '../xml',
+       '../xml/parser',
+     ],
+Index: WebCore/WebCore.pri
+===================================================================
+--- WebCore/WebCore.pri	(revision 121787)
++++ WebCore/WebCore.pri	(working copy)
+@@ -92,6 +92,7 @@
+     $$SOURCE_DIR/testing \
+     $$SOURCE_DIR/websockets \
+     $$SOURCE_DIR/workers \
++    $$SOURCE_DIR/wprof \
+     $$SOURCE_DIR/xml \
+     $$SOURCE_DIR/xml/parser \
+     $$SOURCE_DIR/../ThirdParty
+Index: WebCore/WebCore.vcproj/WebCore.vcproj
+===================================================================
+--- WebCore/WebCore.vcproj/WebCore.vcproj	(revision 121787)
++++ WebCore/WebCore.vcproj/WebCore.vcproj	(working copy)
+@@ -54784,6 +54784,14 @@
+ 			</File>
+ 		</Filter>
+ 		<Filter
++			Name="wprof"
++			>
++			<File
++				RelativePath="..\wprof/WprofController.h"
++				>
++			</File>
++		</Filter>
++		<Filter
+ 			Name="notifications"
+ 			>
+ 			<File
+Index: WebCore/WebCore.xcodeproj/project.pbxproj
+===================================================================
+--- WebCore/WebCore.xcodeproj/project.pbxproj	(revision 121787)
++++ WebCore/WebCore.xcodeproj/project.pbxproj	(working copy)
+@@ -7851,6 +7851,14 @@
+ 		2EF1BFE8121C9F4200C27627 /* FileStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileStream.cpp; sourceTree = "<group>"; };
+ 		2EF1BFE9121C9F4200C27627 /* FileStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileStream.h; sourceTree = "<group>"; };
+ 		2EF1BFF8121CB0CE00C27627 /* FileStreamClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileStreamClient.h; sourceTree = "<group>"; };
++		3028E46716A5F40C00CA9783 /* WprofConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WprofConstants.h; path = wprof/WprofConstants.h; sourceTree = "<group>"; };
++		3086731316A2671D008697E8 /* WprofData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WprofData.h; path = wprof/WprofData.h; sourceTree = "<group>"; };
++		3086749116A293E6008697E8 /* WprofHTMLTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WprofHTMLTag.h; path = wprof/WprofHTMLTag.h; sourceTree = "<group>"; };
++		3086749216A293FE008697E8 /* WprofReceivedChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WprofReceivedChunk.h; path = wprof/WprofReceivedChunk.h; sourceTree = "<group>"; };
++		3086749316A2940E008697E8 /* WprofResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WprofResource.h; path = wprof/WprofResource.h; sourceTree = "<group>"; };
++		3086749416A29427008697E8 /* WprofComputation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WprofComputation.h; path = wprof/WprofComputation.h; sourceTree = "<group>"; };
++		3086749516A29437008697E8 /* WprofPreload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WprofPreload.h; path = wprof/WprofPreload.h; sourceTree = "<group>"; };
++		30F7E89E16A605AB003E62A5 /* WprofController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WprofController.h; path = wprof/WprofController.h; sourceTree = "<group>"; };
+ 		3106036C14327D2E00ABF4BA /* WebKitCSSFilterValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebKitCSSFilterValue.cpp; sourceTree = "<group>"; };
+ 		3106036D14327D2E00ABF4BA /* WebKitCSSFilterValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebKitCSSFilterValue.h; sourceTree = "<group>"; };
+ 		3106036E14327D2E00ABF4BA /* WebKitCSSFilterValue.idl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebKitCSSFilterValue.idl; sourceTree = "<group>"; };
+@@ -13923,6 +13931,7 @@
+ 		0867D691FE84028FC02AAC07 /* WebKit */ = {
+ 			isa = PBXGroup;
+ 			children = (
++				30B4036616A241DF00BEE1E2 /* wprof */,
+ 				65C97AF208EA908800ACD273 /* config.h */,
+ 				EDEC98020AED7E170059137F /* WebCorePrefix.h */,
+ 				9307061309E0CA8200B17FE4 /* DerivedSources.make */,
+@@ -14707,6 +14716,21 @@
+ 			name = workers;
+ 			sourceTree = "<group>";
+ 		};
++		30B4036616A241DF00BEE1E2 /* wprof */ = {
++			isa = PBXGroup;
++			children = (
++				3086731316A2671D008697E8 /* WprofData.h */,
++				3086749116A293E6008697E8 /* WprofHTMLTag.h */,
++				3086749216A293FE008697E8 /* WprofReceivedChunk.h */,
++				3086749316A2940E008697E8 /* WprofResource.h */,
++				3086749416A29427008697E8 /* WprofComputation.h */,
++				3086749516A29437008697E8 /* WprofPreload.h */,
++				3028E46716A5F40C00CA9783 /* WprofConstants.h */,
++				30F7E89E16A605AB003E62A5 /* WprofController.h */,
++			);
++			name = wprof;
++			sourceTree = "<group>";
++		};
+ 		316FE1060E6E1D8400BF6088 /* animation */ = {
+ 			isa = PBXGroup;
+ 			children = (
+Index: WebCore/css/CSSImageValue.cpp
+===================================================================
+--- WebCore/css/CSSImageValue.cpp	(revision 121787)
++++ WebCore/css/CSSImageValue.cpp	(working copy)
+@@ -31,6 +31,11 @@
+ #include "StyleCachedImage.h"
+ #include "StylePendingImage.h"
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ CSSImageValue::CSSImageValue(ClassType classType, const String& url)
+@@ -82,8 +87,14 @@
+         m_accessedImage = true;
+ 
+         ResourceRequest request(loader->document()->completeURL(url));
+-        if (CachedResourceHandle<CachedImage> cachedImage = loader->requestImage(request))
++        if (CachedResourceHandle<CachedImage> cachedImage = loader->requestImage(request)) {
+             m_image = StyleCachedImage::create(cachedImage.get());
++#if !WPROF_DISABLED
++            LOG(DependencyResults, "CSSImageValue.cpp::cachedImage PAIR3 %s", request.url().string().utf8().data());
++            WprofController::getInstance()->addCSSUrl(url.utf8().data());
++            WprofController::getInstance()->createRequestWprofHTMLTagMapping(url);
++#endif
++        }
+     }
+ 
+     return (m_image && m_image->isCachedImage()) ? static_cast<StyleCachedImage*>(m_image.get()) : 0;
+Index: WebCore/css/StyleResolver.cpp
+===================================================================
+--- WebCore/css/StyleResolver.cpp	(revision 121787)
++++ WebCore/css/StyleResolver.cpp	(working copy)
+@@ -164,6 +164,11 @@
+ #define FIXED_POSITION_CREATES_STACKING_CONTEXT 1
+ #endif
+ 
++#if !WPROF_DISABLED
++#include "HTMLDocumentParser.h"
++#include "Logging.h"
++#endif
++
+ using namespace std;
+ 
+ namespace WebCore {
+@@ -5438,6 +5443,10 @@
+ {
+     CachedResourceLoader* cachedResourceLoader = m_element->document()->cachedResourceLoader();
+ 
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "StyleResolver.cpp::loadPendingImage (Document %p) (StyleResolver %p)", document(), this);
++#endif
++
+     if (pendingImage->cssImageValue()) {
+         CSSImageValue* imageValue = pendingImage->cssImageValue();
+         return imageValue->cachedImage(cachedResourceLoader);
+Index: WebCore/dom/Document.cpp
+===================================================================
+--- WebCore/dom/Document.cpp	(revision 121787)
++++ WebCore/dom/Document.cpp	(working copy)
+@@ -216,6 +216,11 @@
+ #include "Prerenderer.h"
+ #endif
+ 
++#if !WPROF_DISABLED
++#include "HTMLDocumentParser.h"
++#include "WprofController.h"
++#endif
++
+ using namespace std;
+ using namespace WTF;
+ using namespace Unicode;
+@@ -1186,14 +1191,27 @@
+     case Loading:
+         if (!m_documentTiming.domLoading)
+             m_documentTiming.domLoading = monotonicallyIncreasingTime();
++
++#if !WPROF_DISABLED
++        LOG(DependencyResults, "Document.cpp::setReadyState INFO (Loading %lf)", m_documentTiming.domLoading);
++        WprofController::getInstance()->increaseDomCounter();
++#endif
+         break;
+     case Interactive:
+         if (!m_documentTiming.domInteractive)
+             m_documentTiming.domInteractive = monotonicallyIncreasingTime();
++#if !WPROF_DISABLED
++        LOG(DependencyResults, "Document.cpp::setReadyState INFO (Interactive %lf)", m_documentTiming.domInteractive);
++#endif
+         break;
+     case Complete:
+         if (!m_documentTiming.domComplete)
+             m_documentTiming.domComplete = monotonicallyIncreasingTime();
++			
++#if !WPROF_DISABLED
++        LOG(DependencyResults, "Document.cpp::setReadyState INFO (Complete %lf)", m_documentTiming.domComplete);
++        WprofController::getInstance()->decreaseDomCounter(url().string());
++#endif
+         break;
+     }
+ 
+@@ -1786,6 +1804,10 @@
+         frameView->beginDeferredRepaints();
+     }
+ 
++#if !WPROF_DISABLED
++    HTMLDocumentParser* parser1 = NULL;
++#endif
++
+     ASSERT(!renderer() || renderArena());
+     if (!renderer() || !renderArena())
+         goto bail_out;
+@@ -1793,6 +1815,13 @@
+     if (m_pendingStyleRecalcShouldForce)
+         change = Force;
+ 
++#if !WPROF_DISABLED
++    if (parser() != NULL) {
++        parser1 = (HTMLDocumentParser*)parser();
++        LOG(DependencyLog, "Document.cpp::recalcStyle (StyleResolver %p)", styleResolver());
++    }
++#endif
++
+     // Recalculating the root style (on the document) is not needed in the common case.
+     if ((change == Force) || (shouldDisplaySeamlesslyWithParent() && (change >= Inherit))) {
+         // style selector may set this again during recalc
+@@ -1914,7 +1943,10 @@
+             // If new nodes have been added or style recalc has been done with style sheets still pending, some nodes 
+             // may not have had their real style calculated yet. Normally this gets cleaned when style sheets arrive 
+             // but here we need up-to-date style immediately.
+-            recalcStyle(Force);
++#if !WPROF_DISABLED
++        LOG(DependencyLog, "Document::updateLayoutIgnorePendingStylesheets");
++#endif
++        recalcStyle(Force);
+     }
+ 
+     updateLayout();
+@@ -2410,7 +2442,14 @@
+     if (!scriptableDocumentParser() || !scriptableDocumentParser()->wasCreatedByScript() || !scriptableDocumentParser()->isParsing())
+         return;
+ 
++#if !WPROF_DISABLED
++    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(5);
++    wprofComputation->setUrlRecalcStyle(String::format("DOMLoaded"));
++#endif
+     explicitClose();
++#if !WPROF_DISABLED
++    wprofComputation->end();
++#endif
+ }
+ 
+ void Document::explicitClose()
+@@ -2520,6 +2559,10 @@
+     m_overMinimumLayoutThreshold = true;
+     if (!ownerElement() || (ownerElement()->renderer() && !ownerElement()->renderer()->needsLayout())) {
+         updateStyleIfNeeded();
++
++#if !WPROF_DISABLED
++        LOG(DependencyLog, "Document.cpp::implicitClose");
++#endif
+         
+         // Always do a layout after loading if needed.
+         if (view() && renderObject && (!renderObject->firstChild() || renderObject->needsLayout()))
+@@ -2553,6 +2596,9 @@
+ 
+ void Document::setParsing(bool b)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "Document.cpp::setParsing");
++#endif
+     m_bParsing = b;
+     if (!m_bParsing && view())
+         view()->scheduleRelayout();
+@@ -3334,6 +3380,10 @@
+     if (!stylesheetChangeRequiresStyleRecalc)
+         return;
+ 
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "Document.cpp::styleResolverChanged");
++#endif
++
+     // This recalcStyle initiates a new recalc cycle. We need to bracket it to
+     // make sure animations get the correct update time
+     {
+Index: WebCore/dom/DocumentFragment.cpp
+===================================================================
+--- WebCore/dom/DocumentFragment.cpp	(revision 121787)
++++ WebCore/dom/DocumentFragment.cpp	(working copy)
+@@ -30,6 +30,10 @@
+ #include "Settings.h"
+ #include "XMLDocumentParser.h"
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#endif
++
+ namespace WebCore {
+ 
+ DocumentFragment::DocumentFragment(Document* document, ConstructionType constructionType)
+@@ -78,6 +82,10 @@
+ 
+ void DocumentFragment::parseHTML(const String& source, Element* contextElement, FragmentScriptingPermission scriptingPermission)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "DocumentFragment.cpp::parseHTML");
++#endif
++
+     HTMLDocumentParser::parseDocumentFragment(source, this, contextElement, scriptingPermission);
+ }
+ 
+Index: WebCore/dom/EventTarget.cpp
+===================================================================
+--- WebCore/dom/EventTarget.cpp	(revision 121787)
++++ WebCore/dom/EventTarget.cpp	(working copy)
+@@ -39,6 +39,12 @@
+ #include <wtf/StdLibExtras.h>
+ #include <wtf/Vector.h>
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#include <wtf/CurrentTime.h>
++#endif
++
+ using namespace WTF;
+ 
+ namespace WebCore {
+@@ -192,10 +198,31 @@
+     if (!d)
+         return true;
+ 
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "ScriptElement::prepareScript ThreadId:%d %lf", currentThread(), monotonicallyIncreasingTime());
++
++    WprofComputation* wprofComputation;
++    if (event->type().string() == String::format("load")
++	|| event->type().string() == String::format("DOMContentLoaded")) {
++
++        wprofComputation = WprofController::getInstance()->createWprofComputation(5);
++	wprofComputation->setUrlRecalcStyle(event->type().string());
++    }
++#endif
++
+     EventListenerVector* listenerVector = d->eventListenerMap.find(event->type());
+ 
+     if (listenerVector)
+         fireEventListeners(event, d, *listenerVector);
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "ScriptElement::prepareScript end %lf", monotonicallyIncreasingTime());
++
++    if (event->type().string() == String::format("load")
++	|| event->type().string() == String::format("DOMContentLoaded")) {
++        wprofComputation->end();
++    }
++#endif
+     
+     return !event->defaultPrevented();
+ }
+Index: WebCore/dom/ScriptElement.cpp
+===================================================================
+--- WebCore/dom/ScriptElement.cpp	(revision 121787)
++++ WebCore/dom/ScriptElement.cpp	(working copy)
+@@ -50,6 +50,12 @@
+ #include <wtf/text/StringHash.h>
+ #include <wtf/text/TextPosition.h>
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#include <wtf/CurrentTime.h>
++#endif
++
+ #if ENABLE(SVG)
+ #include "SVGNames.h"
+ #include "SVGScriptElement.h"
+@@ -73,6 +79,10 @@
+     , m_requestUsesAccessControl(false)
+ {
+     ASSERT(m_element);
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "ScriptElement.cpp::construct");
++    setWprofHTMLTag(WprofController::getInstance()->tempWprofHTMLTag());
++#endif
+     if (parserInserted && m_element->document()->scriptableDocumentParser() && !m_element->document()->isInDocumentWrite())
+         m_startLineNumber = m_element->document()->scriptableDocumentParser()->lineNumber();
+ }
+@@ -237,7 +247,15 @@
+     } else {
+         // Reset line numbering for nested writes.
+         TextPosition position = document->isInDocumentWrite() ? TextPosition() : scriptStartPosition;
++#if !WPROF_DISABLED
++	LOG(DependencyLog, "ScriptElement::prepareScript ThreadId:%d %lf", currentThread(), monotonicallyIncreasingTime());
++	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4);
++#endif
+         executeScript(ScriptSourceCode(scriptContent(), document->url(), position));
++#if !WPROF_DISABLED
++	LOG(DependencyLog, "ScriptElement::prepareScript end %lf", monotonicallyIncreasingTime());
++	wprofComputation->end();
++#endif
+     }
+ 
+     return true;
+@@ -255,6 +273,11 @@
+     if (!stripLeadingAndTrailingHTMLSpaces(sourceUrl).isEmpty()) {
+         ResourceRequest request = ResourceRequest(m_element->document()->completeURL(sourceUrl));
+ 
++#if !WPROF_DISABLED
++        wprofHTMLTag()->setUrl(request.url().string());
++        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), wprofHTMLTag());
++#endif
++
+         String crossOriginMode = m_element->fastGetAttribute(HTMLNames::crossoriginAttr);
+         if (!crossOriginMode.isNull()) {
+             m_requestUsesAccessControl = true;
+@@ -313,7 +336,16 @@
+     if (cachedScript->errorOccurred())
+         dispatchErrorEvent();
+     else if (!cachedScript->wasCanceled()) {
++#if !WPROF_DISABLED
++	LOG(DependencyLog, "ScriptElement::execute ThreadId:%d %lf %s", currentThread(), monotonicallyIncreasingTime(), cachedScript->url().string().utf8().data());
++	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4);
++	wprofComputation->setUrlRecalcStyle(cachedScript->url().string());
++#endif
+         executeScript(ScriptSourceCode(cachedScript));
++#if !WPROF_DISABLED
++	LOG(DependencyLog, "ScriptElement::execute end %lf", monotonicallyIncreasingTime());
++	wprofComputation->end();
++#endif
+         dispatchLoadEvent();
+     }
+     cachedScript->removeClient(this);
+Index: WebCore/dom/ScriptElement.h
+===================================================================
+--- WebCore/dom/ScriptElement.h	(revision 121787)
++++ WebCore/dom/ScriptElement.h	(working copy)
+@@ -25,6 +25,10 @@
+ #include "CachedResourceHandle.h"
+ #include <wtf/text/TextPosition.h>
+ 
++#if !WPROF_DISABLED
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ class CachedScript;
+@@ -60,6 +64,13 @@
+     bool willExecuteWhenDocumentFinishedParsing() const { return m_willExecuteWhenDocumentFinishedParsing; }
+     CachedResourceHandle<CachedScript> cachedScript() { return m_cachedScript; }
+ 
++#if !WPROF_DISABLED
++        WprofHTMLTag* wprofHTMLTag() { return m_wprofHTMLTag; }
++        virtual void setWprofHTMLTag(WprofHTMLTag* objHash) {
++                m_wprofHTMLTag = objHash;
++        }
++#endif
++
+ protected:
+     void setHaveFiredLoadEvent(bool haveFiredLoad) { m_haveFiredLoad = haveFiredLoad; }
+     bool isParserInserted() const { return m_parserInserted; }
+@@ -106,6 +117,10 @@
+     bool m_requestUsesAccessControl : 1;
+     String m_characterEncoding;
+     String m_fallbackCharacterEncoding;
++
++#if !WPROF_DISABLED
++        WprofHTMLTag* m_wprofHTMLTag;
++#endif
+ };
+ 
+ ScriptElement* toScriptElement(Element*);
+Index: WebCore/dom/StyleElement.cpp
+===================================================================
+--- WebCore/dom/StyleElement.cpp	(revision 121787)
++++ WebCore/dom/StyleElement.cpp	(working copy)
+@@ -32,6 +32,11 @@
+ #include <wtf/text/StringBuilder.h>
+ #include <wtf/text/TextPosition.h>
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ static bool isValidStyleChild(Node* node)
+@@ -53,6 +58,14 @@
+ {
+     if (createdByParser && document && document->scriptableDocumentParser() && !document->isInDocumentWrite())
+         m_startLineNumber = document->scriptableDocumentParser()->lineNumber();
++
++#if !WPROF_DISABLED
++        LOG(DependencyLog, "StyleElement.cpp::construct");
++        setWprofHTMLTag(WprofController::getInstance()->tempWprofHTMLTag());
++
++        // Set type css
++        WprofController::getInstance()->setElementTypePair(wprofHTMLTag(), 4);
++#endif
+ }
+ 
+ StyleElement::~StyleElement()
+@@ -156,6 +169,12 @@
+         clearSheet();
+     }
+ 
++#if !WPROF_DISABLED
++    //LOG(DependencyLog, "StyleElement.cpp::createSheet %s", text.utf8().data());
++    LOG(DependencyLog, "StyleElement.cpp::createSheet");
++    WprofController::getInstance()->setCSSContentPair(wprofHTMLTag(), text.utf8().data());
++#endif
++
+     // If type is empty or CSS, this is a CSS style sheet.
+     const AtomicString& type = this->type();
+     if (document->contentSecurityPolicy()->allowInlineStyle(e->document()->url(), startLineNumber) && isCSS(e, type)) {
+Index: WebCore/dom/StyleElement.h
+===================================================================
+--- WebCore/dom/StyleElement.h	(revision 121787)
++++ WebCore/dom/StyleElement.h	(working copy)
+@@ -24,6 +24,10 @@
+ #include "CSSStyleSheet.h"
+ #include <wtf/text/TextPosition.h>
+ 
++#if !WPROF_DISABLED
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ class Document;
+@@ -40,6 +44,13 @@
+ 
+     CSSStyleSheet* sheet() const { return m_sheet.get(); }
+ 
++#if !WPROF_DISABLED
++    WprofHTMLTag* wprofHTMLTag() { return m_wprofHTMLTag; }
++    virtual void setWprofHTMLTag(WprofHTMLTag* objHash) {
++        m_wprofHTMLTag = objHash;
++    }
++#endif
++
+     bool isLoading() const;
+     bool sheetLoaded(Document*);
+     void startLoadingDynamicSheet(Document*);
+@@ -60,6 +71,10 @@
+     bool m_createdByParser;
+     bool m_loading;
+     WTF::OrdinalNumber m_startLineNumber;
++
++#if !WPROF_DISABLED
++    WprofHTMLTag* m_wprofHTMLTag;
++#endif
+ };
+ 
+ }
+Index: WebCore/dom/StyledElement.cpp
+===================================================================
+--- WebCore/dom/StyledElement.cpp	(revision 121787)
++++ WebCore/dom/StyledElement.cpp	(working copy)
+@@ -43,6 +43,11 @@
+ #include <wtf/HashFunctions.h>
+ #include <wtf/text/TextPosition.h>
+ 
++#if !WPROF_DISABLED
++#include "HTMLDocumentParser.h"
++#include "Logging.h"
++#endif
++
+ using namespace std;
+ 
+ namespace WebCore {
+@@ -147,6 +152,10 @@
+ 
+ void StyledElement::attributeChanged(const Attribute& attribute)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "StyledElement.cpp::attributeChanged");
++#endif
++
+     parseAttribute(attribute);
+ 
+     if (isPresentationAttribute(attribute.name())) {
+Index: WebCore/html/HTMLEmbedElement.cpp
+===================================================================
+--- WebCore/html/HTMLEmbedElement.cpp	(revision 121787)
++++ WebCore/html/HTMLEmbedElement.cpp	(working copy)
+@@ -40,6 +40,11 @@
+ #include "RenderWidget.h"
+ #include "Settings.h"
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ using namespace HTMLNames;
+@@ -105,6 +110,12 @@
+         m_url = stripLeadingAndTrailingHTMLSpaces(attribute.value());
+     else if (attribute.name() == srcAttr) {
+         m_url = stripLeadingAndTrailingHTMLSpaces(attribute.value());
++
++#if !WPROF_DISABLED
++    LOG(DependencyResults, "HTMLEmbedElement.cpp::parseAttribute PAIR3 %s", m_url.utf8().data());
++    WprofController::getInstance()->createRequestWprofHTMLTagMapping(m_url);
++#endif
++
+         if (renderer() && isImageType()) {
+             if (!m_imageLoader)
+                 m_imageLoader = adoptPtr(new HTMLImageLoader(this));
+Index: WebCore/html/HTMLFrameElementBase.cpp
+===================================================================
+--- WebCore/html/HTMLFrameElementBase.cpp	(revision 121787)
++++ WebCore/html/HTMLFrameElementBase.cpp	(working copy)
+@@ -40,6 +40,11 @@
+ #include "ScriptEventListener.h"
+ #include "Settings.h"
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ using namespace HTMLNames;
+@@ -106,9 +111,14 @@
+ {
+     if (attribute.name() == srcdocAttr)
+         setLocation("about:srcdoc");
+-    else if (attribute.name() == srcAttr && !fastHasAttribute(srcdocAttr))
++    else if (attribute.name() == srcAttr && !fastHasAttribute(srcdocAttr)) {
++
++#if !WPROF_DISABLED
++        LOG(DependencyResults, "HTMLFrameElementBase.cpp::parseAttribute PAIR3 %s ThreadId %d %p", stripLeadingAndTrailingHTMLSpaces(attribute.value()).utf8().data(), currentThread(), WprofController::getInstance()->tempWprofHTMLTag());
++#endif
++
+         setLocation(stripLeadingAndTrailingHTMLSpaces(attribute.value()));
+-    else if (isIdAttributeName(attribute.name())) {
++    } else if (isIdAttributeName(attribute.name())) {
+         // Important to call through to base for the id attribute so the hasID bit gets set.
+         HTMLFrameOwnerElement::parseAttribute(attribute);
+         m_frameName = attribute.value();
+@@ -205,6 +215,11 @@
+ 
+     m_URL = AtomicString(str);
+ 
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLFrameElementBase::setLocation %s", document()->completeURL(m_URL).string().utf8().data());
++    WprofController::getInstance()->createRequestWprofHTMLTagMapping(document()->completeURL(m_URL).string());
++#endif
++
+     if (inDocument())
+         openURL(false, false);
+ }
+Index: WebCore/html/HTMLLinkElement.cpp
+===================================================================
+--- WebCore/html/HTMLLinkElement.cpp	(revision 121787)
++++ WebCore/html/HTMLLinkElement.cpp	(working copy)
+@@ -48,6 +48,12 @@
+ #include "StyleSheetContents.h"
+ #include <wtf/StdLibExtras.h>
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#include <wtf/CurrentTime.h>
++#endif
++
+ namespace WebCore {
+ 
+ using namespace HTMLNames;
+@@ -71,6 +77,11 @@
+     , m_pendingSheetType(None)
+ {
+     ASSERT(hasTagName(linkTag));
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLLinkElement.cpp::construct");
++    setWprofHTMLTag(WprofController::getInstance()->tempWprofHTMLTag());
++#endif
+ }
+ 
+ PassRefPtr<HTMLLinkElement> HTMLLinkElement::create(const QualifiedName& tagName, Document* document, bool createdByParser)
+@@ -136,6 +147,12 @@
+     } else if (attribute.name() == hrefAttr) {
+         String url = stripLeadingAndTrailingHTMLSpaces(attribute.value());
+         m_url = url.isEmpty() ? KURL() : document()->completeURL(url);
++
++#if !WPROF_DISABLED
++        wprofHTMLTag()->setUrl(m_url.string());
++        WprofController::getInstance()->createRequestWprofHTMLTagMapping(m_url.string());
++#endif
++
+         process();
+     } else if (attribute.name() == typeAttr) {
+         m_type = attribute.value();
+@@ -184,10 +201,19 @@
+     if (!m_linkLoader.loadLink(m_relAttribute, type, m_sizes->toString(), m_url, document()))
+         return;
+ 
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLLinkElement.cpp::process");
++#endif
++
+     bool acceptIfTypeContainsTextCSS = document()->page() && document()->page()->settings() && document()->page()->settings()->treatsAnyTextCSSLinkAsStylesheet();
+ 
+     if (m_disabledState != Disabled && (m_relAttribute.m_isStyleSheet || (acceptIfTypeContainsTextCSS && type.contains("text/css")))
+         && document()->frame() && m_url.isValid()) {
++
++#if !WPROF_DISABLED
++        // Set type css
++        WprofController::getInstance()->setElementTypePair(wprofHTMLTag(), 4);
++#endif
+         
+         String charset = getAttribute(charsetAttr);
+         if (charset.isEmpty() && document()->frame())
+@@ -323,6 +349,14 @@
+     m_sheet->setMediaQueries(MediaQuerySet::createAllowingDescriptionSyntax(m_media));
+     m_sheet->setTitle(title());
+ 
++#if !WPROF_DISABLED
++    //m_sheet->internal()->setWprofHTMLTag(wprofHTMLTag());
++    //LOG(DependencyLog, "HTMLLinkElement.cpp::setCSSStyleSheet (Document %p) %s %s", document(), document()->styleHashIdentifier(), cachedStyleSheet->sheetText(false, false).utf8().data());
++    LOG(DependencyLog, "HTMLLinkElement.cpp::setCSSStyleSheet (Document %p) %s", document(), m_url.string().utf8().data());
++    WprofController::getInstance()->setCSSContentPair(wprofHTMLTag(), cachedStyleSheet->sheetText(false, NULL));
++    WprofController::getInstance()->setHTMLLinkRecalcStyle(m_url.string());
++#endif
++
+     styleSheet->parseAuthorStyleSheet(cachedStyleSheet, document()->securityOrigin());
+ 
+     m_loading = false;
+@@ -456,6 +490,11 @@
+     if (type == None)
+         return;
+     if (type == NonBlocking) {
++
++#if !WPROF_DISABLED
++        LOG(DependencyLog, "HTMLLinkElement.cpp::removePendingSheet");
++#endif
++
+         // Document::removePendingSheet() triggers the style selector recalc for blocking sheets.
+         document()->styleResolverChanged(RecalcStyleImmediately);
+         return;
+Index: WebCore/html/HTMLLinkElement.h
+===================================================================
+--- WebCore/html/HTMLLinkElement.h	(revision 121787)
++++ WebCore/html/HTMLLinkElement.h	(working copy)
+@@ -35,6 +35,10 @@
+ #include "LinkRelAttribute.h"
+ #include "Timer.h"
+ 
++#if !WPROF_DISABLED
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ class HTMLLinkElement;
+@@ -67,6 +71,13 @@
+     void dispatchPendingEvent(LinkEventSender*);
+     static void dispatchPendingLoadEvents();
+ 
++#if !WPROF_DISABLED
++    WprofHTMLTag* wprofHTMLTag() { return m_wprofHTMLTag; }
++    virtual void setWprofHTMLTag(WprofHTMLTag* objHash) {
++        m_wprofHTMLTag = objHash;
++    }
++#endif
++
+ private:
+     virtual void parseAttribute(const Attribute&) OVERRIDE;
+ 
+@@ -132,6 +143,10 @@
+     bool m_loadedSheet;
+ 
+     PendingSheetType m_pendingSheetType;
++
++#if !WPROF_DISABLED
++    WprofHTMLTag* m_wprofHTMLTag;
++#endif
+ };
+ 
+ } //namespace
+Index: WebCore/html/HTMLScriptElement.cpp
+===================================================================
+--- WebCore/html/HTMLScriptElement.cpp	(revision 121787)
++++ WebCore/html/HTMLScriptElement.cpp	(working copy)
+@@ -31,6 +31,11 @@
+ #include "ScriptEventListener.h"
+ #include "Text.h"
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ using namespace HTMLNames;
+@@ -60,11 +65,14 @@
+ 
+ void HTMLScriptElement::parseAttribute(const Attribute& attribute)
+ {
+-    if (attribute.name() == srcAttr)
++    if (attribute.name() == srcAttr) {
+         handleSourceAttribute(attribute.value());
+-    else if (attribute.name() == asyncAttr)
++    } else if (attribute.name() == asyncAttr) {
++#if !WPROF_DISABLED
++        WprofController::getInstance()->setElementTypePair(wprofHTMLTag(), 3); // async
++#endif
+         handleAsyncAttribute();
+-    else if (attribute.name() == onloadAttr)
++    } else if (attribute.name() == onloadAttr)
+         setAttributeEventListener(eventNames().loadEvent, createAttributeEventListener(this, attribute));
+     else if (attribute.name() == onbeforeloadAttr)
+         setAttributeEventListener(eventNames().beforeloadEvent, createAttributeEventListener(this, attribute));
+Index: WebCore/html/parser/HTMLDocumentParser.cpp
+===================================================================
+--- WebCore/html/parser/HTMLDocumentParser.cpp	(revision 121787)
++++ WebCore/html/parser/HTMLDocumentParser.cpp	(working copy)
+@@ -40,7 +40,21 @@
+ #include "InspectorInstrumentation.h"
+ #include "NestingLevelIncrementer.h"
+ #include "Settings.h"
++#include "Logging.h" // Sophia
++#include <wtf/CurrentTime.h> // Sophia
++#include <wtf/MD5.h> // Sophia
++#include <wtf/Vector.h> // Sophia
++#include <wtf/text/CString.h> // Sophia
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#include <wtf/CurrentTime.h>
++#include <wtf/MD5.h>
++#include <wtf/Vector.h>
++#include <wtf/text/CString.h>
++#endif
++
+ namespace WebCore {
+ 
+ using namespace HTMLNames;
+@@ -110,6 +124,7 @@
+ 
+ void HTMLDocumentParser::detach()
+ {
++	//LOG(DependencyLog, "HTMLDocumentParser.cpp::detach"); // Sophia
+     DocumentParser::detach();
+     if (m_scriptRunner)
+         m_scriptRunner->detach();
+@@ -136,7 +151,8 @@
+     // pumpTokenizer can cause this parser to be detached from the Document,
+     // but we need to ensure it isn't deleted yet.
+     RefPtr<HTMLDocumentParser> protect(this);
+-
++	
++	//LOG(DependencyLog, "HTMLDocumentParser.cpp::prepareToStopParsing"); // Sophia
+     // NOTE: This pump should only ever emit buffered character tokens,
+     // so ForceSynchronous vs. AllowYield should be meaningless.
+     pumpTokenizerIfPossible(ForceSynchronous);
+@@ -165,6 +181,12 @@
+ 
+ void HTMLDocumentParser::pumpTokenizerIfPossible(SynchronousMode mode)
+ {
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::pumpTokenizerIfPossible %p", this);
++#endif
++
++	//LOG(DependencyLog, "HTMLDocumentParser.cpp::pumpTokenizerIfPossible %p", this); // Sophia
+     if (isStopped() || m_treeBuilder->isPaused())
+         return;
+ 
+@@ -185,6 +207,11 @@
+ // Used by HTMLParserScheduler
+ void HTMLDocumentParser::resumeParsingAfterYield()
+ {
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::resumeParsingAfterYield %p", this);
++#endif
++
+     // pumpTokenizer can cause this parser to be detached from the Document,
+     // but we need to ensure it isn't deleted yet.
+     RefPtr<HTMLDocumentParser> protect(this);
+@@ -204,6 +231,11 @@
+     // We will not have a scriptRunner when parsing a DocumentFragment.
+     if (!m_scriptRunner)
+         return true;
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::runScriptsForPausedTreeBuilder %p", this);
++#endif
++
+     return m_scriptRunner->execute(scriptElement.release(), scriptStartPosition);
+ }
+ 
+@@ -246,6 +278,10 @@
+ 
+ void HTMLDocumentParser::pumpTokenizer(SynchronousMode mode)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::pumpTokenizer");
++#endif
++
+     ASSERT(!isStopped());
+     ASSERT(!isScheduledForResume());
+     // ASSERT that this object is both attached to the Document and protected.
+@@ -275,6 +311,11 @@
+             m_xssAuditor.filterToken(m_token);
+         }
+ 
++#if !WPROF_DISABLED
++        LOG(DependencyLog, "HTMLDocumentParser.cpp::pumpTokenizer charConsumed %d %d", m_input.current().numberOfCharactersConsumed(), m_input.current().length());
++        WprofController::getInstance()->setCharConsumed(m_input.current().numberOfCharactersConsumed(), m_input.current().numberOfCharactersConsumed() + m_input.current().length());
++#endif
++
+         m_treeBuilder->constructTreeFromToken(m_token);
+         ASSERT(m_token.isUninitialized());
+     }
+@@ -316,6 +357,13 @@
+     if (isStopped())
+         return;
+ 
++#if !WPROF_DISABLED
++    HTMLDocumentParser* parser = (HTMLDocumentParser*)(document()->parser());
++    if (parser != NULL) {
++        LOG(DependencyResults, "HTMLDocumentParser.cpp::insert (Parser %p) INFO (StartParsing %lf)", this, monotonicallyIncreasingTime());
++    }
++#endif
++
+     // pumpTokenizer can cause this parser to be detached from the Document,
+     // but we need to ensure it isn't deleted yet.
+     RefPtr<HTMLDocumentParser> protect(this);
+@@ -367,6 +415,21 @@
+         return;
+     }
+ 
++#if !WPROF_DISABLED
++    MD5 md5;
++    md5.addBytes(reinterpret_cast<const uint8_t*>(source.toString().utf8().data()), source.toString().length());
++    Vector<uint8_t, 16> digest;
++    md5.checksum(digest);
++    char* buf = 0;
++    CString actual = CString::newUninitialized(32, buf);
++    for (size_t i = 0; i < 16; i++) {
++        snprintf(buf, 3, "%02x", digest.at(i));
++        buf += 2;
++    }
++
++    LOG(DependencyResults, "HTMLDocumentParser.cpp::append (Parser %p) INFO (StartParsing %lf) %s", this, monotonicallyIncreasingTime(), actual.data());
++#endif
++
+     pumpTokenizerIfPossible(AllowYield);
+ 
+     endIfDelayed();
+@@ -377,6 +440,10 @@
+     ASSERT(!isDetached());
+     ASSERT(!isScheduledForResume());
+ 
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::end (Parser %p) INFO (FinishParsing %lf)", this, monotonicallyIncreasingTime());
++#endif
++
+     // Informs the the rest of WebCore that parsing is really finished (and deletes this).
+     m_treeBuilder->finished();
+ }
+@@ -385,6 +452,10 @@
+ {
+     ASSERT(isStopping());
+     ASSERT(!hasInsertionPoint());
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::attemptToRunDeferredScriptsAndEnd ThreadId:%d", currentThread());
++#endif
++
+     if (m_scriptRunner && !m_scriptRunner->executeScriptsWaitingForParsing())
+         return;
+     end();
+@@ -468,6 +539,10 @@
+ 
+ void HTMLDocumentParser::resumeParsingAfterScriptExecution()
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::resumeParsingAfterScriptExecution ThreadId:%d %p (Resume %lf)", currentThread(), this, monotonicallyIncreasingTime());
++#endif
++
+     ASSERT(!isExecutingScript());
+     ASSERT(!m_treeBuilder->isPaused());
+ 
+@@ -499,6 +574,10 @@
+ 
+ void HTMLDocumentParser::notifyFinished(CachedResource* cachedResource)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::notifyFinished %p (Doc %p) (Parser %p)", this, document(), document()->parser());
++#endif
++
+     // pumpTokenizer can cause this parser to be detached from the Document,
+     // but we need to ensure it isn't deleted yet.
+     RefPtr<HTMLDocumentParser> protect(this);
+@@ -522,6 +601,11 @@
+ 
+ void HTMLDocumentParser::executeScriptsWaitingForStylesheets()
+ {
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::executeScriptsWaitingForStylesheets ThreadId:%d", currentThread());
++#endif
++
+     // Document only calls this when the Document owns the DocumentParser
+     // so this will not be called in the DocumentFragment case.
+     ASSERT(m_scriptRunner);
+@@ -554,6 +638,11 @@
+ void HTMLDocumentParser::parseDocumentFragment(const String& source, DocumentFragment* fragment, Element* contextElement, FragmentScriptingPermission scriptingPermission)
+ {
+     RefPtr<HTMLDocumentParser> parser = HTMLDocumentParser::create(fragment, contextElement, scriptingPermission);
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLDocumentParser.cpp::parseDocumentFragment ThreadId:%d", currentThread());
++#endif
++
+     parser->insert(source); // Use insert() so that the parser will not yield.
+     parser->finish();
+     ASSERT(!parser->processingData()); // Make sure we're done. <rdar://problem/3963151>
+Index: WebCore/html/parser/HTMLPreloadScanner.cpp
+===================================================================
+--- WebCore/html/parser/HTMLPreloadScanner.cpp	(revision 121787)
++++ WebCore/html/parser/HTMLPreloadScanner.cpp	(working copy)
+@@ -39,6 +39,11 @@
+ #include "MediaList.h"
+ #include "MediaQueryEvaluator.h"
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ using namespace HTMLNames;
+@@ -130,6 +135,12 @@
+ 
+         CachedResourceLoader* cachedResourceLoader = document->cachedResourceLoader();
+         ResourceRequest request = document->completeURL(m_urlToLoad, baseURL);
++
++#if !WPROF_DISABLED
++        LOG(DependencyLog, "HTMLPreloadScanner::preload ThreadId:%d %s", currentThread(), request.url().string().utf8().data());
++        WprofController::getInstance()->createWprofPreload(request.url().string());
++#endif
++
+         if (m_tagName == scriptTag)
+             cachedResourceLoader->preload(CachedResource::Script, request, m_charset, scanningBody);
+         else if (m_tagName == imgTag || (m_tagName == inputTag && m_inputIsImage))
+@@ -169,6 +180,10 @@
+ 
+ void HTMLPreloadScanner::scan()
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLPreloadScanner::scan ThreadId:%d", currentThread());
++#endif
++
+     // When we start scanning, our best prediction of the baseElementURL is the real one!
+     m_predictedBaseElementURL = m_document->baseElementURL();
+ 
+Index: WebCore/html/parser/HTMLScriptRunner.cpp
+===================================================================
+--- WebCore/html/parser/HTMLScriptRunner.cpp	(revision 121787)
++++ WebCore/html/parser/HTMLScriptRunner.cpp	(working copy)
+@@ -41,6 +41,12 @@
+ #include "ScriptElement.h"
+ #include "ScriptSourceCode.h"
+ 
++#if !WPROF_DISABLED
++#include "WprofController.h"
++#include <wtf/CurrentTime.h>
++#include "Logging.h"
++#endif
++
+ namespace WebCore {
+ 
+ using namespace HTMLNames;
+@@ -109,6 +115,10 @@
+ 
+ void HTMLScriptRunner::executeParsingBlockingScript()
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::executeParsingBlockingScript (HTMLScriptRunner %p)", this);
++#endif
++
+     ASSERT(m_document);
+     ASSERT(!m_scriptNestingLevel);
+     ASSERT(m_document->haveStylesheetsLoaded());
+@@ -120,6 +130,10 @@
+ 
+ void HTMLScriptRunner::executePendingScriptAndDispatchEvent(PendingScript& pendingScript)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::executePendingScriptAndDispatchEvent (HTMLScriptRunner %p)", this);
++#endif
++
+     bool errorOccurred = false;
+     ScriptSourceCode sourceCode = sourceFromPendingScript(pendingScript, errorOccurred);
+ 
+@@ -152,6 +166,10 @@
+ 
+ void HTMLScriptRunner::stopWatchingForLoad(PendingScript& pendingScript)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::stopWatchingForLoad (HTMLScriptRunner %p)", this);
++#endif
++
+     ASSERT(pendingScript.watchingForLoad());
+     m_host->stopWatchingForLoad(pendingScript.cachedScript());
+     pendingScript.setWatchingForLoad(false);
+@@ -170,6 +188,10 @@
+     runScript(scriptElement.get(), scriptStartPosition);
+ 
+     if (haveParsingBlockingScript()) {
++#if !WPROF_DISABLED
++        LOG(DependencyLog, "HTMLScriptRunner.cpp::execute %p", this);
++#endif
++
+         if (m_scriptNestingLevel)
+             return false; // Block the parser.  Unwind to the outermost HTMLScriptRunner::execute before continuing parsing.
+         // If preload scanner got created, it is missing the source after the current insertion point. Append it and scan.
+@@ -188,17 +210,35 @@
+ 
+ bool HTMLScriptRunner::executeParsingBlockingScripts()
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::executeParsingBlockingScripts ThreadId:%d %lf", currentThread(), monotonicallyIncreasingTime());
++    
++    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4);
++    if (m_parsingBlockingScript.cachedScript())
++	wprofComputation->setUrlRecalcStyle(m_parsingBlockingScript.cachedScript()->url().string());
++#endif
++
+     while (haveParsingBlockingScript()) {
+         // We only really need to check once.
+         if (!isPendingScriptReady(m_parsingBlockingScript))
+             return false;
+         executeParsingBlockingScript();
+     }
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::executeParsingBlockingScripts end %lf", monotonicallyIncreasingTime());
++    wprofComputation->end();
++#endif
++
+     return true;
+ }
+ 
+ bool HTMLScriptRunner::executeScriptsWaitingForLoad(CachedResource* cachedScript)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::executeScriptsWaitingForLoad ThreadId:%d INFO (StartExecuting %lf)", currentThread(), monotonicallyIncreasingTime());
++#endif
++
+     ASSERT(!m_scriptNestingLevel);
+     ASSERT(haveParsingBlockingScript());
+     ASSERT_UNUSED(cachedScript, m_parsingBlockingScript.cachedScript() == cachedScript);
+@@ -208,6 +248,10 @@
+ 
+ bool HTMLScriptRunner::executeScriptsWaitingForStylesheets()
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::executeScriptsWaitingForStylesheets ThreadId:%d (HTMLScriptRunner %p)", currentThread(), this);
++#endif
++
+     ASSERT(m_document);
+     // Callers should check hasScriptsWaitingForStylesheets() before calling
+     // to prevent parser or script re-entry during </style> parsing.
+@@ -219,6 +263,10 @@
+ 
+ bool HTMLScriptRunner::executeScriptsWaitingForParsing()
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::executeScriptsWaitingForParsing ThreadId:%d (HTMLScriptRunner %p) INFO (StartExecuting %lf)", currentThread(), this, monotonicallyIncreasingTime());
++#endif
++
+     while (!m_scriptsToExecuteAfterParsing.isEmpty()) {
+         ASSERT(!m_scriptNestingLevel);
+         ASSERT(!haveParsingBlockingScript());
+@@ -240,6 +288,10 @@
+     if (!requestPendingScript(m_parsingBlockingScript, element))
+         return;
+ 
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::requestParsingBlockingScript");
++#endif
++
+     ASSERT(m_parsingBlockingScript.cachedScript());
+ 
+     // We only care about a load callback if cachedScript is not already
+@@ -251,6 +303,10 @@
+ 
+ void HTMLScriptRunner::requestDeferredScript(Element* element)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::requestDeferredScript");
++#endif
++
+     PendingScript pendingScript;
+     if (!requestPendingScript(pendingScript, element))
+         return;
+@@ -261,6 +317,10 @@
+ 
+ bool HTMLScriptRunner::requestPendingScript(PendingScript& pendingScript, Element* script) const
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "HTMLScriptRunner.cpp::requestPendingScript");
++#endif
++
+     ASSERT(!pendingScript.element());
+     pendingScript.setElement(script);
+     // This should correctly return 0 for empty or invalid srcValues.
+@@ -280,6 +340,10 @@
+     ASSERT(m_document);
+     ASSERT(!haveParsingBlockingScript());
+     {
++#if !WPROF_DISABLED
++        LOG(DependencyLog, "HTMLScriptRunner.cpp::runScript l:%d c:%d %lf", scriptStartPosition.m_line.oneBasedInt(), scriptStartPosition.m_column.oneBasedInt(), monotonicallyIncreasingTime());
++#endif
++
+         InsertionPointRecord insertionPointRecord(m_host->inputStream());
+         NestingLevelIncrementer nestingLevelIncrementer(m_scriptNestingLevel);
+ 
+@@ -310,6 +374,9 @@
+             }
+         } else
+             requestParsingBlockingScript(script);
++#if !WPROF_DISABLED
++            LOG(DependencyLog, "HTMLScriptRunner.cpp::runScript end %lf", monotonicallyIncreasingTime());
++#endif
+     }
+ }
+ 
+Index: WebCore/html/parser/HTMLTreeBuilder.cpp
+===================================================================
+--- WebCore/html/parser/HTMLTreeBuilder.cpp	(revision 121787)
++++ WebCore/html/parser/HTMLTreeBuilder.cpp	(working copy)
+@@ -52,6 +52,11 @@
+ #include "XMLNames.h"
+ #include <wtf/unicode/CharacterNames.h>
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ using namespace HTMLNames;
+@@ -454,6 +459,19 @@
+     if (rawToken.type() != HTMLTokenTypes::Character)
+         rawToken.clear();
+ 
++#if !WPROF_DISABLED
++    // Set Tags info here by creating WprofHTMLTag
++    // Note that this is the only place for creating WprofHTMLTag
++    if (token.type() == HTMLTokenTypes::StartTag || token.type() == HTMLTokenTypes::EndTag) {
++	WprofController::getInstance()->createWprofHTMLTag(
++	    m_parser->textPosition(),
++            m_document->url().string(),
++	    token.name().string(),
++	    token.type() == HTMLTokenTypes::StartTag
++	);
++    }
++#endif
++
+     constructTreeFromAtomicToken(token);
+ 
+     if (!rawToken.isUninitialized()) {
+Index: WebCore/loader/ImageLoader.cpp
+===================================================================
+--- WebCore/loader/ImageLoader.cpp	(revision 121787)
++++ WebCore/loader/ImageLoader.cpp	(working copy)
+@@ -36,6 +36,11 @@
+ #include "ScriptCallStack.h"
+ #include "SecurityOrigin.h"
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#endif
++
+ #if ENABLE(SVG)
+ #include "RenderSVGImage.h"
+ #endif
+@@ -185,6 +190,11 @@
+         } else
+             newImage = document->cachedResourceLoader()->requestImage(request);
+ 
++#if !WPROF_DISABLED
++        LOG(DependencyResults, "ImageLoader.cpp::updateFromElement PAIR3 %s", request.url().string().utf8().data());
++        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string());
++#endif
++
+         // If we do not have an image here, it means that a cross-site
+         // violation occurred.
+         m_failedLoadURL = !newImage ? attr : AtomicString();
+Index: WebCore/loader/ResourceLoader.cpp
+===================================================================
+--- WebCore/loader/ResourceLoader.cpp	(revision 121787)
++++ WebCore/loader/ResourceLoader.cpp	(working copy)
+@@ -46,6 +46,13 @@
+ #include "Settings.h"
+ #include "SharedBuffer.h"
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#include <wtf/Vector.h>
++#include <wtf/text/CString.h>
++#endif
++
+ namespace WebCore {
+ 
+ PassRefPtr<SharedBuffer> ResourceLoader::resourceData()
+@@ -220,6 +227,11 @@
+     // anything including possibly derefing this; one example of this is Radar 3266216.
+     RefPtr<ResourceLoader> protector(this);
+ 
++    //WprofController::getInstance()->createRequestTimeMapping(request.url().string().utf8().data());
++#if !WPROF_DISABLED
++    WprofController::getInstance()->createRequestTimeMapping(request.url().string());
++#endif
++
+     ASSERT(!m_reachedTerminalState);
+ 
+     if (m_options.sendLoadCallbacks == SendCallbacks) {
+@@ -244,11 +256,32 @@
+ {
+     ASSERT(!m_reachedTerminalState);
+ 
++#if !WPROF_DISABLED
++    WprofController::getInstance()->createWprofResource(
++	identifier(),
++	r.url().string(),
++	r.resourceLoadTiming(),
++	r.mimeType(),
++	r.expectedContentLength(),
++	r.httpStatusCode(),
++	r.connectionID(),
++	r.connectionReused(),
++	r.wasCached()
++    );
++
++    LOG(DependencyLog, "ResourceLoader::didReceiveResponse %p", r.resourceLoadTiming());
++#endif
++
+     // Protect this in this delegate method since the additional processing can do
+     // anything including possibly derefing this; one example of this is Radar 3266216.
+     RefPtr<ResourceLoader> protector(this);
+ 
+     m_response = r;
++	
++	double time = -1;
++	if (r.resourceLoadTiming())
++		time = r.resourceLoadTiming()->requestTime;
++	LOG(DependencyLog, "ResourceLoader::didReceiveResponse %s %f", r.url().string().utf8().data(), time); // Sophia
+ 
+     if (FormData* data = m_request.httpBody())
+         data->removeGeneratedFilesIfNeeded();
+@@ -269,6 +302,10 @@
+     // anything including possibly derefing this; one example of this is Radar 3266216.
+     RefPtr<ResourceLoader> protector(this);
+ 
++#if !WPROF_DISABLED
++    WprofController::getInstance()->createWprofReceivedChunk(identifier(), (unsigned long)length);
++#endif
++
+     addData(data, length, allAtOnce);
+     // FIXME: If we get a resource with more than 2B bytes, this code won't do the right thing.
+     // However, with today's computers and networking speeds, this won't happen in practice.
+Index: WebCore/loader/cache/CachedCSSStyleSheet.cpp
+===================================================================
+--- WebCore/loader/cache/CachedCSSStyleSheet.cpp	(revision 121787)
++++ WebCore/loader/cache/CachedCSSStyleSheet.cpp	(working copy)
+@@ -38,6 +38,14 @@
+ #include <wtf/CurrentTime.h>
+ #include <wtf/Vector.h>
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#include <wtf/CurrentTime.h>
++#include <wtf/MD5.h>
++#include <wtf/text/CString.h>
++#endif
++
+ namespace WebCore {
+ 
+ CachedCSSStyleSheet::CachedCSSStyleSheet(const ResourceRequest& resourceRequest, const String& charset)
+@@ -101,6 +109,13 @@
+ 
+     m_data = data;
+     setEncodedSize(m_data.get() ? m_data->size() : 0);
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "CachedCSSStyleSheet.cpp::data %lf", monotonicallyIncreasingTime());
++    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(1);
++    wprofComputation->setUrlRecalcStyle(url().string());
++#endif
++
+     // Decode the data to find out the encoding and keep the sheet text around during checkNotify()
+     if (m_data) {
+         m_decodedSheetText = m_decoder->decode(m_data->data(), m_data->size());
+@@ -110,6 +125,11 @@
+     checkNotify();
+     // Clear the decoded text as it is unlikely to be needed immediately again and is cheap to regenerate.
+     m_decodedSheetText = String();
++
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "CachedCSSStyleSheet.cpp::data done %lf", monotonicallyIncreasingTime());
++    wprofComputation->end();
++#endif
+ }
+ 
+ void CachedCSSStyleSheet::checkNotify()
+Index: WebCore/loader/cache/CachedResourceLoader.cpp
+===================================================================
+--- WebCore/loader/cache/CachedResourceLoader.cpp	(revision 121787)
++++ WebCore/loader/cache/CachedResourceLoader.cpp	(working copy)
+@@ -60,6 +60,11 @@
+ #include "CachedShader.h"
+ #endif
+ 
++#if !WPROF_DISABLED
++#include "HTMLDocumentParser.h"
++#include "WprofController.h"
++#endif
++
+ #define PRELOAD_DEBUG 0
+ 
+ namespace WebCore {
+@@ -151,6 +156,10 @@
+ 
+ CachedResourceHandle<CachedImage> CachedResourceLoader::requestImage(ResourceRequest& request)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "CachedResourceLoader.cpp::requestImage");
++#endif
++
+     if (Frame* f = frame()) {
+         if (f->loader()->pageDismissalEventBeingDispatched() != FrameLoader::NoDismissal) {
+             KURL requestURL = request.url();
+@@ -241,6 +250,14 @@
+ 
+ CachedResourceHandle<CachedRawResource> CachedResourceLoader::requestRawResource(ResourceRequest& request, const ResourceLoaderOptions& options)
+ {
++#if !WPROF_DISABLED
++    HTMLDocumentParser* parser = (HTMLDocumentParser*)(document()->parser());
++    if (parser) {
++        LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
++        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string());
++    }
++#endif
++
+     return static_cast<CachedRawResource*>(requestResource(CachedResource::RawResource, request, String(), options, ResourceLoadPriorityUnresolved, false).get());
+ }
+ 
+Index: WebCore/page/FrameView.cpp
+===================================================================
+--- WebCore/page/FrameView.cpp	(revision 121787)
++++ WebCore/page/FrameView.cpp	(working copy)
+@@ -87,6 +87,11 @@
+ #include "TiledBackingStore.h"
+ #endif
+ 
++#if !WPROF_DISABLED
++#include "Logging.h"
++#include "WprofController.h"
++#endif
++
+ namespace WebCore {
+ 
+ using namespace HTMLNames;
+@@ -933,6 +938,11 @@
+ 
+ void FrameView::layout(bool allowSubtree)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "FrameView.cpp::layout");
++    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(2);
++#endif
++
+     if (m_inLayout)
+         return;
+ 
+@@ -1184,6 +1194,10 @@
+         m_actionScheduler->resume();
+     }
+ 
++#if !WPROF_DISABLED
++    wprofComputation->end();
++#endif
++
+     InspectorInstrumentation::didLayout(cookie);
+ 
+     m_nestedLayoutCount--;
+@@ -2032,6 +2046,9 @@
+     if (!m_frame->document()->ownerElement())
+         printf("Layout timer fired at %d\n", m_frame->document()->elapsedTime());
+ #endif
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "FrameView::layoutTimerFired");
++#endif
+     layout();
+ }
+ 
+@@ -2997,6 +3014,10 @@
+ 
+ void FrameView::paintControlTints()
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "FrameView::paintControlTints");
++#endif
++
+     if (needsLayout())
+         layout();
+     PlatformGraphicsContext* const noContext = 0;
+@@ -3023,6 +3044,11 @@
+ 
+ void FrameView::paintContents(GraphicsContext* p, const IntRect& rect)
+ {
++#if !WPROF_DISABLED
++    WprofComputation* wprofComputation = new WprofComputation(3, WprofController::getInstance()->tempWprofHTMLTag());
++    LOG(DependencyLog, "FrameView.cpp::paintContents");
++#endif
++
+     if (!frame())
+         return;
+ 
+@@ -3121,6 +3147,10 @@
+     if (isTopLevelPainter)
+         sCurrentPaintTimeStamp = 0;
+ 
++#if !WPROF_DISABLED
++    wprofComputation->end();
++#endif
++
+     InspectorInstrumentation::didPaint(cookie);
+ }
+ 
+@@ -3174,6 +3204,10 @@
+ 
+     m_frame->document()->updateStyleIfNeeded();
+ 
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "FrameView::updateLayoutAndStyleIfNeededRecursive");
++#endif
++
+     if (needsLayout())
+         layout();
+ 
+@@ -3232,6 +3266,10 @@
+ 
+ void FrameView::forceLayout(bool allowSubtree)
+ {
++#if !WPROF_DISABLED
++    LOG(DependencyLog, "FrameView::forceLayout");
++#endif
++
+     layout(allowSubtree);
+ }
+ 
+Index: WebCore/platform/Logging.cpp
+===================================================================
+--- WebCore/platform/Logging.cpp	(revision 121787)
++++ WebCore/platform/Logging.cpp	(working copy)
+@@ -65,8 +65,10 @@
+ 
+ WTFLogChannel LogWebAudio =          { 0x20000000, "WebCoreLogLevel", WTFLogChannelOff };
+ WTFLogChannel LogCompositing =       { 0x40000000, "WebCoreLogLevel", WTFLogChannelOff };
++	
++WTFLogChannel LogDependencyResults = { 0x80000000, "WebCoreLogLevel", WTFLogChannelOff }; // Sophia
++WTFLogChannel LogDependencyLog =     { 0x80000001, "WebCoreLogLevel", WTFLogChannelOff }; // Sophia
+ 
+-
+ WTFLogChannel* getChannelFromName(const String& channelName)
+ {
+     if (!(channelName.length() >= 2))
+@@ -146,6 +148,12 @@
+ 
+     if (equalIgnoringCase(channelName, String("Compositing")))
+         return &LogCompositing;
++	
++    if (equalIgnoringCase(channelName, String("DependencyResults"))) // Sophia
++        return &LogDependencyResults; // Sophia
++	
++    if (equalIgnoringCase(channelName, String("DependencyLog"))) // Sophia
++        return &LogDependencyLog; // Sophia
+ 
+     return 0;
+ }
+Index: WebCore/platform/Logging.h
+===================================================================
+--- WebCore/platform/Logging.h	(revision 121787)
++++ WebCore/platform/Logging.h	(working copy)
+@@ -63,6 +63,8 @@
+     extern WTFLogChannel LogFileAPI;
+     extern WTFLogChannel LogWebAudio;
+     extern WTFLogChannel LogCompositing;
++	extern WTFLogChannel LogDependencyResults; // Sophia
++	extern WTFLogChannel LogDependencyLog; // Sophia
+ 
+     void initializeLoggingChannelsIfNecessary();
+     WTFLogChannel* getChannelFromName(const String& channelName);
+Index: WebCore/wprof/WprofComputation.h
+===================================================================
+--- WebCore/wprof/WprofComputation.h	(revision 0)
++++ WebCore/wprof/WprofComputation.h	(working copy)
+@@ -0,0 +1,92 @@
++/*
++ * WprofComputation.h
++ *
++ * Copyright (c) 2012 University of Washington. All rights reserved
++ * 
++ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
++ * this software and associated documentation files (the "Software"), to deal in the 
++ * Software without restriction, including without limitation the rights to use, copy, 
++ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
++ * and to permit persons to whom the Software is furnished to do so, subject to the 
++ * following conditions:
++ * 
++ * The above copyright notice and this permission notice shall be included in all copies 
++ * or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
++ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
++ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
++ * DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef WprofComputation_h
++#define WprofComputation_h
++
++#if !WPROF_DISABLED
++
++#include "WprofHTMLTag.h"
++#include <wtf/CurrentTime.h>
++
++namespace WebCore {
++
++//
++class WprofComputation {
++    public:
++        WprofComputation(int type, WprofHTMLTag* tag)
++		: m_endTime(-1)
++		, m_urlRecalcStyle(String::format(""))
++        {
++            m_type = type;
++            m_startTime = monotonicallyIncreasingTime();
++            m_fromWprofHTMLTag = tag;
++        };
++        
++        ~WprofComputation() {};
++        
++        int type() { return m_type; }
++        double startTime() { return m_startTime; }
++        double endTime() { return m_endTime; }
++        WprofHTMLTag* fromWprofHTMLTag() { return m_fromWprofHTMLTag; }
++        String urlRecalcStyle() { return m_urlRecalcStyle; }
++        
++        void setUrlRecalcStyle(String url) {
++            m_urlRecalcStyle = url;
++        }
++        
++        void end(){
++            m_endTime = monotonicallyIncreasingTime();
++        }
++        
++        String getTypeForPrint() {
++            switch (m_type) {
++                case 1:
++                    return String::format("recalcStyle");
++                case 2:
++                    return String::format("layout");
++                case 3:
++                    return String::format("paint");
++                case 4:
++                    return String::format("execScript");
++                case 5:
++                    return String::format("fireEvent");
++                default:
++                    break;
++            }
++            return String::format("undefined");
++        }
++        
++    private:
++        int m_type; // 1: recalcStyle; 2: layout; 3: paint
++        double m_startTime;
++        double m_endTime;
++        WprofHTMLTag* m_fromWprofHTMLTag;
++        String m_urlRecalcStyle;
++};
++	
++}
++#endif // WPROF_DISABLED
++
++#endif
+Index: WebCore/wprof/WprofConstants.h
+===================================================================
+--- WebCore/wprof/WprofConstants.h	(revision 0)
++++ WebCore/wprof/WprofConstants.h	(working copy)
+@@ -0,0 +1,61 @@
++/*
++ * WprofConstants.h
++ *
++ * WProf is licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
++ *
++ * Copyright (c) 2012 University of Washington. All rights reserved
++ * 
++ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
++ * this software and associated documentation files (the "Software"), to deal in the 
++ * Software without restriction, including without limitation the rights to use, copy, 
++ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
++ * and to permit persons to whom the Software is furnished to do so, subject to the 
++ * following conditions:
++ * 
++ * The above copyright notice and this permission notice shall be included in all copies 
++ * or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
++ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
++ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
++ * DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef WprofConstants_h
++#define WprofConstants_h
++
++#if !WPROF_DISABLED
++
++namespace WebCore {
++    
++class WprofConstants {
++public:
++        // Singleton creation and fetching
++        static WprofConstants* ins() {
++            static WprofConstants* pInstance;
++            if (!pInstance)
++                pInstance = new WprofConstants();
++            return pInstance;
++        };
++        
++        ~WprofConstants() {};
++
++	String TAG() { return m_TAG; }
++	// Call more constants here
++private:
++        WprofConstants(){
++	    m_TAG = String::format("WPROF");
++	    // Assign more constants here
++	}
++
++	String m_TAG;
++	// Define more constants here
++};
++
++}
++#endif // WPROF_DISABLED
++
++#endif
+Index: WebCore/wprof/WprofController.h
+===================================================================
+--- WebCore/wprof/WprofController.h	(revision 0)
++++ WebCore/wprof/WprofController.h	(working copy)
+@@ -0,0 +1,697 @@
++/*
++ * WprofController.h
++ *
++ * WProf is licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
++ *
++ * Copyright (c) 2012 University of Washington. All rights reserved
++ * 
++ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
++ * this software and associated documentation files (the "Software"), to deal in the 
++ * Software without restriction, including without limitation the rights to use, copy, 
++ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
++ * and to permit persons to whom the Software is furnished to do so, subject to the 
++ * following conditions:
++ * 
++ * The above copyright notice and this permission notice shall be included in all copies 
++ * or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
++ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
++ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
++ * DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef WprofController_h
++#define WprofController_h
++
++#if !WPROF_DISABLED
++
++#include "Logging.h"
++#include "ResourceLoadTiming.h"
++#include "WprofConstants.h"
++#include "WprofComputation.h"
++#include "WprofHTMLTag.h"
++#include "WprofPreload.h"
++#include "WprofReceivedChunk.h"
++#include "WprofResource.h"
++#include <wtf/HashMap.h>
++#include <wtf/CurrentTime.h>
++#include <wtf/MD5.h>
++#include <wtf/Vector.h>
++#include <wtf/text/CString.h>
++#include <wtf/text/StringBuilder.h>
++#include <wtf/text/TextPosition.h>
++#include <wtf/text/WTFString.h>
++#include <string.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <errno.h>
++
++namespace WebCore {
++    
++class WprofController {
++    public:
++	/*
++	 * Use Singleton to update and fetch Wprof data
++	 * Note that the notion of using Singleton is problematic if multiple pages
++	 * are loaded in a single process.
++	 */
++        static WprofController* getInstance() {
++            static WprofController* m_pInstance;
++            if (!m_pInstance)
++                m_pInstance = new WprofController();
++            return m_pInstance;
++        };
++        
++        ~WprofController() {};
++        
++        /*
++         * This function creates a WprofResource object.
++         * Called by ResourceLoader::didReceiveResponse().
++         * To save memory, WprofResource merges the <url, request time> mapping.
++         *
++         * @param
++         */
++        void createWprofResource(
++            unsigned long id,
++            String url,
++            RefPtr<ResourceLoadTiming> resourceLoadTiming,
++            String mime,
++            long long expectedContentLength,
++            int httpStatusCode,
++            unsigned connectionId,
++            bool connectionReused,
++            bool wasCached) {
++
++            // Find request start time
++            double time = getTimeAndRemoveMapping(url);
++            
++            // Find the WprofHTMLTag that this resource is requested from if any
++            // Note that image requested from CSS is considered later
++            WprofHTMLTag* tag = getRequestWprofHTMLTagByUrl(url);
++
++	    // [Note] deep copy request url
++            WprofResource* resource = new WprofResource(id, url, resourceLoadTiming, mime, expectedContentLength, httpStatusCode, connectionId, connectionReused, wasCached, time, tag);
++            
++            // Add to both Vector and HashMap
++            m_wprofResourceVector->append(resource);
++            m_wprofResourceMap->set(resource->getId(), resource);
++        }
++
++        /*
++         * This function creates a WprofReceivedChunk object.
++         * Called by ResourceLoader::didReceiveData().
++         *
++         * @param unsigned long id of the corresponding request
++         * @param unsigned long length of the received chunk
++         */
++        void createWprofReceivedChunk(unsigned long id_url, unsigned long length) {
++	    LOG(DependencyLog, "WprofController::addWprofReceivedChunk %lu", id_url);
++
++	    WprofReceivedChunk* chunk = new WprofReceivedChunk(id_url, length, monotonicallyIncreasingTime());
++            m_wprofResourceMap->get(id_url)->appendWprofReceivedChunk(chunk);
++            m_wprofResourceMap->get(id_url)->addBytes(length);
++        }
++        
++        /*
++         * This function adds a <url, request time> mapping.
++         * Called by ResourceLoader::willSendRequest().
++         * To save memory, especially that of the url, we should move this info to WprofResource
++         * a corresponding WprofResource object is created.
++         *
++         * @param const char request url
++         */
++        void createRequestTimeMapping(String url) {
++            m_requestTimeMap->set(url, monotonicallyIncreasingTime());
++        }
++
++        /*
++         * This function creates a WprofHTMLTag object.
++         * Called by HTMLTreeBuilder::constructTreeFromToken().
++         *
++         * @param TextPosition textPosition of the tag
++         * @param String url of the document
++         * @param String token of the tag
++         * @param bool whether this is a start tag
++         */
++        void createWprofHTMLTag(
++            TextPosition textPosition,
++            String docUrl,
++            String token,
++            bool isStartTag) {
++
++            WprofHTMLTag* tag = new WprofHTMLTag(
++                textPosition,
++                docUrl,
++                token,
++                monotonicallyIncreasingTime(),
++                charConsumed(),
++                charLen(),
++                isStartTag
++            );
++
++            // Add WprofHTMLTag to its vector
++            appendDerivedWprofHTMLTag(tag);
++
++            setTempWprofHTMLTag(tag);
++
++            if (isStartTag) {
++                // Add tag to the start vector
++                addElementStart(tag);
++
++                if (token == String::format("script")) {
++                    // Add tag to tempWprofHTMLTag for EndTag
++                    // This works because there is no children inside elements
++                    // we care about (<script>, <link> and <style>)
++
++                    // Set type as normal. We will change it if async or defer
++                    setElementTypePair(tag, 1); // normal
++                }
++            }
++        }
++
++        /*
++         * Create a WprofComputation object.
++         * Called by TODO
++         *
++         * @param int type of the WprofComputation
++         */
++        WprofComputation* createWprofComputation(int type) {
++            WprofComputation* event = new WprofComputation(type, tempWprofHTMLTag());
++            m_wprofComputationVector->append(event);
++
++            return event;
++        }
++
++        /*
++         * Create a WprofPreload object.
++         * Called by HTMLPreloadScanner::preload().
++         *
++         * @param String the preloaded url
++         */
++        void createWprofPreload(String url) {
++            WprofPreload* preload = new WprofPreload(tempWprofHTMLTag(), url);
++            m_wprofPreloadVector->append(preload);
++        }
++        
++        // CSS -> Image doesn't need this because this kind of dependency is
++        // inferred by text matching
++        void createRequestWprofHTMLTagMapping(String url, WprofHTMLTag* tag) {
++            m_requestWprofHTMLTagMap->set(url, tag);
++        }
++        
++        void createRequestWprofHTMLTagMapping(String url) {
++            m_requestWprofHTMLTagMap->set(url, tempWprofHTMLTag());
++        }
++        
++        WprofHTMLTag* getRequestWprofHTMLTagByUrl(String url) {
++            HashMap<String, WprofHTMLTag*>::iterator iter = m_requestWprofHTMLTagMap->begin();
++            
++            for (; iter != m_requestWprofHTMLTagMap->end(); ++iter) {
++                if (url == iter->first) {
++                    return iter->second;
++                }
++            }
++            return NULL;
++        }
++
++        void addElementStart(WprofHTMLTag* tag) {
++            m_elemStartVector->append(tag);
++        }
++        
++        void setElementTypePair(WprofHTMLTag* key, int value) {
++            if (key == NULL)
++                return;
++            
++            // Should check whether key has existed
++            HashMap<WprofHTMLTag*, int>::iterator iter = m_elemTypeMap->begin();
++            for (; iter != m_elemTypeMap->end(); ++iter) {
++                if (*key == *iter->first) {
++                    m_elemTypeMap->set(iter->first, value);
++                    return;
++                }
++            }
++            m_elemTypeMap->set(key, value);
++        }
++        
++        // For temporarily stored obj hash
++        WprofHTMLTag* tempWprofHTMLTag() { return m_tempWprofHTMLTag; }
++        
++        String HTMLLinkRecalcStyle() { return m_HTMLLinkRecalcStyle; }
++        void setHTMLLinkRecalcStyle(String url) {
++            m_HTMLLinkRecalcStyle = url;
++        }
++        
++        int charConsumed() { return m_charConsumed; }
++        int charLen() { return m_charLen; }
++        void setCharConsumed(int charConsumed, int charLen) {
++            m_charConsumed = charConsumed;
++            m_charLen = charLen;
++        }
++        
++        // ---------------------------------------------------------------
++        // Methods for CSS elements (images could be requested from CSS)
++        
++        void addCSSUrl(String url) {
++            // We make a hard copy of the url here so that we don't need to hard copy outside
++            m_cssUrlVector->append(url);
++        }
++        
++        void clearCSSUrlVector() {
++            m_cssUrlVector->clear();
++            ASSERT(m_cssUrlVector->isEmpty());
++        }
++        
++        void setCSSContentPair(WprofHTMLTag* key, String value) {
++            if (key == NULL || value == String::format(""))
++                return;
++            
++            // Should check whether key has existed
++            HashMap<WprofHTMLTag*, String>::iterator iter = m_cssContentMap->begin();
++            for (; iter != m_cssContentMap->end(); ++iter) {
++                if (*key == *iter->first) {
++                    m_cssContentMap->set(iter->first, value);
++                    return;
++                }
++            }
++            m_cssContentMap->set(key, value);
++        }
++        
++        // ---------------------------------------------------------------
++        // Methods for computational events
++        WprofComputation* getWprofComputation() {
++            return m_wprofComputationVector->last();
++        }
++
++        // ---------------------------------------------------------------
++        // Output methods
++        // ---------------------------------------------------------------
++        
++        // Increase/decrease DOM counter, called in Document.cpp
++        void increaseDomCounter() { m_domCounter++; }
++        
++        void decreaseDomCounter(String url) {
++            m_domCounter--;
++            
++            if (m_domCounter > 0) {
++		return;
++	    }
++
++            if (url.length() < 5) {
++                clear();
++                return;
++            }
++                
++	    if (!url.startsWith("http")) {
++                clear();
++                return;
++            }
++                
++            // Now we should have doc that only begins with http
++	    StringBuilder stringBuilder;
++
++	    m_url = createFilename(url);
++	    m_uid = m_url + String::number(monotonicallyIncreasingTime());
++
++	    LOG(DependencyLog, "WprofController::decreaseCounter %s", m_url);
++                
++            // Clear maps
++            outputAndClear();
++	    clear();
++        }
++        
++private:
++        WprofController()
++		: m_cssContentMap(NULL)
++		, m_tempWprofHTMLTag(NULL)
++		, m_charConsumed(0)
++		, m_charLen(0)
++		, m_HTMLLinkRecalcStyle(String::format(""))
++		, m_domCounter(0)
++		, m_url(String::format(""))
++        {
++            m_wprofResourceVector = new Vector<WprofResource*>;
++            m_wprofResourceMap = new HashMap<unsigned long, WprofResource*>();
++            m_requestTimeMap = new HashMap<String, double>();
++            m_requestWprofHTMLTagMap = new HashMap<String, WprofHTMLTag*>();
++            
++            m_elemStartVector = new Vector<WprofHTMLTag*>;
++            m_elemTypeMap = new HashMap<WprofHTMLTag*, int>();
++            
++            m_cssContentMap = new HashMap<WprofHTMLTag*, String>();
++            m_cssUrlVector = new Vector<String>;
++            
++            m_wprofComputationVector = new Vector<WprofComputation*>;
++            
++            m_wprofPreloadVector = new Vector<WprofPreload*>;
++
++	    TAG = WprofConstants::ins()->TAG().utf8().data();
++        };
++        
++        void outputAndClearCSSImageMaps() {
++            // First, match!
++	    // TODO temp comment out for performance issues
++	    // consider another way to get this done
++            //matchCSSImages();
++            
++            clearCSSImageMaps();
++        }
++        
++        void clearCSSImageMaps() {
++            m_cssContentMap->clear();
++            m_cssUrlVector->clear();
++        }
++        
++        void clearWprofComputations() {
++            m_wprofComputationVector->clear();
++        }
++        
++        // ---------------------------------------------------------------
++        // Methods for preload request
++        void clearWprofPreloads() {
++            m_wprofPreloadVector->clear();
++        }
++
++        void clearElementStartVector() {
++            m_elemStartVector->clear();
++            ASSERT(m_elemStartVector->isEmpty());
++        }
++        
++        void clearHOLMaps() {
++            m_elemStartVector->clear();
++            m_elemTypeMap->clear();
++        }
++        
++        String createFilename(String url) {
++            // Skip http:// or https://
++	    url.replace("http://", "");
++	    url.replace("https://", "");
++            // Escape illegal chars as a file name
++	    url.replace(":", "_");
++	    url.replace("/", "_");
++
++	    return url;
++        }
++        
++        void outputAndClear() {
++	    // TODO Init DB
++	    //openDatabase();
++            
++            // Record the timestamp of the 'load' event
++            fprintf(stderr, "{\"page\": \"%s\"}\n", m_url.utf8().data());
++            fprintf(stderr, "{\"DOMLoad\": %lf}\n", monotonicallyIncreasingTime());
++
++            outputAndClearWprofResource();
++            outputAndClearHOLMaps();
++            outputAndClearCSSImageMaps();
++            outputAndClearWprofComputations();
++            outputAndClearWprofPreloads();
++			
++	    fprintf(stderr, "{\"Complete': \"%s\"}\n", m_url.utf8().data());
++        }
++        
++        void clear() {
++            clearWprofResource();
++            clearHOLMaps();
++            clearCSSImageMaps();
++            clearWprofComputations();
++            clearWprofPreloads();
++        }
++
++        void outputAndClearWprofResource() {
++            for (unsigned int i = 0; i < m_wprofResourceVector->size(); ++i) {
++                // Output one resource info
++                WprofResource* info = (*m_wprofResourceVector)[i];
++                
++                RefPtr<ResourceLoadTiming> timing = info->resourceLoadTiming();
++                
++                if (!timing)
++                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\",\
++                            \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
++                            info->getId(),
++                            info->url().utf8().data(),
++                            info->timeDownloadStart(),
++                            info->bytes(),
++                            info->fromWprofHTMLTag(),
++                            info->mimeType().utf8().data(),
++                            info->expectedContentLength(),
++                            info->httpStatusCode(),
++                            info->connectionId(),
++                            info->connectionReused(),
++                            info->wasCached()
++                            );
++                else
++                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\",\
++                            \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d,\
++                            \"requestTime\": %f, \"proxyStart\": %d, \"proxyEnd\": %d, \"dnsStart\": %d, \"dnsEnd\": %d, \"connectStart\": %d, \"connectEnd\": %d, \"sendStart\": %d, \"sendEnd\": %d, \"receiveHeadersEnd\": %d, \"sslStart\": %d, \"sslEnd\": %d}}\n",
++                            info->getId(),
++                            info->url().utf8().data(),
++                            info->timeDownloadStart(),
++                            info->bytes(),
++                            info->fromWprofHTMLTag(),
++                            info->mimeType().utf8().data(),
++                            info->expectedContentLength(),
++                            info->httpStatusCode(),
++                            info->connectionId(),
++                            info->connectionReused(),
++                            info->wasCached(),
++                            timing->requestTime,
++                            timing->proxyStart,
++                            timing->proxyEnd,
++                            timing->dnsStart,
++                            timing->dnsEnd,
++                            timing->connectStart,
++                            timing->connectEnd,
++                            timing->sendStart,
++                            timing->sendEnd,
++                            timing->receiveHeadersEnd,
++                            timing->sslStart,
++                            timing->sslEnd
++                            );
++                
++                // Output info of received data chunks
++                Vector<WprofReceivedChunk*>* v = info->receivedChunkInfoVector();
++                for (unsigned int j = 0; j < v->size(); ++j) {
++                    WprofReceivedChunk* chunkInfo = (*v)[j];
++                    fprintf(stderr, "{\"ReceivedChunk\": {\"receivedTime\": %lf, \"len\": %ld}}\n",
++                            chunkInfo->time(),
++                            chunkInfo->len()
++                    );
++                }
++                
++                // Output info of parsed objects
++                Vector<WprofHTMLTag*>* vWprofHTMLTag = info->derivedWprofHTMLTagVector();
++                for (unsigned int j = 0; j < vWprofHTMLTag->size(); ++j) {
++                    WprofHTMLTag* tag = (*vWprofHTMLTag)[j];
++                    fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"doc\": \"%s\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"time\": %lf, \"url\": \"%s\", \"pos\": %d, \"chunkLen\": %d, \"isStartTag\": %d}}\n",
++                            tag,
++                            tag->docUrl().utf8().data(),
++                            tag->pos().m_line.zeroBasedInt(),
++                            tag->pos().m_column.zeroBasedInt(),
++                            tag->tagName().utf8().data(),
++                            tag->time(),
++                            tag->url().utf8().data(),
++                            tag->startTagEndPos(),
++                            tag->chunkLen(),
++                            tag->isStartTag()
++                    );
++                }
++            }
++            
++            clearWprofResource();
++        }
++        
++        void outputAndClearHOLMaps() {
++            // Output start tag vectors
++            unsigned int i = 0;
++            for (; i < m_elemStartVector->size(); i++) {
++                WprofHTMLTag* startObjHash = (*m_elemStartVector)[i];
++                
++                if (startObjHash == NULL)
++                    continue;
++                
++                // Skip non-script and non-css
++                if (!m_elemTypeMap->get(startObjHash))
++                    continue;
++                
++                TextPosition pos_s = startObjHash->m_textPosition;
++                fprintf(stderr, "{\"HOL\": {\"type\": %d, \"docUrl\": \"%s\", \"code\": \"%p\", \"row\": %d, \"column\": %d, \"url\": \"%s\"}}\n",
++                        m_elemTypeMap->get(startObjHash),
++                        startObjHash->m_docUrl.utf8().data(),
++                        startObjHash,
++                        pos_s.m_line.zeroBasedInt(),
++                        pos_s.m_column.zeroBasedInt(),
++                        startObjHash->m_url.utf8().data()
++                );
++            }
++            
++            // Note that all should be cleared at the same time because
++            // we don't hard copy WprofHTMLTag and deletion of one could make
++            // another problematic
++            clearHOLMaps();
++        }
++        
++        void outputAndClearWprofComputations() {
++            for (unsigned int i = 0; i < m_wprofComputationVector->size(); ++i) {
++                WprofComputation* event = (*m_wprofComputationVector)[i];
++                
++				if (event == NULL)
++					continue;
++					
++                if (event->fromWprofHTMLTag() == NULL)
++                    continue;
++                
++                // m_tempWprofHTMLTag->docUrl() indicates current url
++                //if (strcmp(event->fromWprofHTMLTag()->docUrl(), m_tempWprofHTMLTag->docUrl()) == 0)
++                //	continue;
++                
++                fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"docUrl\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urlRecalcStyle\": \"%s\"}}\n",
++                        event->getTypeForPrint().utf8().data(),
++                        event->fromWprofHTMLTag(),
++                        event->fromWprofHTMLTag()->docUrl().utf8().data(),
++                        event->startTime(),
++                        event->endTime(),
++                        event->urlRecalcStyle().utf8().data()
++                );
++            }
++            
++            clearWprofComputations();
++        }
++        
++        void outputAndClearWprofPreloads() {
++            for (unsigned int i = 0; i < m_wprofPreloadVector->size(); ++i) {
++                WprofPreload* pr = (*m_wprofPreloadVector)[i];
++                
++                if (pr->fromWprofHTMLTag() == NULL)
++                    continue;
++				
++                fprintf(stderr, "{\"Preload\": {\"code\": \"%p\", \"docUrl\": \"%s\", \"url\": \"%s\", \"time\": %lf}}\n",
++                        pr->fromWprofHTMLTag(),
++                        pr->fromWprofHTMLTag()->docUrl().utf8().data(),
++                        pr->url().utf8().data(),
++                        pr->time()
++                );
++            }
++        }
++        
++        void clearWprofResource() {
++            m_wprofResourceVector->clear();
++            m_wprofResourceMap->clear();
++            m_requestTimeMap->clear();
++            m_requestWprofHTMLTagMap->clear();
++        }
++        
++        /*
++         * Get the request time of a url and delete its corresponding mapping
++         *
++         * @param const char* request url
++         * @return double request time
++         */
++        double getTimeAndRemoveMapping(String url) {
++
++	    double time = -1;
++            HashMap<String, double>::iterator iter = m_requestTimeMap->begin();
++            
++            for (; iter != m_requestTimeMap->end(); ++iter) {
++                if (url == iter->first) {
++                    time = iter->second;
++                }
++            }
++
++	    m_requestTimeMap->remove(url);
++            return -1;
++        }
++
++        /*
++         * Append WprofHTMLTag to its corresponding WprofResource.
++         *
++         * @param WprofHTMLTag*
++         */
++        void appendDerivedWprofHTMLTag(WprofHTMLTag* tag) {
++            for (unsigned int i = 0; i < m_wprofResourceVector->size(); ++i) {
++                WprofResource* resource = (*m_wprofResourceVector)[i];
++                if (resource->url() == tag->docUrl()) {
++                    resource->appendDerivedWprofHTMLTag(tag);
++                    return;
++                }
++            }
++        }
++
++        void setTempWprofHTMLTag(WprofHTMLTag* tempWprofHTMLTag) {
++            m_tempWprofHTMLTag = tempWprofHTMLTag;
++
++            // We clear this because this is only valid for current HTMLLinkElement
++            // TODO to be verified
++            m_HTMLLinkRecalcStyle = String::format("");
++        }
++        
++        // --------
++        // All info we need for a resource
++        // We store by both a vector and a hash with id of url as the key
++        Vector<WprofResource*>* m_wprofResourceVector;
++        // <id, WprofResource>
++        HashMap<unsigned long, WprofResource*>* m_wprofResourceMap;
++        // This is ugly but creating WprofResource in ResourceLoader::willSendRequest
++        // results in a pointer but. Thus, we create this map in ResourceLoader::willSendRequest
++        // and match it with WprofResource later.
++        // <url, request time>
++        HashMap<String, double>* m_requestTimeMap;
++        // This is to store the information of a url that is made from an WprofHTMLTag
++        // to infer dependency. Because this occurs before a request is made, we need
++        // to separately store it rather than storing it in WprofResource which is similar
++        // to m_requestTimeMap
++        HashMap<String, WprofHTMLTag*>* m_requestWprofHTMLTagMap;
++        
++        // --------
++        // Head-of-line dependencies: only CSS and JS are taken into account.
++        // CSS blocks following s_exec(JS) until e_parse(CSS)
++        // JS:
++        // - normal: both download and exec block parsing
++        // - defer:  s_exec triggered by dom load
++        // - async:  s_exec triggered by e_download
++        // See WebCore/html/parser/HTMLTreeBuilder.cpp for more details
++        Vector<WprofHTMLTag*>* m_elemStartVector; // s_download(element) > position
++        HashMap<WprofHTMLTag*, int>* m_elemTypeMap; // 1: normal; 2: defer; 3: async; 4: CSS
++        
++        // --------
++        // To track how images are fetched from css, we create this hash map so that
++        // we can match the urls at this level. We do not pass WprofHTMLTag to each CSSValue
++        // or CSSProperty because 1) it is too expensive to do so; 2) it requires us to
++        // change a lot of code.
++        HashMap<WprofHTMLTag*, String>* m_cssContentMap;
++        // They are img urls (from CSSImageValue) for matching.
++        // Note that we set two urls (partial and complete) at a time.
++        Vector<String>* m_cssUrlVector;
++        
++        // --------
++        // Track computational events when what triggers them
++        // This includes "recalcStyle", "layout" and "paint"
++        Vector<WprofComputation*>* m_wprofComputationVector;
++        
++        // --------
++        // Track preload_scanner
++        Vector<WprofPreload*>* m_wprofPreloadVector;
++        
++        // --------
++        // Temp WprofHTMLTag
++        WprofHTMLTag* m_tempWprofHTMLTag;
++        int m_charConsumed;
++        int m_charLen;
++        String m_HTMLLinkRecalcStyle;
++        
++        // DOM counters so as to control when to output info
++        int m_domCounter;
++        String m_url; // document location, used as file name
++	String m_uid;
++	const char* TAG;
++};
++    
++}
++#endif // WPROF_DISABLED
++
++#endif
++
++
+Index: WebCore/wprof/WprofController.h.backup
+===================================================================
+--- WebCore/wprof/WprofController.h.backup	(revision 0)
++++ WebCore/wprof/WprofController.h.backup	(working copy)
+@@ -0,0 +1,455 @@
++/*
++ *  WprofController.h
++ *  WebCore
++ *
++ *  Created by Sophia Wang on 7/10/12.
++ *  Copyright 2012 University of Washington. All rights reserved.
++ *
++ */
++#ifndef WprofController_h
++#define WprofController_h
++
++//#if !WPROF_DISABLED
++
++#include "Logging.h"
++#include "ResourceLoadTiming.h"
++#include "WprofData.h"
++#include "WprofHTMLTag.h"
++#include "WprofReceivedChunk.h"
++#include "WprofResource.h"
++#include "WprofComputation.h"
++#include "WprofPreload.h"
++
++namespace WebCore {
++    
++// Define the main object in which we store all the dependency (meta) information
++class WprofController {
++public:
++        // Singleton creation and fetching
++        static WprofController* getInstance() {
++            static WprofController* m_pInstance;
++            if (!m_pInstance)
++                m_pInstance = new WprofController();
++            return m_pInstance;
++        };
++        
++        ~WprofController() {};
++        
++        // ---------------------------------------------------------------
++        // Functions for Wprof* objects mutation
++        // ---------------------------------------------------------------
++
++	/*
++	 * This function creates a WprofResource object.
++	 * Called by ResourceLoader::didReceiveResponse().
++	 * To save memory, WprofResource merges the <url, request time> mapping.
++	 *
++	 * @param TODO
++	 */
++        void createWprofResource(
++	    unsigned long id,
++	    String url,
++	    RefPtr<ResourceLoadTiming> resourceLoadTiming,
++	    String mime,
++	    long long expectedContentLength,
++	    int httpStatusCode,
++	    unsigned connectionId,
++	    bool connectionReused,
++	    bool wasCached) {
++
++            // Find request start time
++            double time = m_wprofData->getTimeAndRemoveMapping(url);
++            
++            // Find the WprofHTMLTag that this resource is requested from if any
++            // Note that image requested from CSS is considered later
++            WprofHTMLTag* tag = m_wprofData->getRequestWprofHTMLTagByUrl(url);
++
++	    WprofResource* resource = new WprofResource(id, url, resourceLoadTiming, mime, expectedContentLength, httpStatusCode, connectionId, connectionReused, wasCached, time, tag);
++            
++	    m_wprofData->updateOnCreateWprofResource(resource);
++        }
++        
++	/*
++	 * This function creates a WprofReceivedChunk object.
++	 * Called by ResourceLoader::didReceiveData().
++	 *
++	 * @param unsigned long id of the corresponding request
++	 * @param unsigned long length of the received chunk
++	 */
++        void createWprofReceivedChunk(unsigned long id_url, unsigned long length) {
++	    WprofReceivedChunk* chunk = new WprofReceivedChunk(id_url, length, monotonicallyIncreasingTime());
++
++	    m_wprofData->updateOnCreateWprofReceivedChunk(chunk, id_url, length);
++        }
++
++	/*
++	 * This function adds a <url, request time> mapping.
++	 * Called by ResourceLoader::willSendRequest().
++	 * To save memory, especially that of the url, we should move this info to WprofResource
++	 * a corresponding WprofResource object is created.
++	 *
++	 * @param const char request url
++	 */
++        void createRequestTimeMapping(String url) {
++	    m_wprofData->updateOnCreateRequestTimeMapping(url);
++        }
++
++	/*
++	 * This function creates a WprofHTMLTag object.
++	 * Called by HTMLTreeBuilder::constructTreeFromToken().
++	 *
++	 * @param TextPosition textPosition of the tag
++	 * @param String url of the document
++	 * @param String token of the tag
++	 * @param bool whether this is a start tag
++	 */
++	void createWprofHTMLTag(
++	    TextPosition textPosition,
++	    String docUrl,
++	    String token,
++	    bool isStartTag) {
++
++	    WprofHTMLTag* tag = new WprofHTMLTag(
++		textPosition,
++		docUrl,
++		token,
++		monotonicallyIncreasingTime(),
++		m_wprofData->charConsumed(),
++		m_wprofData->charLen(),
++		isStartTag
++	    );
++
++	    m_wprofData->updateOnCreateWprofHTMLTag(tag);
++	}
++        
++	/*
++	 * Create a WprofComputation object.
++	 * Called by TODO
++	 *
++	 * @param int type of the WprofComputation
++	 */
++        WprofComputation* createWprofComputation(int type) {
++	    WprofComputation* event = new WprofComputation(type, m_wprofData->tempWprofHTMLTag());
++	    m_wprofData->updateOnCreateWprofComputation(event);
++
++	    return event;
++        }
++        
++	/*
++	 * Create a WprofPreload object.
++	 * Called by HTMLPreloadScanner::preload().
++	 *
++	 * @param String the preloaded url
++	 */
++        void createWprofPreload(String url) {
++	    WprofPreload* preload = new WprofPreload(m_wprofData->tempWprofHTMLTag(), url);
++	    m_wprofData->updateOnCreateWprofPreload(preload);
++        }
++
++        void createRequestWprofHTMLTagMapping(String url, WprofHTMLTag* tag) {
++	    m_wprofData->onCreateRequestWprofHTMLTagMapping(url, tag);
++        }
++        
++        void createRequestWprofHTMLTagMapping(String url) {
++	    m_wprofData->onCreateRequestWprofHTMLTagMapping(url);
++        }
++
++        void setHTMLLinkRecalcStyle(String url) {
++	    m_wprofData->setHTMLLinkRecalcStyle(url);
++        }
++        
++        void setCharConsumed(int charConsumed, int charLen) {
++            m_wprofData->setcharConsumed(charConsumed);
++            m_wprofData->setCharLen(charLen);
++        }
++        
++        void addCSSUrl(String url) {
++	    m_wprofData->addCSSUrl(url);
++        }
++        
++        void setCSSContentPair(WprofHTMLTag* key, String value) {
++	    m_wprofData->setCSSContentPair(key, value);
++        }
++
++	WprofHTMLTag* tempWprofHTMLTag() {
++	    return m_wprofData->tempWprofHTMLTag();
++	}
++
++	void setElementTypePair(WprofHTMLTag* key, int value) {
++	    m_wprofData->setElementTypePair(key, value);
++	}
++
++	// ---------------------------------------------------------------
++	// Output methods
++	void increaseDomCounter() {
++	    m_wprofData->increaseDomCounter();
++	}
++
++	void decreaseDomCounter(String url) {
++	    m_wprofData->decreaseDomCounter(url);
++	}
++        
++        // ------------------------------------
++        // Functions for ???
++        // ------------------------------------
++/* 
++        bool matchUnsimplifiedUrl(char* s, const char* url, unsigned int k) {
++            //LOG(DependencyLog, "matchUnsimplifiedUrl %s %s %d", s, url, k);
++            if (strlen(url) - k == strlen(s)) {
++                // s should have been simplified, match directly
++                unsigned int i = 0;
++                while (i < strlen(url) - k) {
++                    if (s[i] != url[i + k]) {
++                        delete[] s;
++                        return false;
++                    }
++                    i++;
++                }
++                delete[] s;
++                return true;
++            }
++            
++            // Simplify s
++            // suppose that no hidden file can be fetched (file can't start with .)
++            unsigned int i = 0, j = 0;
++            unsigned int n = strlen(s);
++            //LOG(DependencyLog, "matchUnsimplifiedUrl (%s %d)", s, n);
++            
++            // Get rid of multiple '/'
++            while (j < n - 1) {
++                if (s[j] == '/' && s[j + 1] == '/') {
++                    // Ignore more than one slashes
++                    ++j;
++                    continue;
++                }
++                s[i++] = s[j++];
++            }
++            while (j < n)
++                s[i++] = s[j++];
++            n = i;
++            //LOG(DependencyLog, "matchUnsimplifiedUrl (%s %d)", s, n);
++            
++            // Get rid of './'
++            i = 0;
++            j = 0;
++            while (j < n - 1) {
++                if (s[j] == '/' && s[j+1] == '.' && s[j+2] == '/') {
++                    j += 2;
++                }
++                s[i++] = s[j++];
++            }
++            while (j < n)
++                s[i++] = s[j++];
++            n = i;
++            //LOG(DependencyLog, "matchUnsimplifiedUrl (%s %d)", s, n);
++            
++            // Get rid of '../'
++            i = 0;
++            j = 0;
++            while (j < n - 3) {
++                if (s[j] == '/' && s[j+1] == '.' && s[j+2] == '.' && s[j+3] == '/') {
++                    j += 3;
++                    --i;
++                    while (s[i] != '/' && i > 0)
++                        --i;
++                }
++                s[i++] = s[j++];
++            }
++            while (j < n)
++                s[i++] = s[j++];
++            n = i;
++            //LOG(DependencyLog, "matchUnsimplifiedUrl (%s %d)", s, n);
++            
++            // Match the cleaned urls
++            i = 0;
++            while (i < n && i < strlen(url) - k) {
++                if (s[i] != url[i + k]) {
++                    delete[] s;
++                    return false;
++                }
++                ++i;
++            }
++            
++            delete[] s;
++            return true;
++        }
++        
++        bool matchRelativeUrl(const char* url, const char* baseUrl, const char* css, unsigned int pos) {
++            unsigned j = 0, k = 0, l = 0;
++            
++            // Sporadic checks to eliminate ineligible cases fast
++            if (strlen(url) < 7 | strlen(baseUrl) < 7)
++                return false;
++            if (url[4] != baseUrl[4] || url[6] != baseUrl[6])
++                return false;
++            
++            // Match baseUrl and url until the third '/' is reached
++            // which basically indicates the directory of www server
++            // e.g. http://piigeon.org/img/global256.png
++            unsigned int num = 0; // indicates num of '/' in urls
++            k = 0;
++            while (url[k] == baseUrl[k] && num < 3) {
++                if (url[k] == '/')
++                    num++;
++                k++;
++            }
++            k--;
++            // Up to the home directory, they are matched
++            // Note that k is the position of the third '/' that we now
++            // save for future use
++			
++            if (num < 3)
++                return false;
++            
++            char* s = NULL;
++            
++            // Figure out the length of the url in css
++            l = pos; // index for css
++            while (css[l] != '\'' && css[l] != '"' && css[l] != ')' && css[l] != ' ')
++                l++;
++            l -= pos;
++            // Now the path of cssUrl starts at pos with a length of l
++            
++            // Now we apply the relative path rules to the url in css
++            // Judge whether this the path in css is relative or absolute
++            if (css[pos] != '/') {
++                // The path is relative and we seek the last '/' in baseUrl.
++                // The goal here is to concatenate the part in baseUrl and the part in cssUrl
++                j = strlen(baseUrl) - 1; // index for baseUrl
++                while (baseUrl[j] != '/')
++                    --j;
++                j -= k;
++                // Now the first part starts at k with a length of j
++                
++                s = new char[j + l + 1];
++                memcpy(s, baseUrl + k, j);
++                memcpy(s + j, css + pos, l);
++                s[j + l + 1] = '\0';
++            } else {
++                s = new char[l];
++                memcpy(s, css + pos, l);
++                s[l + 1] = '\0';
++            }
++            
++            //LOG(DependencyLog, "matchRelativeUrl (s: %s)\n(url: %s %d)\n(baseUrl: %s %d %d)\n(css: %s %d %d)", s, url, k, baseUrl, k, j, css, pos, l);
++            
++            // Note that we need to delete[] s in matchUnsimplifiedUrl()
++            return matchUnsimplifiedUrl(s, url, k);
++        }
++        
++        void matchCSSImages() {
++            // First, check whether there is image url that is made from css
++            if (m_cssUrlVector->size() <= 0)
++                return;
++            
++            // If any, init and construct this cache
++            m_cssUrlPosCache = new HashMap<WprofHTMLTag*, Vector<int>*>();
++            unsigned int i = 0;
++            
++            HashMap<WprofHTMLTag*, String>::iterator iter = m_cssContentMap->begin();
++            WprofHTMLTag* tag = NULL;
++            const char* s = NULL;
++            for (; iter != m_cssContentMap->end(); ++iter) {
++                // Figure out the positions of URL or url
++                tag = iter->first;
++                s = iter->second.utf8().data();
++                i = 0;
++                while (i < strlen(s) - 3) { // 3 = strlen("url")
++                    // Sporadic checks to eliminate ineligible cases fast
++                    if ((s[i] != 'u' && s[i] != 'U') || s[i+3] != '(') {
++                        ++i;
++                        continue;
++                    }
++                    
++                    // if 'u' or 'U' is matched
++                    if ((s[i+1] == 'r' && s[i+2] == 'l') || (s[i+1] == 'R' && s[i+2] == 'L')) {
++                        
++                        // Move it to the next char
++                        i += 4;
++                        
++                        // Skip invalid chars
++                        while (s[i] == ' ' || s[i] == '"' || s[i] == '\'') ++i;
++                        
++                        // Record i
++                        if (!m_cssUrlPosCache->get(tag)) { // create a hash entry if not yet
++                            m_cssUrlPosCache->set(tag, new Vector<int>);
++                        }
++                        m_cssUrlPosCache->get(tag)->append(i);
++                    } else {
++                        ++i;
++                    }
++                }
++            }
++            
++            // Match urls with the cache
++            unsigned int j = 0, k = 0, pos = 0;
++            const char* url = NULL;
++            const char* css = NULL;
++            const char* baseUrl = NULL;
++            bool matched = false;
++            HashMap<WprofHTMLTag*, Vector<int>*>::iterator it;
++            for (i = 0; i < m_cssUrlVector->size(); ++i) {
++                // Fetch the url
++                url = (*m_cssUrlVector)[i].utf8().data();
++                
++                it = m_cssUrlPosCache->begin();
++                for (; it != m_cssUrlPosCache->end(); ++it) {
++                    // Fetch the css
++                    css = m_cssContentMap->get(it->first).utf8().data();
++                    
++                    for (j = 0; j < it->second->size(); ++j) {
++                        pos = (*it->second)[j];
++                        
++                        // Start to match
++                        // Note the case of relative paths...
++                        matched = false;
++                        k = 0;
++                        
++                        // First attempt, try to see whether the url in css is absolute
++                        if (url[3] == css[3 + pos] && url[6] == css[6 + pos]) {
++                            // url is absolute
++                            while (k < strlen(url) && k + pos < strlen(css)) {
++                                if (url[k] != css[k + pos]) {
++                                    break;
++                                }
++                                k++;
++                                if (k == strlen(url))
++                                    matched = true;
++                            }
++                        } else {
++                            
++                            // Second attempt, match relative urls
++                            //if (!matched) {
++                            baseUrl = (it->first->m_url.utf8().data() == NULL) ? it->first->m_docUrl.utf8().data() : it->first->m_url.utf8().data();
++                            
++                            matched = matchRelativeUrl(url, baseUrl, css, pos);
++                        }
++                        
++                        // Output if matched
++                        if (matched) {
++                            fprintf(stderr, "{\"matchedCSSAndUrl\": {\"code\": \"%p\", \"docUrl\": \"%s\", \"row\": %d, \"column\": %d, \"url\": \"%s\", \"imgUrl\": \"%s\"}}\n",
++                                    it->first,
++                                    it->first->m_docUrl.utf8().data(),
++                                    it->first->m_textPosition.m_line.oneBasedInt(),
++                                    it->first->m_textPosition.m_column.oneBasedInt(),
++                                    it->first->m_url.utf8().data(),
++                                    url
++                                    );
++                        }
++                    }
++                }
++            }
++        }
++*/ 
++private:
++        WprofController(){
++	    m_wprofData = new WprofData();
++        };
++
++	WprofData* m_wprofData;
++};
++    
++}
++//#endif // WPROF_DISABLED
++
++#endif
+Index: WebCore/wprof/WprofController.h.original.backup
+===================================================================
+--- WebCore/wprof/WprofController.h.original.backup	(revision 0)
++++ WebCore/wprof/WprofController.h.original.backup	(working copy)
+@@ -0,0 +1,697 @@
++/*
++ * WprofController.h
++ *
++ * WProf is licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
++ *
++ * Copyright (c) 2012 University of Washington. All rights reserved
++ * 
++ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
++ * this software and associated documentation files (the "Software"), to deal in the 
++ * Software without restriction, including without limitation the rights to use, copy, 
++ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
++ * and to permit persons to whom the Software is furnished to do so, subject to the 
++ * following conditions:
++ * 
++ * The above copyright notice and this permission notice shall be included in all copies 
++ * or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
++ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
++ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
++ * DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef WprofController_h
++#define WprofController_h
++
++#if !WPROF_DISABLED
++
++#include "Logging.h"
++#include "ResourceLoadTiming.h"
++#include "WprofConstants.h"
++#include "WprofComputation.h"
++#include "WprofHTMLTag.h"
++#include "WprofPreload.h"
++#include "WprofReceivedChunk.h"
++#include "WprofResource.h"
++#include <wtf/HashMap.h>
++#include <wtf/CurrentTime.h>
++#include <wtf/MD5.h>
++#include <wtf/Vector.h>
++#include <wtf/text/CString.h>
++#include <wtf/text/StringBuilder.h>
++#include <wtf/text/TextPosition.h>
++#include <wtf/text/WTFString.h>
++#include <string.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <errno.h>
++
++namespace WebCore {
++    
++class WprofController {
++    public:
++	/*
++	 * Use Singleton to update and fetch Wprof data
++	 * Note that the notion of using Singleton is problematic if multiple pages
++	 * are loaded in a single process.
++	 */
++        static WprofController* getInstance() {
++            static WprofController* m_pInstance;
++            if (!m_pInstance)
++                m_pInstance = new WprofController();
++            return m_pInstance;
++        };
++        
++        ~WprofController() {};
++        
++        /*
++         * This function creates a WprofResource object.
++         * Called by ResourceLoader::didReceiveResponse().
++         * To save memory, WprofResource merges the <url, request time> mapping.
++         *
++         * @param
++         */
++        void createWprofResource(
++            unsigned long id,
++            String url,
++            RefPtr<ResourceLoadTiming> resourceLoadTiming,
++            String mime,
++            long long expectedContentLength,
++            int httpStatusCode,
++            unsigned connectionId,
++            bool connectionReused,
++            bool wasCached) {
++
++            // Find request start time
++            double time = getTimeAndRemoveMapping(url);
++            
++            // Find the WprofHTMLTag that this resource is requested from if any
++            // Note that image requested from CSS is considered later
++            WprofHTMLTag* tag = getRequestWprofHTMLTagByUrl(url);
++
++	    // [Note] deep copy request url
++            WprofResource* resource = new WprofResource(id, url, resourceLoadTiming, mime, expectedContentLength, httpStatusCode, connectionId, connectionReused, wasCached, time, tag);
++            
++            // Add to both Vector and HashMap
++            m_wprofResourceVector->append(resource);
++            m_wprofResourceMap->set(resource->getId(), resource);
++        }
++
++        /*
++         * This function creates a WprofReceivedChunk object.
++         * Called by ResourceLoader::didReceiveData().
++         *
++         * @param unsigned long id of the corresponding request
++         * @param unsigned long length of the received chunk
++         */
++        void createWprofReceivedChunk(unsigned long id_url, unsigned long length) {
++	    LOG(DependencyLog, "WprofController::addWprofReceivedChunk %lu", id_url);
++
++	    WprofReceivedChunk* chunk = new WprofReceivedChunk(id_url, length, currentTime());
++            m_wprofResourceMap->get(id_url)->appendWprofReceivedChunk(chunk);
++            m_wprofResourceMap->get(id_url)->addBytes(length);
++        }
++        
++        /*
++         * This function adds a <url, request time> mapping.
++         * Called by ResourceLoader::willSendRequest().
++         * To save memory, especially that of the url, we should move this info to WprofResource
++         * a corresponding WprofResource object is created.
++         *
++         * @param const char request url
++         */
++        void createRequestTimeMapping(String url) {
++            m_requestTimeMap->set(url, currentTime());
++        }
++
++        /*
++         * This function creates a WprofHTMLTag object.
++         * Called by HTMLTreeBuilder::constructTreeFromToken().
++         *
++         * @param TextPosition textPosition of the tag
++         * @param String url of the document
++         * @param String token of the tag
++         * @param bool whether this is a start tag
++         */
++        void createWprofHTMLTag(
++            TextPosition textPosition,
++            String docUrl,
++            String token,
++            bool isStartTag) {
++
++            WprofHTMLTag* tag = new WprofHTMLTag(
++                textPosition,
++                docUrl,
++                token,
++                currentTime(),
++                charConsumed(),
++                charLen(),
++                isStartTag
++            );
++
++            // Add WprofHTMLTag to its vector
++            appendDerivedWprofHTMLTag(tag);
++
++            setTempWprofHTMLTag(tag);
++
++            if (isStartTag) {
++                // Add tag to the start vector
++                addElementStart(tag);
++
++                if (token == String::format("script")) {
++                    // Add tag to tempWprofHTMLTag for EndTag
++                    // This works because there is no children inside elements
++                    // we care about (<script>, <link> and <style>)
++
++                    // Set type as normal. We will change it if async or defer
++                    setElementTypePair(tag, 1); // normal
++                }
++            }
++        }
++
++        /*
++         * Create a WprofComputation object.
++         * Called by TODO
++         *
++         * @param int type of the WprofComputation
++         */
++        WprofComputation* createWprofComputation(int type) {
++            WprofComputation* event = new WprofComputation(type, tempWprofHTMLTag());
++            m_wprofComputationVector->append(event);
++
++            return event;
++        }
++
++        /*
++         * Create a WprofPreload object.
++         * Called by HTMLPreloadScanner::preload().
++         *
++         * @param String the preloaded url
++         */
++        void createWprofPreload(String url) {
++            WprofPreload* preload = new WprofPreload(tempWprofHTMLTag(), url);
++            m_wprofPreloadVector->append(preload);
++        }
++        
++        // CSS -> Image doesn't need this because this kind of dependency is
++        // inferred by text matching
++        void createRequestWprofHTMLTagMapping(String url, WprofHTMLTag* tag) {
++            m_requestWprofHTMLTagMap->set(url, tag);
++        }
++        
++        void createRequestWprofHTMLTagMapping(String url) {
++            m_requestWprofHTMLTagMap->set(url, tempWprofHTMLTag());
++        }
++        
++        WprofHTMLTag* getRequestWprofHTMLTagByUrl(String url) {
++            HashMap<String, WprofHTMLTag*>::iterator iter = m_requestWprofHTMLTagMap->begin();
++            
++            for (; iter != m_requestWprofHTMLTagMap->end(); ++iter) {
++                if (url == iter->first) {
++                    return iter->second;
++                }
++            }
++            return NULL;
++        }
++
++        void addElementStart(WprofHTMLTag* tag) {
++            m_elemStartVector->append(tag);
++        }
++        
++        void setElementTypePair(WprofHTMLTag* key, int value) {
++            if (key == NULL)
++                return;
++            
++            // Should check whether key has existed
++            HashMap<WprofHTMLTag*, int>::iterator iter = m_elemTypeMap->begin();
++            for (; iter != m_elemTypeMap->end(); ++iter) {
++                if (*key == *iter->first) {
++                    m_elemTypeMap->set(iter->first, value);
++                    return;
++                }
++            }
++            m_elemTypeMap->set(key, value);
++        }
++        
++        // For temporarily stored obj hash
++        WprofHTMLTag* tempWprofHTMLTag() { return m_tempWprofHTMLTag; }
++        
++        String HTMLLinkRecalcStyle() { return m_HTMLLinkRecalcStyle; }
++        void setHTMLLinkRecalcStyle(String url) {
++            m_HTMLLinkRecalcStyle = url;
++        }
++        
++        int charConsumed() { return m_charConsumed; }
++        int charLen() { return m_charLen; }
++        void setCharConsumed(int charConsumed, int charLen) {
++            m_charConsumed = charConsumed;
++            m_charLen = charLen;
++        }
++        
++        // ---------------------------------------------------------------
++        // Methods for CSS elements (images could be requested from CSS)
++        
++        void addCSSUrl(String url) {
++            // We make a hard copy of the url here so that we don't need to hard copy outside
++            m_cssUrlVector->append(url);
++        }
++        
++        void clearCSSUrlVector() {
++            m_cssUrlVector->clear();
++            ASSERT(m_cssUrlVector->isEmpty());
++        }
++        
++        void setCSSContentPair(WprofHTMLTag* key, String value) {
++            if (key == NULL || value == String::format(""))
++                return;
++            
++            // Should check whether key has existed
++            HashMap<WprofHTMLTag*, String>::iterator iter = m_cssContentMap->begin();
++            for (; iter != m_cssContentMap->end(); ++iter) {
++                if (*key == *iter->first) {
++                    m_cssContentMap->set(iter->first, value);
++                    return;
++                }
++            }
++            m_cssContentMap->set(key, value);
++        }
++        
++        // ---------------------------------------------------------------
++        // Methods for computational events
++        WprofComputation* getWprofComputation() {
++            return m_wprofComputationVector->last();
++        }
++
++        // ---------------------------------------------------------------
++        // Output methods
++        // ---------------------------------------------------------------
++        
++        // Increase/decrease DOM counter, called in Document.cpp
++        void increaseDomCounter() { m_domCounter++; }
++        
++        void decreaseDomCounter(String url) {
++            m_domCounter--;
++            
++            if (m_domCounter > 0) {
++		return;
++	    }
++
++            if (url.length() < 5) {
++                clear();
++                return;
++            }
++                
++	    if (!url.startsWith("http")) {
++                clear();
++                return;
++            }
++                
++            // Now we should have doc that only begins with http
++	    StringBuilder stringBuilder;
++
++	    m_url = createFilename(url);
++	    m_uid = m_url + String::number(currentTime());
++
++	    LOG(DependencyLog, "WprofController::decreaseCounter %s", m_url);
++                
++            // Clear maps
++            outputAndClear();
++	    clear();
++        }
++        
++private:
++        WprofController()
++		: m_cssContentMap(NULL)
++		, m_tempWprofHTMLTag(NULL)
++		, m_charConsumed(0)
++		, m_charLen(0)
++		, m_HTMLLinkRecalcStyle(String::format(""))
++		, m_domCounter(0)
++		, m_url(String::format(""))
++        {
++            m_wprofResourceVector = new Vector<WprofResource*>;
++            m_wprofResourceMap = new HashMap<unsigned long, WprofResource*>();
++            m_requestTimeMap = new HashMap<String, double>();
++            m_requestWprofHTMLTagMap = new HashMap<String, WprofHTMLTag*>();
++            
++            m_elemStartVector = new Vector<WprofHTMLTag*>;
++            m_elemTypeMap = new HashMap<WprofHTMLTag*, int>();
++            
++            m_cssContentMap = new HashMap<WprofHTMLTag*, String>();
++            m_cssUrlVector = new Vector<String>;
++            
++            m_wprofComputationVector = new Vector<WprofComputation*>;
++            
++            m_wprofPreloadVector = new Vector<WprofPreload*>;
++
++	    TAG = WprofConstants::ins()->TAG().utf8().data();
++        };
++        
++        void outputAndClearCSSImageMaps() {
++            // First, match!
++	    // TODO temp comment out for performance issues
++	    // consider another way to get this done
++            //matchCSSImages();
++            
++            clearCSSImageMaps();
++        }
++        
++        void clearCSSImageMaps() {
++            m_cssContentMap->clear();
++            m_cssUrlVector->clear();
++        }
++        
++        void clearWprofComputations() {
++            m_wprofComputationVector->clear();
++        }
++        
++        // ---------------------------------------------------------------
++        // Methods for preload request
++        void clearWprofPreloads() {
++            m_wprofPreloadVector->clear();
++        }
++
++        void clearElementStartVector() {
++            m_elemStartVector->clear();
++            ASSERT(m_elemStartVector->isEmpty());
++        }
++        
++        void clearHOLMaps() {
++            m_elemStartVector->clear();
++            m_elemTypeMap->clear();
++        }
++        
++        String createFilename(String url) {
++            // Skip http:// or https://
++	    url.replace("http://", "");
++	    url.replace("https://", "");
++            // Escape illegal chars as a file name
++	    url.replace(":", "_");
++	    url.replace("/", "_");
++
++	    return url;
++        }
++        
++        void outputAndClear() {
++	    // TODO Init DB
++	    //openDatabase();
++            
++            // Record the timestamp of the 'load' event
++            fprintf(stderr, "{\"page\": \"%s\"}\n", m_url.utf8().data());
++            fprintf(stderr, "{\"DOMLoad\": %lf}\n", currentTime());
++
++            outputAndClearWprofResource();
++            outputAndClearHOLMaps();
++            outputAndClearCSSImageMaps();
++            outputAndClearWprofComputations();
++            outputAndClearWprofPreloads();
++			
++	    fprintf(stderr, "{\"Complete': \"%s\"}\n", m_url.utf8().data());
++        }
++        
++        void clear() {
++            clearWprofResource();
++            clearHOLMaps();
++            clearCSSImageMaps();
++            clearWprofComputations();
++            clearWprofPreloads();
++        }
++
++        void outputAndClearWprofResource() {
++            for (unsigned int i = 0; i < m_wprofResourceVector->size(); ++i) {
++                // Output one resource info
++                WprofResource* info = (*m_wprofResourceVector)[i];
++                
++                RefPtr<ResourceLoadTiming> timing = info->resourceLoadTiming();
++                
++                if (!timing)
++                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\",\
++                            \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
++                            info->getId(),
++                            info->url().utf8().data(),
++                            info->timeDownloadStart(),
++                            info->bytes(),
++                            info->fromWprofHTMLTag(),
++                            info->mimeType().utf8().data(),
++                            info->expectedContentLength(),
++                            info->httpStatusCode(),
++                            info->connectionId(),
++                            info->connectionReused(),
++                            info->wasCached()
++                            );
++                else
++                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\",\
++                            \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d,\
++                            \"requestTime\": %f, \"proxyStart\": %d, \"proxyEnd\": %d, \"dnsStart\": %d, \"dnsEnd\": %d, \"connectStart\": %d, \"connectEnd\": %d, \"sendStart\": %d, \"sendEnd\": %d, \"receiveHeadersEnd\": %d, \"sslStart\": %d, \"sslEnd\": %d}}\n",
++                            info->getId(),
++                            info->url().utf8().data(),
++                            info->timeDownloadStart(),
++                            info->bytes(),
++                            info->fromWprofHTMLTag(),
++                            info->mimeType().utf8().data(),
++                            info->expectedContentLength(),
++                            info->httpStatusCode(),
++                            info->connectionId(),
++                            info->connectionReused(),
++                            info->wasCached(),
++                            timing->requestTime,
++                            timing->proxyStart,
++                            timing->proxyEnd,
++                            timing->dnsStart,
++                            timing->dnsEnd,
++                            timing->connectStart,
++                            timing->connectEnd,
++                            timing->sendStart,
++                            timing->sendEnd,
++                            timing->receiveHeadersEnd,
++                            timing->sslStart,
++                            timing->sslEnd
++                            );
++                
++                // Output info of received data chunks
++                Vector<WprofReceivedChunk*>* v = info->receivedChunkInfoVector();
++                for (unsigned int j = 0; j < v->size(); ++j) {
++                    WprofReceivedChunk* chunkInfo = (*v)[j];
++                    fprintf(stderr, "{\"ReceivedChunk\": {\"receivedTime\": %lf, \"len\": %ld}}\n",
++                            chunkInfo->time(),
++                            chunkInfo->len()
++                    );
++                }
++                
++                // Output info of parsed objects
++                Vector<WprofHTMLTag*>* vWprofHTMLTag = info->derivedWprofHTMLTagVector();
++                for (unsigned int j = 0; j < vWprofHTMLTag->size(); ++j) {
++                    WprofHTMLTag* tag = (*vWprofHTMLTag)[j];
++                    fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"doc\": \"%s\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"time\": %lf, \"url\": \"%s\", \"pos\": %d, \"chunkLen\": %d, \"isStartTag\": %d}}\n",
++                            tag,
++                            tag->docUrl().utf8().data(),
++                            tag->pos().m_line.zeroBasedInt(),
++                            tag->pos().m_column.zeroBasedInt(),
++                            tag->tagName().utf8().data(),
++                            tag->time(),
++                            tag->url().utf8().data(),
++                            tag->startTagEndPos(),
++                            tag->chunkLen(),
++                            tag->isStartTag()
++                    );
++                }
++            }
++            
++            clearWprofResource();
++        }
++        
++        void outputAndClearHOLMaps() {
++            // Output start tag vectors
++            unsigned int i = 0;
++            for (; i < m_elemStartVector->size(); i++) {
++                WprofHTMLTag* startObjHash = (*m_elemStartVector)[i];
++                
++                if (startObjHash == NULL)
++                    continue;
++                
++                // Skip non-script and non-css
++                if (!m_elemTypeMap->get(startObjHash))
++                    continue;
++                
++                TextPosition pos_s = startObjHash->m_textPosition;
++                fprintf(stderr, "{\"HOL\": {\"type\": %d, \"docUrl\": \"%s\", \"code\": \"%p\", \"row\": %d, \"column\": %d, \"url\": \"%s\"}}\n",
++                        m_elemTypeMap->get(startObjHash),
++                        startObjHash->m_docUrl.utf8().data(),
++                        startObjHash,
++                        pos_s.m_line.zeroBasedInt(),
++                        pos_s.m_column.zeroBasedInt(),
++                        startObjHash->m_url.utf8().data()
++                );
++            }
++            
++            // Note that all should be cleared at the same time because
++            // we don't hard copy WprofHTMLTag and deletion of one could make
++            // another problematic
++            clearHOLMaps();
++        }
++        
++        void outputAndClearWprofComputations() {
++            for (unsigned int i = 0; i < m_wprofComputationVector->size(); ++i) {
++                WprofComputation* event = (*m_wprofComputationVector)[i];
++                
++				if (event == NULL)
++					continue;
++					
++                if (event->fromWprofHTMLTag() == NULL)
++                    continue;
++                
++                // m_tempWprofHTMLTag->docUrl() indicates current url
++                //if (strcmp(event->fromWprofHTMLTag()->docUrl(), m_tempWprofHTMLTag->docUrl()) == 0)
++                //	continue;
++                
++                fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"docUrl\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urlRecalcStyle\": \"%s\"}}\n",
++                        event->getTypeForPrint().utf8().data(),
++                        event->fromWprofHTMLTag(),
++                        event->fromWprofHTMLTag()->docUrl().utf8().data(),
++                        event->startTime(),
++                        event->endTime(),
++                        event->urlRecalcStyle().utf8().data()
++                );
++            }
++            
++            clearWprofComputations();
++        }
++        
++        void outputAndClearWprofPreloads() {
++            for (unsigned int i = 0; i < m_wprofPreloadVector->size(); ++i) {
++                WprofPreload* pr = (*m_wprofPreloadVector)[i];
++                
++                if (pr->fromWprofHTMLTag() == NULL)
++                    continue;
++				
++                fprintf(stderr, "{\"Preload\": {\"code\": \"%p\", \"docUrl\": \"%s\", \"url\": \"%s\", \"time\": %lf}}\n",
++                        pr->fromWprofHTMLTag(),
++                        pr->fromWprofHTMLTag()->docUrl().utf8().data(),
++                        pr->url().utf8().data(),
++                        pr->time()
++                );
++            }
++        }
++        
++        void clearWprofResource() {
++            m_wprofResourceVector->clear();
++            m_wprofResourceMap->clear();
++            m_requestTimeMap->clear();
++            m_requestWprofHTMLTagMap->clear();
++        }
++        
++        /*
++         * Get the request time of a url and delete its corresponding mapping
++         *
++         * @param const char* request url
++         * @return double request time
++         */
++        double getTimeAndRemoveMapping(String url) {
++
++	    double time = -1;
++            HashMap<String, double>::iterator iter = m_requestTimeMap->begin();
++            
++            for (; iter != m_requestTimeMap->end(); ++iter) {
++                if (url == iter->first) {
++                    time = iter->second;
++                }
++            }
++
++	    m_requestTimeMap->remove(url);
++            return -1;
++        }
++
++        /*
++         * Append WprofHTMLTag to its corresponding WprofResource.
++         *
++         * @param WprofHTMLTag*
++         */
++        void appendDerivedWprofHTMLTag(WprofHTMLTag* tag) {
++            for (unsigned int i = 0; i < m_wprofResourceVector->size(); ++i) {
++                WprofResource* resource = (*m_wprofResourceVector)[i];
++                if (resource->url() == tag->docUrl()) {
++                    resource->appendDerivedWprofHTMLTag(tag);
++                    return;
++                }
++            }
++        }
++
++        void setTempWprofHTMLTag(WprofHTMLTag* tempWprofHTMLTag) {
++            m_tempWprofHTMLTag = tempWprofHTMLTag;
++
++            // We clear this because this is only valid for current HTMLLinkElement
++            // TODO to be verified
++            m_HTMLLinkRecalcStyle = String::format("");
++        }
++        
++        // --------
++        // All info we need for a resource
++        // We store by both a vector and a hash with id of url as the key
++        Vector<WprofResource*>* m_wprofResourceVector;
++        // <id, WprofResource>
++        HashMap<unsigned long, WprofResource*>* m_wprofResourceMap;
++        // This is ugly but creating WprofResource in ResourceLoader::willSendRequest
++        // results in a pointer but. Thus, we create this map in ResourceLoader::willSendRequest
++        // and match it with WprofResource later.
++        // <url, request time>
++        HashMap<String, double>* m_requestTimeMap;
++        // This is to store the information of a url that is made from an WprofHTMLTag
++        // to infer dependency. Because this occurs before a request is made, we need
++        // to separately store it rather than storing it in WprofResource which is similar
++        // to m_requestTimeMap
++        HashMap<String, WprofHTMLTag*>* m_requestWprofHTMLTagMap;
++        
++        // --------
++        // Head-of-line dependencies: only CSS and JS are taken into account.
++        // CSS blocks following s_exec(JS) until e_parse(CSS)
++        // JS:
++        // - normal: both download and exec block parsing
++        // - defer:  s_exec triggered by dom load
++        // - async:  s_exec triggered by e_download
++        // See WebCore/html/parser/HTMLTreeBuilder.cpp for more details
++        Vector<WprofHTMLTag*>* m_elemStartVector; // s_download(element) > position
++        HashMap<WprofHTMLTag*, int>* m_elemTypeMap; // 1: normal; 2: defer; 3: async; 4: CSS
++        
++        // --------
++        // To track how images are fetched from css, we create this hash map so that
++        // we can match the urls at this level. We do not pass WprofHTMLTag to each CSSValue
++        // or CSSProperty because 1) it is too expensive to do so; 2) it requires us to
++        // change a lot of code.
++        HashMap<WprofHTMLTag*, String>* m_cssContentMap;
++        // They are img urls (from CSSImageValue) for matching.
++        // Note that we set two urls (partial and complete) at a time.
++        Vector<String>* m_cssUrlVector;
++        
++        // --------
++        // Track computational events when what triggers them
++        // This includes "recalcStyle", "layout" and "paint"
++        Vector<WprofComputation*>* m_wprofComputationVector;
++        
++        // --------
++        // Track preload_scanner
++        Vector<WprofPreload*>* m_wprofPreloadVector;
++        
++        // --------
++        // Temp WprofHTMLTag
++        WprofHTMLTag* m_tempWprofHTMLTag;
++        int m_charConsumed;
++        int m_charLen;
++        String m_HTMLLinkRecalcStyle;
++        
++        // DOM counters so as to control when to output info
++        int m_domCounter;
++        String m_url; // document location, used as file name
++	String m_uid;
++	const char* TAG;
++};
++    
++}
++#endif // WPROF_DISABLED
++
++#endif
++
++
+Index: WebCore/wprof/WprofData.h.backup
+===================================================================
+--- WebCore/wprof/WprofData.h.backup	(revision 0)
++++ WebCore/wprof/WprofData.h.backup	(working copy)
+@@ -0,0 +1,538 @@
++/*
++ *  WprofData.h
++ *  WebCore
++ *
++ *  Created by Sophia Wang on 7/10/12.
++ *  Copyright 2012 University of Washington. All rights reserved.
++ *
++ */
++#ifndef WprofData_h
++#define WprofData_h
++
++#include "Logging.h"
++#include "ResourceLoadTiming.h"
++#include "WprofHTMLTag.h"
++#include "WprofReceivedChunk.h"
++#include "WprofResource.h"
++#include "WprofComputation.h"
++#include "WprofPreload.h"
++
++#include <wtf/HashMap.h>
++#include <wtf/CurrentTime.h>
++#include <wtf/MD5.h>
++#include <wtf/Vector.h>
++#include <wtf/text/CString.h>
++#include <wtf/text/TextPosition.h>
++#include <wtf/text/WTFString.h>
++
++#if !WPROF_DISABLED
++
++namespace WebCore {
++
++// Utils used outside
++class WprofData {
++public:
++        WprofData()
++		: m_cssContentMap(NULL)
++		, m_tempWprofHTMLTag(NULL)
++		, m_charConsumed(0)
++		, m_charLen(0)
++		, m_HTMLLinkRecalcStyle(String::format(""))
++		, m_domCounter(0)
++		, m_url(String::format(""))
++        {
++            m_wprofResourceVector = new Vector<WprofResource*>;
++            m_wprofResourceMap = new HashMap<unsigned long, WprofResource*>();
++            m_requestTimeMap = new HashMap<String, double>();
++            m_requestWprofHTMLTagMap = new HashMap<String, WprofHTMLTag*>();
++            
++            m_elemStartVector = new Vector<WprofHTMLTag*>;
++            m_elemTypeMap = new HashMap<WprofHTMLTag*, int>();
++            
++            m_cssContentMap = new HashMap<WprofHTMLTag*, String>();
++            m_cssUrlVector = new Vector<String>;
++            
++            m_wprofComputationVector = new Vector<WprofComputation*>;
++            
++            m_wprofPreloadVector = new Vector<WprofPreload*>;
++        };
++
++	// ---- The following methods are called by WprofController
++
++	/*
++	 * Called by WprofController::createWprofResource()
++	 */
++	void updateOnCreateWprofResource(WprofResource* resource) {
++            m_wprofResourceVector->append(resource);
++            m_wprofResourceMap->set(resource->getId(), resource);
++	}
++
++	/*
++	 * Called by WprofController::createWprofReceivedChunk()
++	 */
++	void updateOnCreateWprofReceivedChunk(WprofReceivedChunk* chunk, unsigned long id_url, unsigned long length) {
++            m_wprofResourceMap->get(id_url)->appendWprofReceivedChunk(chunk);
++            m_wprofResourceMap->get(id_url)->addBytes(length);
++	}
++
++	/*
++	 * Called by WprofController::createRequestTimeMapping()
++	 */
++	void updateOnCreateRequestTimeMapping(String url) {
++            m_requestTimeMap->set(url, monotonicallyIncreasingTime());
++	}
++
++	/*
++	 * Get the request time of a url and delete its corresponding mapping
++	 *
++	 * @param const char* request url
++	 * @return double request time
++	 */
++        double getTimeAndRemoveMapping(String url) {
++	    //double time = m_requestTimeMap->get(url);
++	    // TODO figure out why get() doesn't work
++
++	    double time = -1;
++            HashMap<String, double>::iterator iter = m_requestTimeMap->begin();
++            
++            for (; iter != m_requestTimeMap->end(); ++iter) {
++                if (url == iter->first) {
++                    time = iter->second;
++                }
++            }
++
++	    // Remove the item
++	    // TODO figure out why remove() doesn't work
++	    m_requestTimeMap->remove(url);
++	    //fprintf(stderr, "m_requestTimeMap %s %d\n", url.utf8().data(), m_requestTimeMap->size());
++
++	    return time;
++        }
++        
++        WprofHTMLTag* getRequestWprofHTMLTagByUrl(String url) {
++            HashMap<String, WprofHTMLTag*>::iterator iter = m_requestWprofHTMLTagMap->begin();
++            
++            for (; iter != m_requestWprofHTMLTagMap->end(); ++iter) {
++                if (url == iter->first) {
++                    return iter->second;
++                }
++            }
++
++	    // TODO delete after it is fetched to save memory
++            return NULL;
++        }
++
++	void updateOnCreateWprofHTMLTag(WprofHTMLTag* tag) {
++	    // Add WprofHTMLTag to its vector
++            for (unsigned int i = 0; i < m_wprofResourceVector->size(); ++i) {
++                WprofResource* resource = (*m_wprofResourceVector)[i];
++                if (resource->url() == tag->docUrl()) {
++                    resource->appendDerivedWprofHTMLTag(tag);
++                    return;
++                }
++            }
++
++	    // Set tempWprofHTMLTag
++            m_tempWprofHTMLTag = tag;
++            
++            // We clear this because this is only valid for current HTMLLinkElement
++            // TODO to be verified
++            m_HTMLLinkRecalcStyle = String::format("");
++
++	    if (tag->isStartTag()) {
++		// Add tag to the start vector
++                m_elemStartVector->append(tag);
++
++		if (tag->tagName() == String::format("script")) {
++            	    // Add tag to tempWprofHTMLTag for EndTag
++                    // This works because there is no children inside elements
++                    // we care about (<script>, <link> and <style>)
++
++                    // Set type as normal. We will change it if async or defer
++		    setElementTypePair(tag, 1); // normal
++		}
++	    }
++	}
++
++	void updateOnCreateWprofComputation(WprofComputation* event) {
++            m_wprofComputationVector->append(event);
++	}
++
++	void updateOnCreateWprofPreload(WprofPreload* preload) {
++            m_wprofPreloadVector->append(preload);
++	}
++
++	void onCreateRequestWprofHTMLTagMapping(String url, WprofHTMLTag* tag) {
++            m_requestWprofHTMLTagMap->set(url, tag);
++	}
++
++	void onCreateRequestWprofHTMLTagMapping(String url) {
++            m_requestWprofHTMLTagMap->set(url, tempWprofHTMLTag());
++	}
++
++	void setHTMLLinkRecalcStyle(String url) {
++            m_HTMLLinkRecalcStyle = url;
++	}
++
++	void setcharConsumed(int charConsumed) {
++	    m_charConsumed = charConsumed;
++	}
++
++	void setCharLen(int charLen) {
++	    m_charLen = charLen;
++	}
++
++	void addCSSUrl(String url) {
++            m_cssUrlVector->append(url);
++	}
++
++	void setCSSContentPair(WprofHTMLTag* key, String value) {
++            if (key == NULL || value == String::format(""))
++                return;
++            
++            // Should check whether key has existed
++            HashMap<WprofHTMLTag*, String>::iterator iter = m_cssContentMap->begin();
++            for (; iter != m_cssContentMap->end(); ++iter) {
++                if (*key == *iter->first) {
++                    m_cssContentMap->set(iter->first, value);
++                    return;
++                }
++            }
++            m_cssContentMap->set(key, value);
++	}
++
++	// ---- End
++        
++        // TODO public For temporarily stored obj hash
++        WprofHTMLTag* tempWprofHTMLTag() {
++	    return m_tempWprofHTMLTag;
++	}
++        
++        void setElementTypePair(WprofHTMLTag* key, int value) {
++            if (key == NULL)
++                return;
++            
++            // Should check whether key has existed
++            HashMap<WprofHTMLTag*, int>::iterator iter = m_elemTypeMap->begin();
++            for (; iter != m_elemTypeMap->end(); ++iter) {
++                if (*key == *iter->first) {
++                    m_elemTypeMap->set(iter->first, value);
++                    return;
++                }
++            }
++            m_elemTypeMap->set(key, value);
++        }
++
++        // ---------------------------------------------------------------
++        // Output methods
++        
++        // Increase/decrease DOM counter, called in Document.cpp
++        void increaseDomCounter() {
++	    m_domCounter++;
++	}
++        
++        void decreaseDomCounter(String url) {
++            m_domCounter--;
++            
++            if (m_domCounter > 0) {
++		return;
++	    }
++            if (url.length() < 5) {
++                clear();
++                return;
++            }
++                
++	    if (!url.startsWith("http")) {
++            //if (url[0] != 'h' || url[2] != 't' || url[3] != 'p') {
++                clear();
++                return;
++            }
++                
++            // Now we should have doc that only begins with http
++            m_url = createFilename(url);
++	    LOG(DependencyLog, "WprofController::decreaseCounter %s", m_url.utf8().data());
++                
++            // Clear maps
++            output();
++	    clear();
++        }
++        
++        int charConsumed() { return m_charConsumed; }
++        int charLen() { return m_charLen; }
++        
++private:
++        String createFilename(String url) {
++            // Skip http:// or https://
++	    url.replace("http://", "");
++	    url.replace("https://", "");
++            
++            // Escape illegal chars as a file name
++	    url.replace(":", "_");
++	    url.replace("/", "_");
++	    return url;
++        }
++        
++        // Output
++        void output() {
++            // Record the timestamp of the 'load' event
++            fprintf(stderr, "{\"page\": \"%s\"}\n", m_url.utf8().data());
++            fprintf(stderr, "{\"DOMLoad\": %lf}\n", monotonicallyIncreasingTime());
++
++            outputWprofResource();
++            outputHOLMaps();
++            outputCSSImageMaps();
++            outputWprofComputations();
++            outputWprofPreloads();
++			
++	    fprintf(stderr, "{\"Complete': \"%s\"}\n", m_url.utf8().data());
++        }
++        
++        void outputWprofResource() {
++            for (unsigned int i = 0; i < m_wprofResourceVector->size(); ++i) {
++                // Output one resource info
++                WprofResource* info = (*m_wprofResourceVector)[i];
++                
++                RefPtr<ResourceLoadTiming> timing = info->resourceLoadTiming();
++                
++                if (!timing)
++                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\",\
++                            \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
++                            info->getId(),
++                            info->url().utf8().data(),
++                            info->timeDownloadStart(),
++                            info->bytes(),
++                            info->fromWprofHTMLTag(),
++                            info->mimeType().utf8().data(),
++                            info->expectedContentLength(),
++                            info->httpStatusCode(),
++                            info->connectionId(),
++                            info->connectionReused(),
++                            info->wasCached()
++                            );
++                else
++                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\",\
++                            \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d,\
++                            \"requestTime\": %f, \"proxyStart\": %d, \"proxyEnd\": %d, \"dnsStart\": %d, \"dnsEnd\": %d, \"connectStart\": %d, \"connectEnd\": %d, \"sendStart\": %d, \"sendEnd\": %d, \"receiveHeadersEnd\": %d, \"sslStart\": %d, \"sslEnd\": %d}}\n",
++                            info->getId(),
++                            info->url().utf8().data(),
++                            info->timeDownloadStart(),
++                            info->bytes(),
++                            info->fromWprofHTMLTag(),
++                            info->mimeType().utf8().data(),
++                            info->expectedContentLength(),
++                            info->httpStatusCode(),
++                            info->connectionId(),
++                            info->connectionReused(),
++                            info->wasCached(),
++                            timing->requestTime,
++                            timing->proxyStart,
++                            timing->proxyEnd,
++                            timing->dnsStart,
++                            timing->dnsEnd,
++                            timing->connectStart,
++                            timing->connectEnd,
++                            timing->sendStart,
++                            timing->sendEnd,
++                            timing->receiveHeadersEnd,
++                            timing->sslStart,
++                            timing->sslEnd
++                    );
++                
++                // Output info of received data chunks
++                Vector<WprofReceivedChunk*>* v = info->receivedChunkInfoVector();
++                for (unsigned int j = 0; j < v->size(); ++j) {
++                    WprofReceivedChunk* chunkInfo = (*v)[j];
++                    fprintf(stderr, "{\"ReceivedChunk\": {\"receivedTime\": %lf, \"len\": %ld}}\n",
++                            chunkInfo->time(),
++                            chunkInfo->len()
++                    );
++                }
++                
++                // Output info of parsed objects
++                Vector<WprofHTMLTag*>* vWprofHTMLTag = info->derivedWprofHTMLTagVector();
++                for (unsigned int j = 0; j < vWprofHTMLTag->size(); ++j) {
++                    WprofHTMLTag* tag = (*vWprofHTMLTag)[j];
++                    fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"doc\": \"%s\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"time\": %lf, \"url\": \"%s\", \"pos\": %d, \"chunkLen\": %d, \"isStartTag\": %d}}\n",
++                            tag,
++                            tag->docUrl().utf8().data(),
++                            tag->pos().m_line.oneBasedInt(),
++                            tag->pos().m_column.oneBasedInt(),
++                            tag->tagName().utf8().data(),
++                            tag->time(),
++                            tag->url().utf8().data(),
++                            tag->startTagEndPos(),
++                            tag->chunkLen(),
++                            tag->isStartTag()
++                    );
++                }
++            }
++        }
++        
++        void outputHOLMaps() {
++            // Output start tag vectors
++            unsigned int i = 0;
++            for (; i < m_elemStartVector->size(); i++) {
++                WprofHTMLTag* startObjHash = (*m_elemStartVector)[i];
++                
++                if (startObjHash == NULL)
++                    continue;
++                
++                // Skip non-script and non-css
++                if (!m_elemTypeMap->get(startObjHash))
++                    continue;
++                
++                TextPosition pos_s = startObjHash->m_textPosition;
++                fprintf(stderr, "{\"HOL\": {\"type\": %d, \"docUrl\": \"%s\", \"code\": \"%p\", \"row\": %d, \"column\": %d, \"url\": \"%s\"}}\n",
++                        m_elemTypeMap->get(startObjHash),
++                        startObjHash->m_docUrl.utf8().data(),
++                        startObjHash,
++                        pos_s.m_line.oneBasedInt(),
++                        pos_s.m_column.oneBasedInt(),
++                        startObjHash->m_url.utf8().data()
++                        );
++            }
++        }
++        
++        void outputCSSImageMaps() {
++            // First, match!
++            //matchCSSImages();
++	    // TODO !
++        }
++        
++        void outputWprofComputations() {
++            for (unsigned int i = 0; i < m_wprofComputationVector->size(); ++i) {
++                WprofComputation* event = (*m_wprofComputationVector)[i];
++                
++				if (event == NULL)
++					continue;
++				
++                if (event->fromWprofHTMLTag() == NULL)
++                    continue;
++                
++                // m_tempWprofHTMLTag->docUrl() indicates current url
++                //if (strcmp(event->fromWprofHTMLTag()->docUrl(), m_tempWprofHTMLTag->docUrl()) == 0)
++                //	continue;
++                
++                fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"docUrl\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urlRecalcStyle\": \"%s\"}}\n",
++                        event->getTypeForPrint().utf8().data(),
++                        event->fromWprofHTMLTag(),
++                        event->fromWprofHTMLTag()->docUrl().utf8().data(),
++                        event->startTime(),
++                        event->endTime(),
++                        event->urlRecalcStyle().utf8().data()
++                );
++            }
++        }
++        
++        void outputWprofPreloads() {
++            for (unsigned int i = 0; i < m_wprofPreloadVector->size(); ++i) {
++                WprofPreload* pr = (*m_wprofPreloadVector)[i];
++                
++                if (pr->fromWprofHTMLTag() == NULL)
++                    continue;
++				
++                fprintf(stderr, "{\"Preload\": {\"code\": \"%p\", \"docUrl\": \"%s\", \"url\": \"%s\", \"time\": %lf}}\n",
++                        pr->fromWprofHTMLTag(),
++                        pr->fromWprofHTMLTag()->docUrl().utf8().data(),
++                        pr->url().utf8().data(),
++                        pr->time()
++                );
++            }
++        }
++
++	void clear() {
++            m_wprofResourceVector->clear();
++            m_wprofResourceMap->clear();
++            m_requestTimeMap->clear();
++            m_requestWprofHTMLTagMap->clear();
++
++            m_elemStartVector->clear();
++            m_elemTypeMap->clear();
++
++            m_cssContentMap->clear();
++            m_cssUrlVector->clear();
++
++            m_wprofComputationVector->clear();
++
++            m_wprofPreloadVector->clear();
++	}
++        
++        // CSS -> Image doesn't need this because this kind of dependency is
++        // inferred by text matching
++        void clearElementStartVector() {
++            m_elemStartVector->clear();
++            ASSERT(m_elemStartVector->isEmpty());
++        }
++        
++        // ---------------------------------------------------------------
++        // Methods for CSS elements (images could be requested from CSS)
++        
++        void clearCSSUrlVector() {
++            m_cssUrlVector->clear();
++            ASSERT(m_cssUrlVector->isEmpty());
++        }
++
++        // -------- WprofResource
++        // All info we need for a resource
++        // We store by both a vector and a hash with id of url as the key
++        Vector<WprofResource*>* m_wprofResourceVector;
++        // <id, WprofResource>
++        HashMap<unsigned long, WprofResource*>* m_wprofResourceMap;
++        // This is ugly but creating WprofResource in ResourceLoader::willSendRequest
++        // results in a pointer bug. Thus, we create this map in ResourceLoader::willSendRequest
++        // and match it with WprofResource later.
++        // <url, request time>
++        HashMap<String, double>* m_requestTimeMap;
++        // This is to store the information of a url that is made from a WprofHTMLTag
++        // to infer dependency. Because this occurs before a request is made, we need
++        // to separately store it rather than storing it in WprofResource which is similar
++        // to m_requestTimeMap
++        HashMap<String, WprofHTMLTag*>* m_requestWprofHTMLTagMap;
++        
++        // -------- output dependencies
++        // Output (Head-of-line) dependencies: only CSS and JS are taken into account.
++        // CSS blocks following s_exec(JS) until e_parse(CSS)
++        // JS:
++        // - normal: both download and exec block parsing
++        // - defer:  s_exec triggered by dom load
++        // - async:  s_exec triggered by e_download
++        // See WebCore/html/parser/HTMLTreeBuilder.cpp for more details
++        Vector<WprofHTMLTag*>* m_elemStartVector; // s_download(element) > position
++        HashMap<WprofHTMLTag*, int>* m_elemTypeMap; // 1: normal; 2: defer; 3: async; 4: CSS
++        
++        // -------- lazy binding
++        // To track how images are fetched from css, we create this hash map so that
++        // we can match the urls at this level. We do not pass WprofHTMLTag to each CSSValue
++        // or CSSProperty because 1) it is too expensive to do so; 2) it requires us to
++        // change a lot of code.
++        HashMap<WprofHTMLTag*, String>* m_cssContentMap;
++        // They are img urls (from CSSImageValue) for matching.
++        // Note that we set two urls (partial and complete) at a time.
++        Vector<String>* m_cssUrlVector;
++        //HashMap<WprofHTMLTag*, Vector<int>*>* m_cssUrlPosCache;
++        
++        // -------- WprofComputation
++        // Track computational events when what triggers them
++        // This includes "recalcStyle", "layout" and "paint"
++        Vector<WprofComputation*>* m_wprofComputationVector;
++        
++        // -------- eager binding
++        // Track preload_scanner
++        Vector<WprofPreload*>* m_wprofPreloadVector;
++        
++        // -------- for fast retrieval
++        // Temp WprofHTMLTag
++        WprofHTMLTag* m_tempWprofHTMLTag;
++        int m_charConsumed;
++        int m_charLen;
++        String m_HTMLLinkRecalcStyle;
++        
++        // DOM counters so as to control when to output info
++        int m_domCounter;
++        String m_url; // document location, used as file name
++};
++
++}
++#endif // WPROF_DISABLED
++
++#endif
+Index: WebCore/wprof/WprofHTMLTag.h
+===================================================================
+--- WebCore/wprof/WprofHTMLTag.h	(revision 0)
++++ WebCore/wprof/WprofHTMLTag.h	(working copy)
+@@ -0,0 +1,100 @@
++/*
++ * WprofHTMLTag.h
++ *
++ * WProf is licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
++ *
++ * Copyright (c) 2012 University of Washington. All rights reserved
++ * 
++ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
++ * this software and associated documentation files (the "Software"), to deal in the 
++ * Software without restriction, including without limitation the rights to use, copy, 
++ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
++ * and to permit persons to whom the Software is furnished to do so, subject to the 
++ * following conditions:
++ * 
++ * The above copyright notice and this permission notice shall be included in all copies 
++ * or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
++ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
++ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
++ * DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef WprofHTMLTag_h
++#define WprofHTMLTag_h
++
++#if !WPROF_DISABLED
++
++#include <wtf/text/TextPosition.h>
++#include <wtf/text/WTFString.h>
++#include <string.h>
++
++namespace WebCore {
++
++// Define a hash of an object (we use its text position)
++// All WprofHTMLTag instances are created once, this means that we can
++// just use its pointer as the key to retrieve it.
++class WprofHTMLTag {
++    public:
++        WprofHTMLTag(
++	    TextPosition tp,
++	    String docUrl,
++	    String tag,
++	    double time,
++	    int pos,
++	    int len,
++	    bool isStartTag)
++		: m_url(String::format(""))
++		, m_isUsed(false)
++        {
++            m_textPosition = tp;
++            m_docUrl = docUrl;
++            m_tagName = tag;
++            m_time = time;
++            m_startTagEndPos = pos;
++            m_chunkLen = len;
++            m_isStartTag = isStartTag;
++        }
++        
++        ~WprofHTMLTag() {}
++		
++        bool operator==(WprofHTMLTag other) { return m_textPosition == other.m_textPosition && m_docUrl == other.m_docUrl; }
++        bool operator!=(WprofHTMLTag other) { return !((*this) == other); }
++        
++        TextPosition pos() { return m_textPosition; }
++        String docUrl() { return m_docUrl; }
++        String url() { return m_url; }
++        String tagName() { return m_tagName; }
++        double time() { return m_time; }
++        int startTagEndPos() { return m_startTagEndPos; }
++        int chunkLen() { return m_chunkLen; }
++        bool isStartTag() { return m_isStartTag; }
++        bool isUsed() { return m_isUsed; }
++		
++        void setUrl(String url) {
++            m_url = url;
++        }
++
++	void setUsed() {
++	    m_isUsed = true;
++	}
++        
++        TextPosition m_textPosition;
++        String m_docUrl;
++        String m_url;
++        String m_tagName;
++        double m_time;
++        int m_startTagEndPos;
++        int m_chunkLen;
++        bool m_isStartTag;
++        bool m_isUsed;
++};
++
++}
++#endif // WPROF_DISABLED
++
++#endif
+Index: WebCore/wprof/WprofPreload.h
+===================================================================
+--- WebCore/wprof/WprofPreload.h	(revision 0)
++++ WebCore/wprof/WprofPreload.h	(working copy)
+@@ -0,0 +1,62 @@
++/*
++ * WprofPreload.h
++ *
++ * WProf is licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
++ *
++ * Copyright (c) 2012 University of Washington. All rights reserved
++ * 
++ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
++ * this software and associated documentation files (the "Software"), to deal in the 
++ * Software without restriction, including without limitation the rights to use, copy, 
++ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
++ * and to permit persons to whom the Software is furnished to do so, subject to the 
++ * following conditions:
++ * 
++ * The above copyright notice and this permission notice shall be included in all copies 
++ * or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
++ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
++ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
++ * DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef WprofPreload_h
++#define WprofPreload_h
++
++#if !WPROF_DISABLED
++
++#include "WprofHTMLTag.h"
++#include <wtf/CurrentTime.h>
++
++namespace WebCore {
++
++// Record speculative loaded requests based on HTMLPreloadScanner
++class WprofPreload {
++    public:
++        WprofPreload(WprofHTMLTag* tag, String url)
++        {
++            m_url = url;
++            m_fromWprofHTMLTag = tag;
++            m_time = monotonicallyIncreasingTime();
++        };
++		
++        ~WprofPreload() {};
++        
++        String url() { return m_url; }
++        WprofHTMLTag* fromWprofHTMLTag() { return m_fromWprofHTMLTag; }
++        double time() { return m_time; }
++        
++    private:
++        WprofHTMLTag* m_fromWprofHTMLTag;
++        String m_url;
++        double m_time;
++};
++    
++}
++#endif // WPROF_DISABLED
++
++#endif
+Index: WebCore/wprof/WprofReceivedChunk.h
+===================================================================
+--- WebCore/wprof/WprofReceivedChunk.h	(revision 0)
++++ WebCore/wprof/WprofReceivedChunk.h	(working copy)
+@@ -0,0 +1,61 @@
++/*
++ * WprofReceivedChunk.h
++ *
++ * WProf is licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
++ *
++ * Copyright (c) 2012 University of Washington. All rights reserved
++ * 
++ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
++ * this software and associated documentation files (the "Software"), to deal in the 
++ * Software without restriction, including without limitation the rights to use, copy, 
++ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
++ * and to permit persons to whom the Software is furnished to do so, subject to the 
++ * following conditions:
++ * 
++ * The above copyright notice and this permission notice shall be included in all copies 
++ * or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
++ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
++ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
++ * DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef WprofReceivedChunk_h
++#define WprofReceivedChunk_h
++
++#if !WPROF_DISABLED
++
++namespace WebCore {
++
++// Define WprofReceivedChunk
++// Note: Created only in ResourceLoader::didReceiveData()
++//
++// This can be retrieved in WprofResource
++class WprofReceivedChunk {
++    public:
++        WprofReceivedChunk(unsigned long id_url, unsigned long len, double time) {
++            m_id = id_url;
++            m_len = len;
++            m_time = time;
++        };
++        
++        ~WprofReceivedChunk() {};
++        
++        unsigned long getId() { return m_id; };
++        unsigned long len() { return m_len; };
++        double time() { return m_time; };
++        
++    private:
++        unsigned long m_id; // Matched with WprofResource::m_id, so this could be not unique
++        unsigned long m_len; // Length of received data
++        double m_time; // Timestamp
++};
++
++}
++#endif // WPROF_DISABLED
++
++#endif
+Index: WebCore/wprof/WprofResource.h
+===================================================================
+--- WebCore/wprof/WprofResource.h	(revision 0)
++++ WebCore/wprof/WprofResource.h	(working copy)
+@@ -0,0 +1,172 @@
++/*
++ * WprofResource.h
++ *
++ * WProf is licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
++ *
++ * Copyright (c) 2012 University of Washington. All rights reserved
++ * 
++ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
++ * this software and associated documentation files (the "Software"), to deal in the 
++ * Software without restriction, including without limitation the rights to use, copy, 
++ * modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
++ * and to permit persons to whom the Software is furnished to do so, subject to the 
++ * following conditions:
++ * 
++ * The above copyright notice and this permission notice shall be included in all copies 
++ * or substantial portions of the Software.
++ * 
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
++ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
++ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
++ * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
++ * DEALINGS IN THE SOFTWARE.
++ *
++ */
++
++#ifndef WprofResource_h
++#define WprofResource_h
++
++#if !WPROF_DISABLED
++
++#include "WprofHTMLTag.h"
++#include "WprofReceivedChunk.h"
++
++namespace WebCore {
++
++// Define WprofResource
++// This is the data structure to store all info about resources
++// Note: Created only in ResourceLoader::didReceiveResponse()
++//
++// This can be retrieved by either a Vector or a HashMap with m_id as the key
++class WprofResource {
++public:
++	/*PassRefPtr<WprofResource> create(
++	    unsigned long id,
++            const char* url,
++            RefPtr<ResourceLoadTiming> resourceLoadTiming,
++            const char* mime,
++            long long expectedContentLength,
++            int httpStatusCode,
++            unsigned connectionId,
++            bool connectionReused,
++            bool wasCached,
++            double time,
++            WprofHTMLTag* tag) {
++
++	    return resource = adoptRef(new WprofResource(id, url, resourceLoadTiming, mime, expectedContentLength, httpStatusCode, connectionId, connectionReused, wasCached, time, tag));
++	}
++
++	void ref() { refWprofResource(); }
++        void deref() { derefWprofResource(); }*/
++
++        WprofResource(
++	    unsigned long id,
++	    String url,
++            RefPtr<ResourceLoadTiming> resourceLoadTiming,
++            String mime,
++            long long expectedContentLength,
++            int httpStatusCode,
++            unsigned connectionId,
++            bool connectionReused,
++            bool wasCached,
++	    double time,
++	    WprofHTMLTag* tag
++	)
++		: m_bytes(0)
++        {
++            m_id = id;
++
++	    // [Note] deep copy
++            if (resourceLoadTiming != NULL)
++            	m_resourceLoadTiming = resourceLoadTiming->deepCopy();
++
++	    m_url = url;
++	    m_mimeType = mime;
++
++            m_expectedContentLength = expectedContentLength;
++            m_httpStatusCode = httpStatusCode;
++            m_connectionId = connectionId;
++            m_connectionReused = connectionReused;
++            m_wasCached = wasCached;
++            m_timeDownloadStart = time;
++            m_fromWprofHTMLTag = tag;
++
++	    // Create WprofReceivedChunk and WprofHTMLTag vectors
++            m_receivedChunkInfoVector = new Vector<WprofReceivedChunk*>;
++            m_derivedWprofHTMLTagVector = new Vector<WprofHTMLTag*>;
++        };
++        
++        ~WprofResource() {};
++        
++        unsigned long getId() { return m_id; }
++        String url() { return m_url; }
++        RefPtr<ResourceLoadTiming> resourceLoadTiming() { return m_resourceLoadTiming; }
++        String mimeType() { return m_mimeType; }
++        long long expectedContentLength() { return m_expectedContentLength; }
++        int httpStatusCode() { return m_httpStatusCode; }
++        unsigned connectionId() { return m_connectionId; }
++        bool connectionReused() { return m_connectionReused; }
++        bool wasCached() { return m_wasCached; }
++        double timeDownloadStart() { return m_timeDownloadStart; }
++        WprofHTMLTag* fromWprofHTMLTag() { return m_fromWprofHTMLTag; }
++        unsigned long bytes() { return m_bytes; }
++
++        Vector<WprofReceivedChunk*>* receivedChunkInfoVector() { return m_receivedChunkInfoVector; }
++        Vector<WprofHTMLTag*>* derivedWprofHTMLTagVector() { return m_derivedWprofHTMLTagVector; }
++        
++        // Called only in WprofController::createWprofReceivedChunk()
++        void addBytes(unsigned long bytes) {
++            m_bytes += bytes;
++        }
++        
++        // Called only in WprofController::createWprofReceivedChunk()
++        void appendWprofReceivedChunk(WprofReceivedChunk* info) {
++            if (info == NULL)
++                return;
++            
++            // TODO temp comment out
++            //ASSERT(info->getId() == getId());
++            m_receivedChunkInfoVector->append(info);
++        }
++        
++        void appendDerivedWprofHTMLTag(WprofHTMLTag* tag) {
++            ASSERT(url() == tag->docUrl());
++            m_derivedWprofHTMLTagVector->append(tag);
++        }
++        
++private:
++
++        unsigned long m_id;
++        String m_url;
++        double m_timeDownloadStart;
++        
++        Vector<WprofReceivedChunk*>* m_receivedChunkInfoVector;
++        
++        // Tracks how many bytes have been downloaded
++        unsigned long m_bytes;
++        
++        // Vector of WprofHTMLTag derived from this resource
++        // e.g., WprofHTMLTag of <script> is from an html
++        Vector<WprofHTMLTag*>* m_derivedWprofHTMLTagVector;
++        
++        // The WprofHTMLTag that this resource is made from. There is only one
++        // such WprofHTMLTag for each url. Only the page request does not have one.
++        WprofHTMLTag* m_fromWprofHTMLTag;
++        
++        // Info pulled out from ResourceResponseBase.h
++        // ResourceLoadTiming
++        RefPtr<ResourceLoadTiming> m_resourceLoadTiming;
++        String m_mimeType;
++        long long m_expectedContentLength;
++        int m_httpStatusCode;
++        
++        unsigned m_connectionId;
++        bool m_connectionReused;
++        bool m_wasCached;
++};
++	
++}
++#endif // WPROF_DISABLED
++
++#endif
+Index: WebKit/CMakeLists.txt
+===================================================================
+--- WebKit/CMakeLists.txt	(revision 121787)
++++ WebKit/CMakeLists.txt	(working copy)
+@@ -38,6 +38,7 @@
+     "${WEBCORE_DIR}/svg"
+     "${WEBCORE_DIR}/svg/graphics"
+     "${WEBCORE_DIR}/svg/properties"
++    "${WEBCORE_DIR}/wprof"
+     "${JAVASCRIPTCORE_DIR}"
+     "${JAVASCRIPTCORE_DIR}/ForwardingHeaders"
+     "${JAVASCRIPTCORE_DIR}/API"

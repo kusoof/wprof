@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/bootstrap/win
+END
+pylint.new.bat
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/bootstrap/win/pylint.new.bat
+END
+python.new.bat
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/103051/trunk/tools/depot_tools/bootstrap/win/python.new.bat
+END
+unzip.js
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/103051/trunk/tools/depot_tools/bootstrap/win/unzip.js
+END
+win_tools.bat
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/bootstrap/win/win_tools.bat
+END
+svn.new.bat
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/103051/trunk/tools/depot_tools/bootstrap/win/svn.new.bat
+END
+README.google
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/103051/trunk/tools/depot_tools/bootstrap/win/README.google
+END
+get_file.js
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/103051/trunk/tools/depot_tools/bootstrap/win/get_file.js
+END
+svnversion.new.bat
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/33601/trunk/tools/depot_tools/bootstrap/win/svnversion.new.bat
+END

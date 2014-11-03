@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/words
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/words/__init__.py
+END
+service.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/words/service.py
+END
+ewords.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/words/ewords.py
+END
+_version.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/words/_version.py
+END
+tap.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/words/tap.py
+END
+iwords.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/words/iwords.py
+END
+toctap.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/words/toctap.py
+END
+xmpproutertap.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/words/xmpproutertap.py
+END

@@ -1,0 +1,305 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet
+END
+gtk2reactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/gtk2reactor.py
+END
+error.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/error.py
+END
+kqreactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/kqreactor.py
+END
+epollreactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/epollreactor.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/__init__.py
+END
+reactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/reactor.py
+END
+selectreactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/selectreactor.py
+END
+utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/utils.py
+END
+task.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/task.py
+END
+_pollingfile.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_pollingfile.py
+END
+abstract.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/abstract.py
+END
+qtreactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/qtreactor.py
+END
+_win32stdio.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_win32stdio.py
+END
+_posixstdio.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_posixstdio.py
+END
+_sigchld.c
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_sigchld.c
+END
+_baseprocess.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_baseprocess.py
+END
+process.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/process.py
+END
+wxreactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/wxreactor.py
+END
+_threadedselect.py
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_threadedselect.py
+END
+stdio.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/stdio.py
+END
+interfaces.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/interfaces.py
+END
+unix.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/unix.py
+END
+main.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/main.py
+END
+_sslverify.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_sslverify.py
+END
+udp.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/udp.py
+END
+threads.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/threads.py
+END
+wxsupport.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/wxsupport.py
+END
+posixbase.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/posixbase.py
+END
+_dumbwin32proc.py
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_dumbwin32proc.py
+END
+_signals.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_signals.py
+END
+protocol.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/protocol.py
+END
+ssl.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/ssl.py
+END
+endpoints.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/endpoints.py
+END
+gtkreactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/gtkreactor.py
+END
+_posixserialport.py
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_posixserialport.py
+END
+_win32serialport.py
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/_win32serialport.py
+END
+cfreactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/cfreactor.py
+END
+base.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/base.py
+END
+tksupport.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/tksupport.py
+END
+glib2reactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/glib2reactor.py
+END
+inotify.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/inotify.py
+END
+pyuisupport.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/pyuisupport.py
+END
+fdesc.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/fdesc.py
+END
+default.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/default.py
+END
+serialport.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/serialport.py
+END
+win32eventreactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/win32eventreactor.py
+END
+address.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/address.py
+END
+defer.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/defer.py
+END
+tcp.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/tcp.py
+END
+pollreactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/pollreactor.py
+END

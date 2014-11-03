@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/util
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/util/__init__.py
+END
+keyedinstance.py
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/util/keyedinstance.py
+END
+importpath.py
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/util/importpath.py
+END

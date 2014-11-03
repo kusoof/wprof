@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/chrome/!svn/ver/110686/trunk/tools/build/masters/master.client.drmemory
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/110686/trunk/tools/build/masters/master.client.drmemory/slaves.cfg
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/74809/trunk/tools/build/masters/master.client.drmemory/README
+END

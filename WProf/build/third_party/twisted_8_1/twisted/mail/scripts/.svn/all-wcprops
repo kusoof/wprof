@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/scripts
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/scripts/__init__.py
+END
+mailmail.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/mail/scripts/mailmail.py
+END

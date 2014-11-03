@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/ui
+END
+tkvt100.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/ui/tkvt100.py
+END
+ansi.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/ui/ansi.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/ui/__init__.py
+END

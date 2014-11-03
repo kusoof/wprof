@@ -1,0 +1,265 @@
+# -*- python -*-
+# ex: set syntax=python:
+# Copyright (c) 2012 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# See master.experimental/slaves.cfg for documentation.
+
+
+def linux():
+  """Linux VMs can hold a maximum of 4 checkouts per slave."""
+
+  normal_slaves = range(384, 430)
+  other_slaves = range(10, 100)
+  all_slaves = (['vm%d-m4' % i for i in normal_slaves] +
+                ['slave%d-b1' % i for i in other_slaves])
+  gpu_slaves = [3, 7, 8]
+
+  # Configurations on every VM.
+  base = [
+    # One line per shared directory. In decreasing usage:
+    'linux', 'linux_rel',
+    'linux_clang', 'linux_clang_no_goma',
+  ]
+  # One of the extra configuration per VM.
+  # First the ones barely used. By reducing the number of available slaves, we
+  # increase the "cache locally" of having a checkout already recent on the
+  # slave.
+  extras = [
+    [['linux_layout', 'linux_layout_rel'], 7],
+    [['linux_chromeos_valgrind'], 2],
+    [['linux_coverage'], 2],
+    [['linux_valgrind', 'linux_tsan'], 4],
+    [['linux_asan'], 3],
+    [['linux_chromeos_asan'], 3],
+    [['linux_redux'], 2],
+    [['linux_heapcheck'], 2],
+    [['linux_aura', 'linux_futura'], 3],
+    [['linux_nacl_sdk'], 3],
+    # These ones below are significantly used ones. They use all the remaining
+    # slaves.
+    [['linux_chromeos_clang'], -1],
+    [['linux_chromeos'], -1],
+  ]
+
+  # Shuffle phase. Spread each builders configuration accross the slaves so that
+  # if a continuous block of slaves go missing, it reduces the likelihood that
+  # all the slaves for a builder configuration are missing.
+  extras_expanded = []
+  for i in xrange(len(all_slaves)):
+    index = i % len(extras)
+    builders, count = extras[index]
+    if count == 1:
+      extras.pop(index)
+    elif count > 0:
+      extras[index][1] -= 1
+    extras_expanded.append(builders)
+
+  # Set up normal slaves.
+  result = []
+  for index, slave in enumerate(all_slaves):
+    builders = base + extras_expanded[index]
+    if slave.startswith('slave'):
+      builders.append('linux_rel_alt')
+    result.append({
+      'master': 'TryServer',
+      'os': 'linux',
+      'version': 'lucid',
+      'bits': '64',
+      'builder': builders,
+      'hostname': slave,
+    })
+
+  # Add GPU slaves.
+  result.extend([
+    {
+      'master': 'TryServer',
+      'os': 'linux',
+      'version': 'lucid',
+      'bits': '64',
+      'builder': 'linux_gpu',
+      'hostname': 'gpulin%d' % i,
+    } for index, i in enumerate(gpu_slaves)
+  ])
+
+  # One-off slave
+  result.append(
+      {
+        'master': 'TryServer',
+        'os': 'linux',
+        'version': 'oneiric',
+        'bits': '64',
+        'builder': 'linux_ubuntu_latest_rel',
+        'hostname': 'vm103-m4',
+      })
+
+  return result
+
+
+def mac():
+  out = [
+    # vms.
+    {
+      'master': 'TryServer',
+      'builder': [
+          # One line per shared directory:
+          'mac', 'mac_rel',
+          'mac_layout', 'mac_layout_rel',
+          'mac_valgrind',
+          'mac_asan',
+          'mac_no_goma',
+          'mac_nacl_sdk',
+      ],
+      'hostname': 'vm%d-m4' % i,
+      'os': 'mac',
+      'version': '10.6',
+      'bits': '64',
+    } for i in sorted(range(600, 655))
+  ]
+  out += [
+    # mac minis.
+    {
+      'master': 'TryServer',
+      'os': 'mac',
+      'version': '10.7',
+      'bits': '64',
+      'builder': 'mac_gpu',
+      'hostname': 'mini%d-m4' % i,
+    } for i in range(64, 67)
+  ]
+  return out
+
+
+def cros():
+  return [
+    # vms that are set up with chromiumOS depends
+    {
+      'master': 'TryServer',
+      'builder': 'cros_arm',
+      'hostname': 'vm%d-m4' % i,
+      'os': 'linux',
+      'version': 'lucid',
+      'bits': '64',
+    } for i in (55,)
+  ] + [
+    {
+      'master': 'TryServer',
+      'builder': 'cros_tegra2',
+      'hostname': 'vm%d-m4' % i,
+      'os': 'linux',
+      'version': 'lucid',
+      'bits': '64',
+    } for i in (56,)
+  ] + [
+    # baremetal builders that are set up with chromiumOS depends
+    {
+      'master': 'TryServer',
+      'builder': ['cros_x86', 'cros_amd64'],
+      'hostname': 'build%d-m4' % i,
+      'os': 'linux',
+      'version': 'lucid',
+      'bits': '64',
+    } for i in (2, 4, 5, 6)
+  ]
+
+
+def android():
+  """Android compile-only trybots."""
+  normal_slaves = [46, 57, 176, 98]
+  # Newer slaves.
+  # Full range of allocated bots...
+    # normal_slaves += range(430, 468)
+  # But these are the ones we've set up so far.
+  normal_slaves += [430, 434, 436, 437, 438, 439, 442, 443, 444, 445]
+  return [
+    {
+      'master': 'TryServer',
+      'builder': ['android'],
+      'hostname': 'vm%d-m4' % i,
+      'os': 'linux',
+      'version': 'lucid',
+      'bits': '64',
+    } for i in normal_slaves
+  ]
+
+
+def android_test():
+  """Android compile-and-test trybots."""
+  return [
+    {
+      'master': 'TryServer',
+      'builder': ['android_test'],
+      'hostname': 'chromeperf%d' % i,
+      'os': 'linux',
+      'version': 'lucid',
+      'bits': '64',
+    } for i in (23, 26, 27, 28, 29)
+  ]
+
+
+def windows():
+  # One of these builders set is seletected in alternance as an extra builder.
+  extras = [
+      ['win_vs2010', 'win_vs2010_rel'],
+      ['win_ash'],
+      ['win_aura'],
+      ['win_nacl_sdk'],
+      ['win_layout', 'win_layout_rel']
+  ]
+
+  win7 = range(300, 384) + range(510, 530)
+  normal_slaves = [
+    {
+      'master': 'TryServer',
+      'builder': [
+          'win', 'win_rel',
+      ] + extras[index % len(extras)],
+      'hostname': 'vm%d-m4' % number,
+      'os': 'win',
+      'version': 'win7',
+      'bits': '64',
+    } for index, number in enumerate(win7)
+  ]
+
+  drmemory_slaves = [
+    {
+      'master': 'TryServer',
+      # We can also add 'win' to the list of builders but let's not take risks
+      # as this is the only Win7 tryslave now.
+      'builder': ['win_drmemory'],
+      'hostname': 'vm%d-m4' % i,
+      'os': 'win',
+      'version': 'win7',
+      'bits': '64',
+    } for i in (120,)
+  ]
+  chromeframe_slave = [
+    {
+      'master': 'TryServer',
+      'builder': ['win_cf'],
+      'hostname': 'vm177-m4',  # Custom slave that runs IE8 instead of IE9.
+      'os': 'win',
+      'version': 'win7',
+      'bits': '64',
+    }
+  ]
+  gpu_slaves = [
+    {
+      'master': 'TryServer',
+      'builder': ['win_gpu'],
+      'hostname': 'gpuwin%d' % i,
+      'os': 'win',
+      'version': 'win7',
+      'bits': '64',
+    } for i in range(3, 6)
+  ]
+
+  return (
+      normal_slaves +
+      drmemory_slaves +
+      chromeframe_slave +
+      gpu_slaves)
+
+
+slaves = linux() + mac() + windows() + cros() + android() + android_test()

@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/144188/trunk/tools/build/masters/master.chromium/templates
+END
+buildstep.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/128970/trunk/tools/build/masters/master.chromium/templates/buildstep.html
+END
+layout.html
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/103341/trunk/tools/build/masters/master.chromium/templates/layout.html
+END
+stats.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/108345/trunk/tools/build/masters/master.chromium/templates/stats.html
+END
+waterfall.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/104175/trunk/tools/build/masters/master.chromium/templates/waterfall.html
+END
+console.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/121712/trunk/tools/build/masters/master.chromium/templates/console.html
+END
+root.html
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/135579/trunk/tools/build/masters/master.chromium/templates/root.html
+END
+builder_stats.html
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/139332/trunk/tools/build/masters/master.chromium/templates/builder_stats.html
+END
+announce.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/144188/trunk/tools/build/masters/master.chromium/templates/announce.html
+END
+build_line.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/103341/trunk/tools/build/masters/master.chromium/templates/build_line.html
+END
+builder.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/127747/trunk/tools/build/masters/master.chromium/templates/builder.html
+END
+forms.html
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/138567/trunk/tools/build/masters/master.chromium/templates/forms.html
+END
+horizontal_one_box_per_build.html
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/chrome/!svn/ver/113055/trunk/tools/build/masters/master.chromium/templates/horizontal_one_box_per_build.html
+END

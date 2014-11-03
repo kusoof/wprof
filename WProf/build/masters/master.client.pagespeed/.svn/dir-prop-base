@@ -1,0 +1,24 @@
+K 10
+svn:ignore
+V 231
+.status_password
+Lucid_32
+Lucid_32_Fx
+Lucid_32_Lib
+Lucid_64
+Lucid_64_Fx
+Lucid_64_Lib
+Mac_10_6
+Mac_10_6_Fx
+Mac_10_6_Lib
+Windows_7
+Windows_7_Fx
+Windows_7_Lib
+Windows_XP
+Windows_XP_Fx
+Windows_XP_Lib
+changes.pck
+twistd.log*
+twistd.pid
+
+END

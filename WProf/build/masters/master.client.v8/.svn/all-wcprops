@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/chrome/!svn/ver/144689/trunk/tools/build/masters/master.client.v8
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/chrome/!svn/ver/63549/trunk/tools/build/masters/master.client.v8/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/63562/trunk/tools/build/masters/master.client.v8/run_master.bat
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/144689/trunk/tools/build/masters/master.client.v8/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/63549/trunk/tools/build/masters/master.client.v8/buildbot.tac
+END
+branches_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/142945/trunk/tools/build/masters/master.client.v8/branches_cfg.py
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/144576/trunk/tools/build/masters/master.client.v8/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/115020/trunk/tools/build/masters/master.client.v8/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/chrome/!svn/ver/63549/trunk/tools/build/masters/master.client.v8/README
+END

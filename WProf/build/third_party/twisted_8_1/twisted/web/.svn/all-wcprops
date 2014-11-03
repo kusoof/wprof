@@ -1,0 +1,173 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/__init__.py
+END
+distrib.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/distrib.py
+END
+soap.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/soap.py
+END
+domhelpers.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/domhelpers.py
+END
+guard.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/guard.py
+END
+vhost.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/vhost.py
+END
+script.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/script.py
+END
+html.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/html.py
+END
+xmlrpc.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/xmlrpc.py
+END
+trp.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/trp.py
+END
+widgets.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/widgets.py
+END
+server.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/server.py
+END
+microdom.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/microdom.py
+END
+google.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/google.py
+END
+twcgi.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/twcgi.py
+END
+util.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/util.py
+END
+client.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/client.py
+END
+sux.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/sux.py
+END
+http.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/http.py
+END
+proxy.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/proxy.py
+END
+rewrite.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/rewrite.py
+END
+tap.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/tap.py
+END
+_version.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/_version.py
+END
+demo.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/demo.py
+END
+static.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/static.py
+END
+monitor.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/monitor.py
+END
+resource.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/resource.py
+END
+error.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/web/error.py
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/custom_fixers
+END
+fix_broken_reraising.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/custom_fixers/fix_broken_reraising.py
+END
+fix_alt_unicode.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/custom_fixers/fix_alt_unicode.py
+END
+fix_xrange2.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/custom_fixers/fix_xrange2.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/custom_fixers/__init__.py
+END

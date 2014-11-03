@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/chrome/!svn/ver/134694/trunk/tools/commit-queue/verification
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/chrome/!svn/ver/69303/trunk/tools/commit-queue/verification/__init__.py
+END
+authors_white_list.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/88798/trunk/tools/commit-queue/verification/authors_white_list.py
+END
+project_base.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/88798/trunk/tools/commit-queue/verification/project_base.py
+END
+tree_status.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/134694/trunk/tools/commit-queue/verification/tree_status.py
+END
+try_server.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/133721/trunk/tools/commit-queue/verification/try_server.py
+END
+fake.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/chrome/!svn/ver/88798/trunk/tools/commit-queue/verification/fake.py
+END
+presubmit_check.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/101118/trunk/tools/commit-queue/verification/presubmit_check.py
+END
+base.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/133721/trunk/tools/commit-queue/verification/base.py
+END
+presubmit_shim.py
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/133721/trunk/tools/commit-queue/verification/presubmit_shim.py
+END
+reviewer_lgtm.py
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/133721/trunk/tools/commit-queue/verification/reviewer_lgtm.py
+END

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/sqlite
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/sqlite/__init__.py
+END
+base.py
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/sqlite/base.py
+END
+pysqlite.py
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/sqlite/pysqlite.py
+END

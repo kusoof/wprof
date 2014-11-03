@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted
+END
+copyright.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/copyright.py
+END
+plugin.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/plugin.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/__init__.py
+END
+_version.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/_version.py
+END

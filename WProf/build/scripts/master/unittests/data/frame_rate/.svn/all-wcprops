@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/137707/trunk/tools/build/scripts/master/unittests/data/frame_rate
+END
+12345_blank_fps.dat
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/95318/trunk/tools/build/scripts/master/unittests/data/frame_rate/12345_blank_fps.dat
+END
+12345_googleblog_fps_ref.dat
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/chrome/!svn/ver/95318/trunk/tools/build/scripts/master/unittests/data/frame_rate/12345_googleblog_fps_ref.dat
+END
+blank-summary.dat
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/chrome/!svn/ver/137707/trunk/tools/build/scripts/master/unittests/data/frame_rate/blank-summary.dat
+END
+12345_googleblog_fps.dat
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/95318/trunk/tools/build/scripts/master/unittests/data/frame_rate/12345_googleblog_fps.dat
+END
+12345_blank_fps_ref.dat
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/95318/trunk/tools/build/scripts/master/unittests/data/frame_rate/12345_blank_fps_ref.dat
+END
+googleblog-summary.dat
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/137707/trunk/tools/build/scripts/master/unittests/data/frame_rate/googleblog-summary.dat
+END

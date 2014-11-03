@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 101
+changes.pck
+chromium-linux-experimental
+chromium-mac-experimental
+chromium-win-experimental
+twistd.*
+
+END

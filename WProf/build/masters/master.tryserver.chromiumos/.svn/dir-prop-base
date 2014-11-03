@@ -1,0 +1,33 @@
+K 10
+svn:ignore
+V 346
+.code_review_password
+.manhole
+ChromiumOS_arm
+ChromiumOS_x86
+changes.pck
+linux
+linux_chromeos
+linux_chromeos_valgrind
+linux_coverage
+linux_layout
+linux_layout_rel
+linux_rel
+linux_sync
+linux_tsan
+linux_valgrind
+linux_view
+mac
+mac_layout
+mac_layout_rel
+mac_rel
+mac_valgrind
+twistd.log*
+twistd.pid
+win
+win_layout
+win_layout_7
+win_layout_rel
+win_rel
+
+END

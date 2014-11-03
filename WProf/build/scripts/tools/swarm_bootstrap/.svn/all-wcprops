@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/chrome/!svn/ver/143624/trunk/tools/build/scripts/tools/swarm_bootstrap
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/142467/trunk/tools/build/scripts/tools/swarm_bootstrap/README
+END
+swarm_bot_setup.bat
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/142467/trunk/tools/build/scripts/tools/swarm_bootstrap/swarm_bot_setup.bat
+END
+xmlrpc_server.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/143624/trunk/tools/build/scripts/tools/swarm_bootstrap/xmlrpc_server.py
+END
+swarm_sftp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/142467/trunk/tools/build/scripts/tools/swarm_bootstrap/swarm_sftp
+END
+swarm_bot_setup.sh
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/142467/trunk/tools/build/scripts/tools/swarm_bootstrap/swarm_bot_setup.sh
+END

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/contrib/os-x
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/contrib/os-x/README
+END
+net.sourceforge.buildbot.slave.plist
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/contrib/os-x/net.sourceforge.buildbot.slave.plist
+END

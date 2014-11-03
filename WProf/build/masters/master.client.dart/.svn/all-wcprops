@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/chrome/!svn/ver/144924/trunk/tools/build/masters/master.client.dart
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/run_master.bat
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/144924/trunk/tools/build/masters/master.client.dart/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/144924/trunk/tools/build/masters/master.client.dart/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/README
+END

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/chrome/!svn/ver/133221/trunk/tools/commit-queue/post_processors
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/82588/trunk/tools/commit-queue/post_processors/__init__.py
+END
+chromium_copyright.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/133221/trunk/tools/commit-queue/post_processors/chromium_copyright.py
+END

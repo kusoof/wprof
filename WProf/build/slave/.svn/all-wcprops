@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/chrome/!svn/ver/144216/trunk/tools/build/slave
+END
+lighttpd.conf
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/chrome/!svn/ver/62366/trunk/tools/build/slave/lighttpd.conf
+END
+run_slave.bat
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/chrome/!svn/ver/112466/trunk/tools/build/slave/run_slave.bat
+END
+config
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/chrome/!svn/ver/141786/trunk/tools/build/slave/config
+END
+run_slave.py
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/chrome/!svn/ver/144216/trunk/tools/build/slave/run_slave.py
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/chrome/!svn/ver/117556/trunk/tools/build/slave/buildbot.tac
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/chrome/!svn/ver/112466/trunk/tools/build/slave/Makefile
+END
+crontab.in
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/chrome/!svn/ver/58652/trunk/tools/build/slave/crontab.in
+END
+run_webserver.bat
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/chrome/!svn/ver/107966/trunk/tools/build/slave/run_webserver.bat
+END

@@ -1,0 +1,293 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python
+END
+dist.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/dist.py
+END
+usage.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/usage.py
+END
+formmethod.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/formmethod.py
+END
+roots.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/roots.py
+END
+modules.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/modules.py
+END
+hashlib.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/hashlib.py
+END
+shortcut.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/shortcut.py
+END
+urlpath.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/urlpath.py
+END
+_inotify.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/_inotify.py
+END
+syslog.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/syslog.py
+END
+fakepwd.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/fakepwd.py
+END
+logfile.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/logfile.py
+END
+runtime.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/runtime.py
+END
+compat.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/compat.py
+END
+context.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/context.py
+END
+reflect.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/reflect.py
+END
+text.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/text.py
+END
+rebuild.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/rebuild.py
+END
+failure.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/failure.py
+END
+_initgroups.c
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/_initgroups.c
+END
+filepath.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/filepath.py
+END
+deprecate.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/deprecate.py
+END
+htmlizer.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/htmlizer.py
+END
+dispatch.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/dispatch.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/__init__.py
+END
+hook.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/hook.py
+END
+threadpool.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/threadpool.py
+END
+monkey.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/monkey.py
+END
+win32.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/win32.py
+END
+_epoll.c
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/_epoll.c
+END
+versions.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/versions.py
+END
+_twisted_zsh_stub
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/_twisted_zsh_stub
+END
+util.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/util.py
+END
+zipstream.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/zipstream.py
+END
+_release.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/_release.py
+END
+zippath.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/zippath.py
+END
+release.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/release.py
+END
+log.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/log.py
+END
+zshcomp.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/zshcomp.py
+END
+procutils.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/procutils.py
+END
+components.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/components.py
+END
+lockfile.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/lockfile.py
+END
+randbytes.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/randbytes.py
+END
+threadable.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/threadable.py
+END
+dxprofile.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/dxprofile.py
+END
+finalize.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/finalize.py
+END
+otp.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/otp.py
+END
+_epoll.pyx
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/python/_epoll.pyx
+END

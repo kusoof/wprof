@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/chrome/!svn/ver/117276/trunk/tools/build/third_party/jinja2
+END
+AUTHORS
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/AUTHORS
+END
+setup.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/setup.py
+END
+jinja2-debug.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/jinja2-debug.py
+END
+CHANGES
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/CHANGES
+END
+MANIFEST.in
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/MANIFEST.in
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/Makefile
+END
+setup.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/setup.cfg
+END
+README.chromium
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/README.chromium
+END
+LICENSE
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/LICENSE
+END
+README.rst
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/jinja2/README.rst
+END

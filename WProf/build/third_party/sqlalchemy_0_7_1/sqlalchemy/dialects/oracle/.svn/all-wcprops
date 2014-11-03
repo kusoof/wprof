@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/oracle
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/oracle/__init__.py
+END
+cx_oracle.py
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/oracle/cx_oracle.py
+END
+zxjdbc.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/oracle/zxjdbc.py
+END
+base.py
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/oracle/base.py
+END

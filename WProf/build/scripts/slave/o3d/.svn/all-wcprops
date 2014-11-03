@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/chrome/!svn/ver/113199/trunk/tools/build/scripts/slave/o3d
+END
+o3d_test_archive.txt
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/65317/trunk/tools/build/scripts/slave/o3d/o3d_test_archive.txt
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/chrome/!svn/ver/103400/trunk/tools/build/scripts/slave/o3d/__init__.py
+END
+prepare_selenium_tests.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/113199/trunk/tools/build/scripts/slave/o3d/prepare_selenium_tests.py
+END
+unpack_test_archive.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/113199/trunk/tools/build/scripts/slave/o3d/unpack_test_archive.py
+END
+upload_build.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/113199/trunk/tools/build/scripts/slave/o3d/upload_build.py
+END

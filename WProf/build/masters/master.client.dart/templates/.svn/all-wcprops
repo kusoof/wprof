@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/138567/trunk/tools/build/masters/master.client.dart/templates
+END
+layout.html
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/templates/layout.html
+END
+stats.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/templates/stats.html
+END
+waterfall.html
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/templates/waterfall.html
+END
+console.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/templates/console.html
+END
+root.html
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/templates/root.html
+END
+announce.html
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/129639/trunk/tools/build/masters/master.client.dart/templates/announce.html
+END
+build_line.html
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/templates/build_line.html
+END
+builder.html
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/templates/builder.html
+END
+forms.html
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/138567/trunk/tools/build/masters/master.client.dart/templates/forms.html
+END
+horizontal_one_box_per_build.html
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/chrome/!svn/ver/122463/trunk/tools/build/masters/master.client.dart/templates/horizontal_one_box_per_build.html
+END

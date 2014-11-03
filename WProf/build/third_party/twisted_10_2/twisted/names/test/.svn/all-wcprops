@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/names/test
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/names/test/__init__.py
+END
+test_cache.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/names/test/test_cache.py
+END
+test_names.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/names/test/test_names.py
+END
+test_rootresolve.py
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/names/test/test_rootresolve.py
+END
+test_dns.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/names/test/test_dns.py
+END
+test_srvconnect.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/names/test/test_srvconnect.py
+END
+test_common.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/names/test/test_common.py
+END
+test_client.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/names/test/test_client.py
+END

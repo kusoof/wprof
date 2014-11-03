@@ -1,0 +1,16 @@
+K 10
+svn:ignore
+V 117
+Linux__deb_
+Linux__rpm_
+Mac_10_5
+Win7
+Win_Vista
+Win_XP
+changes.pck
+pyauto_mac_10_6
+twistd.log
+twistd.log*
+twistd.pid
+
+END

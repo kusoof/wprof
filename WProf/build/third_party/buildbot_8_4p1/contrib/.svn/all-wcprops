@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib
+END
+buildbot_json.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/buildbot_json.py
+END
+bitbucket_buildbot.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/bitbucket_buildbot.py
+END
+generate_changelog.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/generate_changelog.py
+END
+check_buildbot.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/check_buildbot.py
+END
+webhook_status.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/webhook_status.py
+END
+github_buildbot.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/github_buildbot.py
+END
+git_buildbot.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/git_buildbot.py
+END
+fix_changes_pickle_encoding.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/fix_changes_pickle_encoding.py
+END
+fakechange.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/fakechange.py
+END
+post_build_request.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/post_build_request.py
+END
+viewcvspoll.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/viewcvspoll.py
+END
+darcs_buildbot.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/darcs_buildbot.py
+END
+bk_buildbot.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/bk_buildbot.py
+END
+bzr_buildbot.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/bzr_buildbot.py
+END
+buildbot_cvs_mail.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/buildbot_cvs_mail.py
+END
+coverage2text.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/coverage2text.py
+END
+svn_watcher.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/svn_watcher.py
+END
+README.txt
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/README.txt
+END
+svnpoller.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/svnpoller.py
+END
+googlecode_atom.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/googlecode_atom.py
+END
+bb_applet.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/bb_applet.py
+END
+run_maxq.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/run_maxq.py
+END
+svn_buildbot.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/svn_buildbot.py
+END

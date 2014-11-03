@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/test/fake_CAs
+END
+not-a-certificate
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/test/fake_CAs/not-a-certificate
+END
+thing2-duplicate.pem
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/test/fake_CAs/thing2-duplicate.pem
+END
+thing1.pem
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/test/fake_CAs/thing1.pem
+END
+thing2.pem
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/test/fake_CAs/thing2.pem
+END

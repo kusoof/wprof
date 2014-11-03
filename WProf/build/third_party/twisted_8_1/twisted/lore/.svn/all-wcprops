@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore
+END
+latex.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/latex.py
+END
+process.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/process.py
+END
+numberer.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/numberer.py
+END
+man2lore.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/man2lore.py
+END
+htmlbook.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/htmlbook.py
+END
+nevowlore.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/nevowlore.py
+END
+docbook.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/docbook.py
+END
+slides.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/slides.py
+END
+default.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/default.py
+END
+_version.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/_version.py
+END
+indexer.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/indexer.py
+END
+tree.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/tree.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/__init__.py
+END
+lmath.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/lmath.py
+END
+template.mgp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/template.mgp
+END
+lint.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/lint.py
+END
+texi.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/lore/texi.py
+END

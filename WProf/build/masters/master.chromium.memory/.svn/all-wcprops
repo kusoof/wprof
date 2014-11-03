@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/chrome/!svn/ver/144509/trunk/tools/build/masters/master.chromium.memory
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/114246/trunk/tools/build/masters/master.chromium.memory/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/102697/trunk/tools/build/masters/master.chromium.memory/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/130074/trunk/tools/build/masters/master.chromium.memory/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/103856/trunk/tools/build/masters/master.chromium.memory/Makefile
+END
+master_gatekeeper_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/144509/trunk/tools/build/masters/master.chromium.memory/master_gatekeeper_cfg.py
+END
+master_linux_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/143648/trunk/tools/build/masters/master.chromium.memory/master_linux_cfg.py
+END
+master_source_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/102697/trunk/tools/build/masters/master.chromium.memory/master_source_cfg.py
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/102697/trunk/tools/build/masters/master.chromium.memory/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/102697/trunk/tools/build/masters/master.chromium.memory/run_master.bat
+END

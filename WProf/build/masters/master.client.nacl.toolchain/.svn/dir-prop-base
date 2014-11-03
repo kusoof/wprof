@@ -1,0 +1,19 @@
+K 10
+svn:ignore
+V 300
+.status_password
+changes.pck
+hardy32-toolchain_arm-trusted
+hardy32-toolchain_arm-untrusted
+hardy32-toolchain_x86
+hardy64-glibc
+hardy64-toolchain_arm-untrusted
+lucid32-toolchain_arm-untrusted
+mac-toolchain_x86
+mac-toolchain_x86-32
+twistd.*
+vista-toolchain_x86
+win2003-toolchain_x86
+win7-toolchain_x86
+
+END

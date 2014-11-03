@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/iocpsupport
+END
+winsock_pointers.c
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/iocpsupport/winsock_pointers.c
+END
+wsasend.pxi
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/iocpsupport/wsasend.pxi
+END
+connectex.pxi
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/iocpsupport/connectex.pxi
+END
+iocpsupport.pyx
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/iocpsupport/iocpsupport.pyx
+END
+winsock_pointers.h
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/iocpsupport/winsock_pointers.h
+END
+iocpsupport.c
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/iocpsupport/iocpsupport.c
+END
+wsarecv.pxi
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/iocpsupport/wsarecv.pxi
+END
+acceptex.pxi
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/iocpsupport/acceptex.pxi
+END

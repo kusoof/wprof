@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 57
+changes.pck
+linux-ports
+mac-ports
+twistd.*
+windows-ports
+
+END

@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/144987/trunk/tools/build/masters/master.client.pagespeed
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/115020/trunk/tools/build/masters/master.client.pagespeed/Makefile
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/67771/trunk/tools/build/masters/master.client.pagespeed/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/67771/trunk/tools/build/masters/master.client.pagespeed/run_master.bat
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/115020/trunk/tools/build/masters/master.client.pagespeed/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/67771/trunk/tools/build/masters/master.client.pagespeed/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/144987/trunk/tools/build/masters/master.client.pagespeed/slaves.cfg
+END

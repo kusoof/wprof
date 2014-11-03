@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/chrome/!svn/ver/139010/trunk/tools/build/scripts/slave/v8
+END
+v8testing.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/chrome/!svn/ver/139010/trunk/tools/build/scripts/slave/v8/v8testing.py
+END
+v8archive.py
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/chrome/!svn/ver/139010/trunk/tools/build/scripts/slave/v8/v8archive.py
+END

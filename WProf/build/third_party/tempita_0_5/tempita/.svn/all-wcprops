@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5/tempita
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5/tempita/__init__.py
+END
+_looper.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5/tempita/_looper.py
+END
+compat3.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5/tempita/compat3.py
+END

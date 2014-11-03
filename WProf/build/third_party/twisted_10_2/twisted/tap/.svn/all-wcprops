@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/tap
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/tap/__init__.py
+END
+socks.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/tap/socks.py
+END
+manhole.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/tap/manhole.py
+END
+ftp.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/tap/ftp.py
+END
+portforward.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/tap/portforward.py
+END
+telnet.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/tap/telnet.py
+END

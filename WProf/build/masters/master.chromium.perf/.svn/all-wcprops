@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/145078/trunk/tools/build/masters/master.chromium.perf
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/61417/trunk/tools/build/masters/master.chromium.perf/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/61417/trunk/tools/build/masters/master.chromium.perf/run_master.bat
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/143810/trunk/tools/build/masters/master.chromium.perf/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/61417/trunk/tools/build/masters/master.chromium.perf/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/145078/trunk/tools/build/masters/master.chromium.perf/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/105766/trunk/tools/build/masters/master.chromium.perf/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/61417/trunk/tools/build/masters/master.chromium.perf/README
+END

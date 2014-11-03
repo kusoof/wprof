@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/words/xish
+END
+xmlstream.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/words/xish/xmlstream.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/words/xish/__init__.py
+END
+xpathparser.g
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/words/xish/xpathparser.g
+END
+xpathparser.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/words/xish/xpathparser.py
+END
+domish.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/words/xish/domish.py
+END
+utility.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/words/xish/utility.py
+END
+xpath.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/words/xish/xpath.py
+END

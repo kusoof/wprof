@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/common/ureports
+END
+docbook_writer.py
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/common/ureports/docbook_writer.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/common/ureports/__init__.py
+END
+html_writer.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/common/ureports/html_writer.py
+END
+text_writer.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/common/ureports/text_writer.py
+END
+nodes.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/common/ureports/nodes.py
+END

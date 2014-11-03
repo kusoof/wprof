@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/pair
+END
+ip.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/pair/ip.py
+END
+raw.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/pair/raw.py
+END
+tuntap.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/pair/tuntap.py
+END
+ethernet.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/pair/ethernet.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/pair/__init__.py
+END
+rawudp.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/pair/rawudp.py
+END
+_version.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/pair/_version.py
+END

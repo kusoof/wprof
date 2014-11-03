@@ -1,0 +1,40 @@
+10
+
+dir
+145420
+https://src.chromium.org/chrome/trunk/tools/build/scripts
+https://src.chromium.org/chrome
+
+
+
+2012-07-04T01:39:42.817967Z
+145420
+ukai@chromium.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4ff67af0-8c30-449e-8e8b-ad334ec8d88c
+
+tools
+dir
+
+common
+dir
+
+slave
+dir
+
+master
+dir
+

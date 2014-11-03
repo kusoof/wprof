@@ -1,0 +1,23 @@
+Index: chrome/browser/ui/browser_navigator.cc
+===================================================================
+--- chrome/browser/ui/browser_navigator.cc	(revision 145395)
++++ chrome/browser/ui/browser_navigator.cc	(working copy)
+@@ -41,6 +41,10 @@
+ #include "content/public/browser/web_contents.h"
+ #include "net/http/http_util.h"
+ 
++#include "chrome/browser/debugger/devtools_toggle_action.h" // Sophia
++#include "chrome/browser/debugger/devtools_window.h" // Sophia
++#include "content/public/browser/devtools_manager.h" // Sophia
++
+ using content::GlobalRequestID;
+ using content::WebContents;
+ 
+@@ -545,6 +549,7 @@
+ 
+       LoadURLInContents(params->target_contents->web_contents(),
+                         url, params, extra_headers);
++      DevToolsWindow::ToggleDevToolsWindow(params->target_contents->web_contents()->GetRenderViewHost(),DEVTOOLS_TOGGLE_ACTION_NONE); // Sophia
+     }
+   } else {
+     // |target_contents| was specified non-NULL, and so we assume it has already

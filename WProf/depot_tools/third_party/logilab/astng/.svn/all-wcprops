@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng
+END
+rebuilder.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/rebuilder.py
+END
+exceptions.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/exceptions.py
+END
+protocols.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/protocols.py
+END
+builder.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/builder.py
+END
+README.chromium
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/README.chromium
+END
+as_string.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/as_string.py
+END
+__pkginfo__.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/__pkginfo__.py
+END
+bases.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/bases.py
+END
+inference.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/inference.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/__init__.py
+END
+utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/utils.py
+END
+node_classes.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/node_classes.py
+END
+scoped_nodes.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/scoped_nodes.py
+END
+raw_building.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/raw_building.py
+END
+inspector.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/inspector.py
+END
+mixins.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/mixins.py
+END
+nodes.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/nodes.py
+END
+LICENSE.txt
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/LICENSE.txt
+END
+manager.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/143016/trunk/tools/depot_tools/third_party/logilab/astng/manager.py
+END

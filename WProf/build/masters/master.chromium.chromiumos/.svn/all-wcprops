@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/143648/trunk/tools/build/masters/master.chromium.chromiumos
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/106193/trunk/tools/build/masters/master.chromium.chromiumos/buildbot
+END
+master_chromiumos_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/143648/trunk/tools/build/masters/master.chromium.chromiumos/master_chromiumos_cfg.py
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/120515/trunk/tools/build/masters/master.chromium.chromiumos/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/102855/trunk/tools/build/masters/master.chromium.chromiumos/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/137612/trunk/tools/build/masters/master.chromium.chromiumos/slaves.cfg
+END
+master_chromiumos_cros_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/137612/trunk/tools/build/masters/master.chromium.chromiumos/master_chromiumos_cros_cfg.py
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/106193/trunk/tools/build/masters/master.chromium.chromiumos/Makefile
+END
+master_gatekeeper_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/143648/trunk/tools/build/masters/master.chromium.chromiumos/master_gatekeeper_cfg.py
+END

@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5
+END
+.hgignore
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5/.hgignore
+END
+regen-docs
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5/regen-docs
+END
+setup.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5/setup.py
+END
+.hgtags
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5/.hgtags
+END
+setup.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/tempita_0_5/setup.cfg
+END

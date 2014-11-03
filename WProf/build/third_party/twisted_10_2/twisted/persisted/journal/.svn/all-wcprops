@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/persisted/journal
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/persisted/journal/__init__.py
+END
+rowjournal.py
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/persisted/journal/rowjournal.py
+END
+picklelog.py
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/persisted/journal/picklelog.py
+END
+base.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/persisted/journal/base.py
+END

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/conch/client
+END
+connect.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/conch/client/connect.py
+END
+direct.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/conch/client/direct.py
+END
+options.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/conch/client/options.py
+END
+knownhosts.py
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/conch/client/knownhosts.py
+END
+agent.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/conch/client/agent.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/conch/client/__init__.py
+END
+default.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/conch/client/default.py
+END

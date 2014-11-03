@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor
+END
+setup.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/setup.py
+END
+abstract.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/abstract.py
+END
+interfaces.py
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/interfaces.py
+END
+const.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/const.py
+END
+tcp.py
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/tcp.py
+END
+udp.py
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/udp.py
+END
+build.bat
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/build.bat
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/__init__.py
+END
+notes.txt
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/notes.txt
+END
+reactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/internet/iocpreactor/reactor.py
+END

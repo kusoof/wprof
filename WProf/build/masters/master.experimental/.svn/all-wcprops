@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/116207/trunk/tools/build/masters/master.experimental
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/58652/trunk/tools/build/masters/master.experimental/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/59976/trunk/tools/build/masters/master.experimental/run_master.bat
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/113463/trunk/tools/build/masters/master.experimental/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/58652/trunk/tools/build/masters/master.experimental/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/103399/trunk/tools/build/masters/master.experimental/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/95287/trunk/tools/build/masters/master.experimental/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/58652/trunk/tools/build/masters/master.experimental/README
+END

@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/cred
+END
+strcred.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/cred/strcred.py
+END
+checkers.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/cred/checkers.py
+END
+error.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/cred/error.py
+END
+credentials.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/cred/credentials.py
+END
+util.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/cred/util.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/cred/__init__.py
+END
+pamauth.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/cred/pamauth.py
+END
+portal.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/cred/portal.py
+END

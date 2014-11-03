@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 51
+changes.pck
+linux-sdk
+mac-sdk
+twistd.*
+windows-sdk
+
+END

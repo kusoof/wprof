@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/fake
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/fake/__init__.py
+END
+state.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/fake/state.py
+END
+fakemaster.py
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/fake/fakemaster.py
+END
+fakedb.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/fake/fakedb.py
+END
+web.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/test/fake/web.py
+END

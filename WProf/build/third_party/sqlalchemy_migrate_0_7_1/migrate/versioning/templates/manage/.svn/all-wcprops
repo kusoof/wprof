@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/templates/manage
+END
+default.py_tmpl
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/templates/manage/default.py_tmpl
+END
+pylons.py_tmpl
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_migrate_0_7_1/migrate/versioning/templates/manage/pylons.py_tmpl
+END

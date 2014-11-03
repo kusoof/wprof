@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/144283/trunk/tools/build/masters/master.chromium.chromebot
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/132102/trunk/tools/build/masters/master.chromium.chromebot/buildbot
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/144283/trunk/tools/build/masters/master.chromium.chromebot/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/132102/trunk/tools/build/masters/master.chromium.chromebot/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/132102/trunk/tools/build/masters/master.chromium.chromebot/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/132102/trunk/tools/build/masters/master.chromium.chromebot/Makefile
+END

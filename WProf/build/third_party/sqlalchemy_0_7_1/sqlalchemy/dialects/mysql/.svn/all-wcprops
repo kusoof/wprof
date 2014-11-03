@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/mysql
+END
+zxjdbc.py
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/mysql/zxjdbc.py
+END
+oursql.py
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/mysql/oursql.py
+END
+base.py
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/mysql/base.py
+END
+mysqldb.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/mysql/mysqldb.py
+END
+pymysql.py
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/mysql/pymysql.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/mysql/__init__.py
+END
+mysqlconnector.py
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/mysql/mysqlconnector.py
+END
+pyodbc.py
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/dialects/mysql/pyodbc.py
+END

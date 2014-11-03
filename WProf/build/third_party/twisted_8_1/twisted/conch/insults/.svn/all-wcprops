@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/insults
+END
+text.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/insults/text.py
+END
+window.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/insults/window.py
+END
+client.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/insults/client.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/insults/__init__.py
+END
+helper.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/insults/helper.py
+END
+colors.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/insults/colors.py
+END
+insults.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/conch/insults/insults.py
+END

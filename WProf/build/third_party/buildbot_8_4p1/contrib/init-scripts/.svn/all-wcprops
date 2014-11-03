@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/init-scripts
+END
+buildmaster.default
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/init-scripts/buildmaster.default
+END
+buildmaster.init.sh
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/contrib/init-scripts/buildmaster.init.sh
+END

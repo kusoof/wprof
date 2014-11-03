@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/144504/trunk/tools/build/masters/master.chromium.fyi
+END
+master_gitzip_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/138167/trunk/tools/build/masters/master.chromium.fyi/master_gitzip_cfg.py
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/144504/trunk/tools/build/masters/master.chromium.fyi/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/62863/trunk/tools/build/masters/master.chromium.fyi/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/144504/trunk/tools/build/masters/master.chromium.fyi/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/103784/trunk/tools/build/masters/master.chromium.fyi/Makefile
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/62863/trunk/tools/build/masters/master.chromium.fyi/README
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/62863/trunk/tools/build/masters/master.chromium.fyi/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/62868/trunk/tools/build/masters/master.chromium.fyi/run_master.bat
+END

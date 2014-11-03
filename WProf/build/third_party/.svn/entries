@@ -1,0 +1,79 @@
+10
+
+dir
+145420
+https://src.chromium.org/chrome/trunk/tools/build/third_party
+https://src.chromium.org/chrome
+
+
+
+2012-06-08T00:18:23.498268Z
+141128
+cmp@chromium.org
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+4ff67af0-8c30-449e-8e8b-ad334ec8d88c
+
+zope
+dir
+
+jinja2
+dir
+
+buildbot_8_4p1
+dir
+
+simplejson
+dir
+
+sqlalchemy_0_7_1
+dir
+
+setuptools-0.6c11
+dir
+
+mock-0.6.0
+dir
+
+twisted_8_1
+dir
+
+mock-0.7.2
+dir
+
+buildbot_7_12
+dir
+
+sqlalchemy_migrate_0_7_1
+dir
+
+twisted_10_2
+dir
+
+cherrypy
+dir
+
+tempita_0_5
+dir
+
+pytz
+dir
+
+decorator_3_3_1
+dir
+
+buildbot_slave_8_4
+dir
+

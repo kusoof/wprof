@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole
+END
+telnet.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole/telnet.py
+END
+gladereactor.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole/gladereactor.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole/__init__.py
+END
+explorer.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole/explorer.py
+END
+gladereactor.glade
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole/gladereactor.glade
+END
+logview.glade
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole/logview.glade
+END
+service.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole/service.py
+END
+_inspectro.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole/_inspectro.py
+END
+inspectro.glade
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/manhole/inspectro.glade
+END

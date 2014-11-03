@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/clients
+END
+gtkPanes.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/clients/gtkPanes.py
+END
+tryclient.py
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/clients/tryclient.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/clients/__init__.py
+END
+sendchange.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/clients/sendchange.py
+END
+debug.py
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/clients/debug.py
+END
+base.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/clients/base.py
+END
+debug.glade
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/clients/debug.glade
+END

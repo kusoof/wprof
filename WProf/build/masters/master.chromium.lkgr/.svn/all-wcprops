@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/145074/trunk/tools/build/masters/master.chromium.lkgr
+END
+master.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/114246/trunk/tools/build/masters/master.chromium.lkgr/master.cfg
+END
+buildbot.tac
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/84589/trunk/tools/build/masters/master.chromium.lkgr/buildbot.tac
+END
+slaves.cfg
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/145074/trunk/tools/build/masters/master.chromium.lkgr/slaves.cfg
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/103784/trunk/tools/build/masters/master.chromium.lkgr/Makefile
+END
+lkgr_finder.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/143648/trunk/tools/build/masters/master.chromium.lkgr/lkgr_finder.py
+END
+master_lkgr_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/140369/trunk/tools/build/masters/master.chromium.lkgr/master_lkgr_cfg.py
+END
+master_source_cfg.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/85125/trunk/tools/build/masters/master.chromium.lkgr/master_source_cfg.py
+END
+buildbot
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/84589/trunk/tools/build/masters/master.chromium.lkgr/buildbot
+END
+run_master.bat
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/84589/trunk/tools/build/masters/master.chromium.lkgr/run_master.bat
+END

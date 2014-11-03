@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail
+END
+alias.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/alias.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/__init__.py
+END
+pb.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/pb.py
+END
+relaymanager.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/relaymanager.py
+END
+imap4.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/imap4.py
+END
+bounce.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/bounce.py
+END
+relay.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/relay.py
+END
+pop3client.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/pop3client.py
+END
+pop3.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/pop3.py
+END
+maildir.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/maildir.py
+END
+mail.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/mail.py
+END
+smtp.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/smtp.py
+END
+_version.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/_version.py
+END
+protocols.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/protocols.py
+END
+tap.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/twisted/mail/tap.py
+END

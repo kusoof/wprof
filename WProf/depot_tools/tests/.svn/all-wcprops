@@ -1,0 +1,209 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/chrome/!svn/ver/145306/trunk/tools/depot_tools/tests
+END
+submit-from-new-dir.sh
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/submit-from-new-dir.sh
+END
+rename.sh
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/rename.sh
+END
+submodule-merge-test.sh
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/submodule-merge-test.sh
+END
+fix_encoding_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/chrome/!svn/ver/109435/trunk/tools/depot_tools/tests/fix_encoding_test.py
+END
+patch_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/chrome/!svn/ver/122361/trunk/tools/depot_tools/tests/patch_test.py
+END
+git_cl_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/git_cl_test.py
+END
+basic.sh
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/basic.sh
+END
+gclient_utils_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/145306/trunk/tools/depot_tools/tests/gclient_utils_test.py
+END
+gcl_unittest.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/121826/trunk/tools/depot_tools/tests/gcl_unittest.py
+END
+push-from-logs.sh
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/push-from-logs.sh
+END
+presubmit_unittest.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/143620/trunk/tools/depot_tools/tests/presubmit_unittest.py
+END
+owners_unittest.py
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/chrome/!svn/ver/137041/trunk/tools/depot_tools/tests/owners_unittest.py
+END
+post-dcommit-hook-test.sh
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/post-dcommit-hook-test.sh
+END
+rietveld_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/134733/trunk/tools/depot_tools/tests/rietveld_test.py
+END
+scm_unittest.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/133265/trunk/tools/depot_tools/tests/scm_unittest.py
+END
+patch.sh
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/patch.sh
+END
+upstream.sh
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/upstream.sh
+END
+trychange_unittest.py
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/125622/trunk/tools/depot_tools/tests/trychange_unittest.py
+END
+gclient_smoketest.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/chrome/!svn/ver/124657/trunk/tools/depot_tools/tests/gclient_smoketest.py
+END
+abandon.sh
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/abandon.sh
+END
+gclient_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/134280/trunk/tools/depot_tools/tests/gclient_test.py
+END
+watchlists_unittest.py
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/109636/trunk/tools/depot_tools/tests/watchlists_unittest.py
+END
+sample_pre_commit_hook
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/82414/trunk/tools/depot_tools/tests/sample_pre_commit_hook
+END
+upload-local-tracking-branch.sh
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/upload-local-tracking-branch.sh
+END
+owners.sh
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/owners.sh
+END
+save-description-on-failure.sh
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/save-description-on-failure.sh
+END
+checkout_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/chrome/!svn/ver/135651/trunk/tools/depot_tools/tests/checkout_test.py
+END
+hooks.sh
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/hooks.sh
+END
+test-lib.sh
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/test-lib.sh
+END
+breakpad_unittest.py
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/chrome/!svn/ver/117039/trunk/tools/depot_tools/tests/breakpad_unittest.py
+END
+subprocess2_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/117054/trunk/tools/depot_tools/tests/subprocess2_test.py
+END
+upload-stale.sh
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/upload-stale.sh
+END
+push-basic.sh
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/chrome/!svn/ver/142479/trunk/tools/depot_tools/tests/push-basic.sh
+END
+gclient_scm_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/chrome/!svn/ver/143172/trunk/tools/depot_tools/tests/gclient_scm_test.py
+END

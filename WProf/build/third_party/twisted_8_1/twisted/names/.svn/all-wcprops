@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names
+END
+client.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/client.py
+END
+resolve.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/resolve.py
+END
+root.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/root.py
+END
+tap.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/tap.py
+END
+srvconnect.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/srvconnect.py
+END
+dns.py
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/dns.py
+END
+_version.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/_version.py
+END
+secondary.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/secondary.py
+END
+common.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/common.py
+END
+authority.py
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/authority.py
+END
+error.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/error.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/__init__.py
+END
+hosts.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/hosts.py
+END
+cache.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/cache.py
+END
+server.py
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/names/server.py
+END

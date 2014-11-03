@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/engine
+END
+base.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/engine/base.py
+END
+reflection.py
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/engine/reflection.py
+END
+strategies.py
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/engine/strategies.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/engine/__init__.py
+END
+threadlocal.py
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/engine/threadlocal.py
+END
+url.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/engine/url.py
+END
+ddl.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/engine/ddl.py
+END
+default.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/engine/default.py
+END

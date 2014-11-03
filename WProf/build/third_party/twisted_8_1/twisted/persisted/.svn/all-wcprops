@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/chrome/!svn/ver/96465/trunk/tools/build/third_party/twisted_8_1/twisted/persisted
+END
+dirdbm.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/persisted/dirdbm.py
+END
+aot.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/persisted/aot.py
+END
+marmalade.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/persisted/marmalade.py
+END
+sob.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/chrome/!svn/ver/96465/trunk/tools/build/third_party/twisted_8_1/twisted/persisted/sob.py
+END
+styles.py
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/persisted/styles.py
+END
+crefutil.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/persisted/crefutil.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/58652/trunk/tools/build/third_party/twisted_8_1/twisted/persisted/__init__.py
+END

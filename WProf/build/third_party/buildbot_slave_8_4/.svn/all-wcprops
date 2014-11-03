@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/chrome/!svn/ver/117852/trunk/tools/build/third_party/buildbot_slave_8_4
+END
+NEWS
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/NEWS
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/README
+END
+UPGRADING
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/UPGRADING
+END
+setup.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/setup.py
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/COPYING
+END
+PKG-INFO
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/PKG-INFO
+END
+MANIFEST.in
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_slave_8_4/MANIFEST.in
+END

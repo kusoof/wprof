@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/chrome/!svn/ver/112916/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions
+END
+006_drop_last_access.py
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions/006_drop_last_access.py
+END
+007_add_object_tables.py
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions/007_add_object_tables.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions/__init__.py
+END
+003_scheduler_class_name.py
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions/003_scheduler_class_name.py
+END
+002_add_proj_repo.py
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions/002_add_proj_repo.py
+END
+004_add_autoincrement.py
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions/004_add_autoincrement.py
+END
+001_initial.py
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/chrome/!svn/ver/112916/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions/001_initial.py
+END
+005_add_indexes.py
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions/005_add_indexes.py
+END
+008_add_scheduler_changes_index.py
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/buildbot_8_4p1/buildbot/db/migrate/versions/008_add_scheduler_changes_index.py
+END

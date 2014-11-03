@@ -1,0 +1,31 @@
+K 10
+svn:ignore
+V 435
+changes.pck
+chromium-dbg-linux-interactive-v8
+chromium-dbg-xp-interactive-v8
+chromium-rel-mac5-perf-v8
+chromium-rel-xp-perf-dual-v8
+twistd.*
+v8-arm-builder
+v8-arm-tester
+v8-fuzz
+v8-linux
+v8-linux-arm-sim
+v8-linux-arm-sim-debug
+v8-linux-debug
+v8-linux-nosnap
+v8-linux-nosnap-debug
+v8-linux64
+v8-linux64-debug
+v8-mac
+v8-mac-debug
+v8-win32
+v8-win32-debug
+v8-win64
+webkit-rel-linux-v8
+webkit-rel-linux64-v8
+webkit-rel-mac-v8
+webkit-rel-v8
+
+END

@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext
+END
+orderinglist.py
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/orderinglist.py
+END
+sqlsoup.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/sqlsoup.py
+END
+mutable.py
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/mutable.py
+END
+serializer.py
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/serializer.py
+END
+compiler.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/compiler.py
+END
+horizontal_shard.py
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/horizontal_shard.py
+END
+associationproxy.py
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/associationproxy.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/__init__.py
+END
+hybrid.py
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/hybrid.py
+END
+declarative.py
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/chrome/!svn/ver/89637/trunk/tools/build/third_party/sqlalchemy_0_7_1/sqlalchemy/ext/declarative.py
+END

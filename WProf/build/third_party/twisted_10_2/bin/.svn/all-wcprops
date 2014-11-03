@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/bin
+END
+manhole
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/bin/manhole
+END
+tap2rpm
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/bin/tap2rpm
+END
+tapconvert
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/bin/tapconvert
+END
+pyhtmlizer
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/bin/pyhtmlizer
+END
+trial
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/bin/trial
+END
+mktap
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/bin/mktap
+END
+twistd
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/bin/twistd
+END
+tap2deb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/chrome/!svn/ver/73852/trunk/tools/build/third_party/twisted_10_2/bin/tap2deb
+END
