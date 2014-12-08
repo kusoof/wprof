@@ -1,0 +1,14 @@
+layer at (0,0) size 800x600
+  RenderView at (0,0) size 800x600
+layer at (0,0) size 800x600
+  RenderBlock {HTML} at (0,0) size 800x600
+    RenderBody {BODY} at (8,8) size 784x584
+      RenderBlock {DIV} at (0,0) size 154x151 [border: (2px solid #FF0000)]
+        RenderText {#text} at (2,2) size 150x147
+          text run at (2,2) width 148: "Even though this div "
+          text run at (2,23) width 150: "is white-space pre, th"
+          text run at (2,44) width 149: "e text inside should s"
+          text run at (2,65) width 144: "till wrap to multiple li"
+          text run at (2,86) width 150: "nes because of the w"
+          text run at (2,107) width 147: "ord-wrap:break-word"
+          text run at (2,128) width 104: " CSS property."

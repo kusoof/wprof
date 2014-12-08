@@ -1,0 +1,34 @@
+layer at (0,0) size 800x600
+  RenderView at (0,0) size 800x600
+layer at (0,0) size 800x600
+  RenderBlock {HTML} at (0,0) size 800x600
+    RenderBody {BODY} at (8,8) size 784x584
+      RenderBlock {P} at (0,0) size 784x21
+        RenderText {#text} at (0,0) size 284x21
+          text run at (0,0) width 284: "Text should not overlap the blue square."
+      RenderBlock {DIV} at (0,37) size 406x241 [border: (3px solid #800000)]
+        RenderText {#text} at (5,5) size 395x105
+          text run at (5,5) width 335: "Fusce at ante. In hac habitasse platea dictumst."
+          text run at (340,5) width 4: " "
+          text run at (5,26) width 374: "Maecenas iaculis nonummy magna. Vivamus a tortor"
+          text run at (379,26) width 4: " "
+          text run at (5,47) width 378: "vitae enim ornare consectetuer. Lorem ipsum dolor sit"
+          text run at (383,47) width 4: " "
+          text run at (5,68) width 391: "amet, consectetuer adipiscing elit. Etiam et ipsum. Nam"
+          text run at (396,68) width 4: " "
+          text run at (5,89) width 188: "consectetuer mi eget velit. "
+        RenderBlock (floating) {DIV} at (337,89) size 64x64 [bgcolor=#ADD8E6]
+        RenderText {#text} at (193,89) size 390x147
+          text run at (193,89) width 135: "Sed nec risus vitae"
+          text run at (328,89) width 4: " "
+          text run at (5,110) width 290: "felis auctor ultricies. Pellentesque aliquet"
+          text run at (295,110) width 4: " "
+          text run at (5,131) width 317: "quam ac lorem. Duis interdum, elit in ultricies"
+          text run at (322,131) width 4: " "
+          text run at (5,152) width 278: "auctor, erat pede sollicitudin libero, non"
+          text run at (283,152) width 4: " "
+          text run at (5,173) width 386: "ultrices odio elit in augue. Ut egestas bibendum lectus."
+          text run at (391,173) width 4: " "
+          text run at (5,194) width 344: "Class aptent taciti sociosqu ad litora torquent per"
+          text run at (349,194) width 4: " "
+          text run at (5,215) width 291: "conubia nostra, per inceptos hymenaeos."
