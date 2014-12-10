@@ -311,7 +311,7 @@ void HTMLDocumentParser::pumpTokenizer(SynchronousMode mode)
         if (!m_tokenizer->nextToken(m_input.current(), m_token))
             break;
 
-#if !WPROF_DISABLED
+/*#if !WPROF_DISABLED
       //Get the token name, token type, and the text position
       //We need to do this before we parse the token.
 	HTMLTokenTypes::Type tokenType = m_token.type();
@@ -320,7 +320,7 @@ void HTMLDocumentParser::pumpTokenizer(SynchronousMode mode)
 	  tokenName = AtomicString(m_token.name().data(), m_token.name().size());
 	}
 	TextPosition position = textPosition();
-#endif
+#endif*/
 
         if (!isParsingFragment()) {
             m_sourceTracker.end(m_input, m_tokenizer.get(), m_token);
@@ -349,17 +349,17 @@ void HTMLDocumentParser::pumpTokenizer(SynchronousMode mode)
         ASSERT(m_token.isUninitialized());
 
 #if !WPROF_DISABLED
-    // Set Tags info here by creating WprofHTMLTag
+     double endTime = monotonicallyIncreasingTime();
+     WprofHTMLTag* tag = WprofController::getInstance()->tempWprofHTMLTag();
+     if(tag && tag->startTime() == 0){ //make sure it hasn't been set before.
+       tag->setStartEndTime(startTime, endTime);
+     }
+     /*
+     // Set Tags info here by creating WprofHTMLTag
     // Note that this is the only place for creating WprofHTMLTag
 	if((tokenType == HTMLTokenTypes::StartTag) || (tokenType == HTMLTokenTypes::EndTag)) {
 
       //Check whether the token name is a script, link, or style
-      /*Node* currentNode = NULL;
-
-      //fprintf(stderr, "token name is %s\n", token.name().string().utf8().data());
-      if((token.name () == scriptTag) || (token.name() == linkTag) || (token.name() == styleTag)){
-	currentNode = m_tree.currentNode();
-	}*/
 
       if(m_treeBuilder->isParsingFragment()){
 	WprofController::getInstance()->createWprofHTMLTag(
@@ -383,8 +383,8 @@ void HTMLDocumentParser::pumpTokenizer(SynchronousMode mode)
 	    monotonicallyIncreasingTime()
 	);
       }
-    }
-#endif
+      }*/
+    #endif
     }
 
     // Ensure we haven't been totally deref'ed after pumping. Any caller of this

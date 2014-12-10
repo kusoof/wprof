@@ -45,8 +45,6 @@ class WprofHTMLTag {
 	    TextPosition tp,
 	    String docUrl,
 	    String tag,
-	    double startTime,
-	    double endTime,
 	    int pos,
 	    int len,
 	    bool isFragment,
@@ -58,8 +56,8 @@ class WprofHTMLTag {
         {
             m_textPosition = tp;
             m_tagName = tag;
-            m_startTime = startTime;
-	    m_endTime = endTime;
+            m_startTime = 0;
+	    m_endTime = 0;
             m_startTagEndPos = pos;
             m_chunkLen = len;
             m_isStartTag = isStartTag;
@@ -79,6 +77,7 @@ class WprofHTMLTag {
         String url() { return m_url; }
         String tagName() { return m_tagName; }
         double startTime() { return m_startTime; }
+	void setStartEndTime (double start, double end) {m_startTime = start; m_endTime = end;}
 	double endTime() { return m_endTime;}
         int startTagEndPos() { return m_startTagEndPos; }
         int chunkLen() { return m_chunkLen; }

@@ -175,9 +175,7 @@ class WprofController {
 	    String docUrl,
 	    Document* document,
             String token,
-            bool isStartTag,
-	    double startTime,
-	    double endTime) {
+            bool isStartTag) {
 
 	  /*fprintf(stderr, "Creating new tag for document pointer %p, docurl  %s, line number %d, column %d tag %s, chars consumed %d\n",
 		  document, docUrl.utf8().data(), textPosition.m_line.zeroBasedInt(), textPosition.m_column.zeroBasedInt(),
@@ -206,8 +204,6 @@ class WprofController {
                 textPosition,
                 docUrl,
                 token,
-                startTime,
-		endTime,
                 charPos->position,
                 charLen(),
 		isFragment,
@@ -244,9 +240,7 @@ class WprofController {
 	    String docUrl,
 	    DocumentFragment* fragment,
             String token,
-            bool isStartTag,
-	    double startTime,
-	    double endTime) {
+            bool isStartTag) {
 
 	  //Get the entry corresponding to the fragment
 	  CurrentPosition* charPos = m_fragmentCurrentPositionMap->get(fragment);
@@ -255,8 +249,6 @@ class WprofController {
                 textPosition,
                 docUrl,
                 token,
-                startTime,
-		endTime,
                 charPos->position,
                 charLen(),
 		true,

@@ -459,7 +459,7 @@ void HTMLTreeBuilder::constructTreeFromToken(HTMLToken& rawToken)
     if (rawToken.type() != HTMLTokenTypes::Character)
         rawToken.clear();
 
-    /*#if !WPROF_DISABLED
+    #if !WPROF_DISABLED
     // Set Tags info here by creating WprofHTMLTag
     // Note that this is the only place for creating WprofHTMLTag
     if (token.type() == HTMLTokenTypes::StartTag || token.type() == HTMLTokenTypes::EndTag) {
@@ -483,7 +483,7 @@ void HTMLTreeBuilder::constructTreeFromToken(HTMLToken& rawToken)
 	);
       }
     }
-    #endif*/
+    #endif
 
     constructTreeFromAtomicToken(token);
 
