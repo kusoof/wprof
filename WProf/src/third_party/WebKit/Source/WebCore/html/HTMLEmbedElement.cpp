@@ -40,10 +40,10 @@
 #include "RenderWidget.h"
 #include "Settings.h"
 
-#if !WPROF_DISABLED
+/*#if !WPROF_DISABLED
 #include "Logging.h"
 #include "WprofController.h"
-#endif
+#endif*/
 
 namespace WebCore {
 
@@ -111,10 +111,10 @@ void HTMLEmbedElement::parseAttribute(const Attribute& attribute)
     else if (attribute.name() == srcAttr) {
         m_url = stripLeadingAndTrailingHTMLSpaces(attribute.value());
 
-#if !WPROF_DISABLED
+/*#if !WPROF_DISABLED
     LOG(DependencyResults, "HTMLEmbedElement.cpp::parseAttribute PAIR3 %s", m_url.utf8().data());
     WprofController::getInstance()->createRequestWprofHTMLTagMapping(m_url);
-#endif
+#endif*/
 
         if (renderer() && isImageType()) {
             if (!m_imageLoader)

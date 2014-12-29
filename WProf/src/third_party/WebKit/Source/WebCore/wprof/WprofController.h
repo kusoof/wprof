@@ -51,9 +51,11 @@
 #include <errno.h>
 #include <Document.h>
 #include <DocumentFragment.h>
-#include <Node.h>
+#include <ResourceRequest.h>
 
 namespace WebCore {
+
+  class ResourceRequest;
 
 typedef struct CurrentPosition {
   int position;
@@ -89,7 +91,7 @@ class WprofController {
          */
         void createWprofResource(
             unsigned long id,
-            String url,
+            ResourceRequest& request,
             RefPtr<ResourceLoadTiming> resourceLoadTiming,
             String mime,
             long long expectedContentLength,
@@ -98,12 +100,16 @@ class WprofController {
             bool connectionReused,
             bool wasCached) {
 
+	    //Get the URL from the request
+	    String url = request.url().string();
+	    
             // Find request start time
             double time = getTimeAndRemoveMapping(url);
             
             // Find the WprofHTMLTag that this resource is requested from if any
             // Note that image requested from CSS is considered later
-            WprofHTMLTag* tag = getRequestWprofHTMLTagByUrl(url);
+	    // WprofHTMLTag* tag = getRequestWprofHTMLTagByUrl(request);
+	    WprofHTMLTag* tag = request.wprofHTMLTag();
 
 	    // [Note] deep copy request url
             WprofResource* resource = new WprofResource(id, url, resourceLoadTiming, mime, expectedContentLength, httpStatusCode, connectionId, connectionReused, wasCached, time, tag);
@@ -300,20 +306,6 @@ class WprofController {
           return event;
 	}
 
-	void setElementForLastTag(Node* node){
-	  //Make sure it doesn't already exist in the dictionary
-	  if(m_elementTagMap.contains(node)){
-	  }
-	  
-	  //Only add mapping for script tags
-	  WprofHTMLTag* tempTag = tempWprofHTMLTag();
-	  String tagName = tempTag->tagName();
-
-	  if(tagName == String::format("script")){
-	    m_elementTagMap.set(node, tempTag);
-	  }
-	}
-
         /*
          * Create a WprofPreload object.
          * Called by HTMLPreloadScanner::preload().
@@ -330,44 +322,58 @@ class WprofController {
         
         // CSS -> Image doesn't need this because this kind of dependency is
         // inferred by text matching
-        void createRequestWprofHTMLTagMapping(String url, WprofHTMLTag* tag) {
-	  if(!m_requestWprofHTMLTagMap->contains(url)){
-            m_requestWprofHTMLTagMap->set(url, tag);
+        void createRequestWprofHTMLTagMapping(ResourceRequest& request, WprofHTMLTag* tag) {
+	  String url = request.url().string();
+	  
+	  /*if(!m_requestWprofHTMLTagMap->contains(request)){
+            m_requestWprofHTMLTagMap->set(request, tag);
 	  }
+	  else{
+	    fprintf(stdout, "The request->tag map already contains the request for url %s\n", url.utf8().data());
+	  }*/
+	  
+	  //Assign the wproftag to the request
+	  //This could be the very first request for the page, which has a null tag.
+	  if(tag){
+	    request.setWprofHTMLTag(tag);
+	  
 	    //Add the url to the list
-	    /*if(tag->url() == emptyString()){
-	      tag->setUrl(url);
-	    }
-	    else{*/
-	      tag->appendUrl(url);
-	    //}
+	    tag->appendUrl(url);
+	    
 	    matchWithPreload(tag);
+	  }
+	  else{
+	    fprintf(stderr, "matching request to tag, and the tag is null \n");
+	  }
 
 	    /*fprintf(stderr, "adding url %s to tag with name %s line %d column %d\n", url.utf8().data(),
 	      tag->tagName().utf8().data(), tag->pos().m_line.zeroBasedInt(), tag->pos().m_column.zeroBasedInt());*/
         }
         
-        void createRequestWprofHTMLTagMapping(String url) {
-	  createRequestWprofHTMLTagMapping(url, tempWprofHTMLTag());
+        void createRequestWprofHTMLTagMapping(ResourceRequest& request) {
+	  createRequestWprofHTMLTagMapping(request, tempWprofHTMLTag());
         }
         
-        WprofHTMLTag* getRequestWprofHTMLTagByUrl(String url) {
+        /*WprofHTMLTag* getRequestWprofHTMLTagByUrl(ResourceRequest& request) {
 
-	  if(m_requestWprofHTMLTagMap->contains(url)){
-	    return m_requestWprofHTMLTagMap->get(url);
+	  if(m_requestWprofHTMLTagMap->contains(request)){
+	    return m_requestWprofHTMLTagMap->get(request);
 	  }
 	  else {
+	    fprintf(stdout, "We could not find the resource in the resource->tag map\n");
 	    return NULL;
-	  }
-	  /* HashMap<String, WprofHTMLTag*>::iterator iter = m_requestWprofHTMLTagMap->begin();
+	    }
+
+	  HashMap<ResourceRequest, WprofHTMLTag*>::iterator iter = m_requestWprofHTMLTagMap->begin();
             
             for (; iter != m_requestWprofHTMLTagMap->end(); ++iter) {
-                if (url == iter->first) {
+                if (request == iter->first) {
                     return iter->second;
                 }
             }
-            return NULL;*/
-        }
+	    fprintf(stdout, "We could not find the resource in the resource->tag map\n");
+            return NULL;
+	    }*/
 
         void addElementStart(WprofHTMLTag* tag) {
             m_elemStartVector->append(tag);
@@ -521,7 +527,7 @@ private:
             m_wprofResourceVector = new Vector<WprofResource*>;
             m_wprofResourceMap = new HashMap<unsigned long, WprofResource*>();
             m_requestTimeMap = new HashMap<String, double>();
-            m_requestWprofHTMLTagMap = new HashMap<String, WprofHTMLTag*>();
+            //m_requestWprofHTMLTagMap = new HashMap<ResourceRequest, WprofHTMLTag*>();
 
 	    //Initialize the html tag position maps for documents and fragments 
 	    m_documentCurrentPositionMap = new HashMap<Document*, CurrentPosition*>();
@@ -797,7 +803,7 @@ private:
             m_wprofResourceVector->clear();
             m_wprofResourceMap->clear();
             m_requestTimeMap->clear();
-            m_requestWprofHTMLTagMap->clear();
+            //m_requestWprofHTMLTagMap->clear();
         }
         
         /*
@@ -855,19 +861,19 @@ private:
         // and match it with WprofResource later.
         // <url, request time>
         HashMap<String, double>* m_requestTimeMap;
-        // This is to store the information of a url that is made from an WprofHTMLTag
+        
+	// This is to store the information of a resource request that is made from an WprofHTMLTag
         // to infer dependency. Because this occurs before a request is made, we need
         // to separately store it rather than storing it in WprofResource which is similar
         // to m_requestTimeMap
-        HashMap<String, WprofHTMLTag*>* m_requestWprofHTMLTagMap;
+        //HashMap<String, WprofHTMLTag*>* m_requestWprofHTMLTagMap;
+	//HashMap<ResourceRequest, WprofHTMLTag*> * m_requestWprofHTMLTagMap;
 
 	//Mapping between a document and its associated html tag positions (offsets)
 	HashMap<Document*, CurrentPosition*>* m_documentCurrentPositionMap;
 
 	//Mapping betwen document fragments and their associated html tag offsets
 	HashMap<DocumentFragment*, CurrentPosition*>* m_fragmentCurrentPositionMap;
-
-	HashMap<Node*, WprofHTMLTag*> m_elementTagMap;
         
         // --------
         // Head-of-line dependencies: only CSS and JS are taken into account.

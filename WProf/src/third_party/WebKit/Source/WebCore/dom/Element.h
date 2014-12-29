@@ -32,6 +32,11 @@
 #include "HTMLNames.h"
 #include "ScrollTypes.h"
 
+#if !WPROF_DISABLED
+#include "WprofController.h"
+#include "Logging.h"
+#endif
+
 namespace WebCore {
 
 class Attribute;
@@ -55,6 +60,13 @@ class Element : public ContainerNode {
 public:
     static PassRefPtr<Element> create(const QualifiedName&, Document*);
     virtual ~Element();
+
+#if !WPROF_DISABLED
+    WprofHTMLTag* wprofHTMLTag() { return m_wprofHTMLTag; }
+    virtual void setWprofHTMLTag(WprofHTMLTag* objHash) {
+        m_wprofHTMLTag = objHash;
+    }
+#endif
 
     DEFINE_ATTRIBUTE_EVENT_LISTENER(abort);
     DEFINE_ATTRIBUTE_EVENT_LISTENER(change);
@@ -434,7 +446,15 @@ protected:
         : ContainerNode(document, type)
         , m_tagName(tagName)
     {
+#if !WPROF_DISABLED
+      LOG(DependencyLog, "Element constructer");
+      setWprofHTMLTag(WprofController::getInstance()->tempWprofHTMLTag());
+#endif
     }
+
+#if !WProf_DISABLED
+    WprofHTMLTag* m_wprofHTMLTag;
+#endif
 
     virtual InsertionNotificationRequest insertedInto(ContainerNode*) OVERRIDE;
     virtual void removedFrom(ContainerNode*) OVERRIDE;

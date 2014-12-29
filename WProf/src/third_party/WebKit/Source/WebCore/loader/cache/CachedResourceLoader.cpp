@@ -63,6 +63,7 @@
 #if !WPROF_DISABLED
 #include "HTMLDocumentParser.h"
 #include "WprofController.h"
+#include "HTMLFrameOwnerElement.h"
 #endif
 
 #define PRELOAD_DEBUG 0
@@ -252,9 +253,17 @@ CachedResourceHandle<CachedRawResource> CachedResourceLoader::requestRawResource
 {
 #if !WPROF_DISABLED
     HTMLDocumentParser* parser = (HTMLDocumentParser*)(document()->parser());
-    if (parser) {
+    //Try to get the frame and the owner element
+    if(frame() && frame()->ownerElement()){
+      WprofHTMLTag* tag = frame()->ownerElement()->wprofHTMLTag();
+      if (parser) {
         LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string());
+        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request, tag);
+      }
+    }
+    else if (parser) {
+        LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
+        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request);
     }
 #endif
 

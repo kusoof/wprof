@@ -25,10 +25,6 @@
 #include "CachedResourceHandle.h"
 #include <wtf/text/TextPosition.h>
 
-#if !WPROF_DISABLED
-#include "WprofController.h"
-#endif
-
 namespace WebCore {
 
 class CachedScript;
@@ -63,13 +59,6 @@ public:
     bool readyToBeParserExecuted() const { return m_readyToBeParserExecuted; }
     bool willExecuteWhenDocumentFinishedParsing() const { return m_willExecuteWhenDocumentFinishedParsing; }
     CachedResourceHandle<CachedScript> cachedScript() { return m_cachedScript; }
-
-#if !WPROF_DISABLED
-        WprofHTMLTag* wprofHTMLTag() { return m_wprofHTMLTag; }
-        virtual void setWprofHTMLTag(WprofHTMLTag* objHash) {
-                m_wprofHTMLTag = objHash;
-        }
-#endif
 
 protected:
     void setHaveFiredLoadEvent(bool haveFiredLoad) { m_haveFiredLoad = haveFiredLoad; }

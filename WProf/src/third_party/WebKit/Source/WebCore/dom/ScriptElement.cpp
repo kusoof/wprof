@@ -79,10 +79,6 @@ ScriptElement::ScriptElement(Element* element, bool parserInserted, bool already
     , m_requestUsesAccessControl(false)
 {
     ASSERT(m_element);
-#if !WPROF_DISABLED
-    LOG(DependencyLog, "ScriptElement.cpp::construct");
-    setWprofHTMLTag(WprofController::getInstance()->tempWprofHTMLTag());
-#endif
     if (parserInserted && m_element->document()->scriptableDocumentParser() && !m_element->document()->isInDocumentWrite())
         m_startLineNumber = m_element->document()->scriptableDocumentParser()->lineNumber();
 }
@@ -249,7 +245,7 @@ bool ScriptElement::prepareScript(const TextPosition& scriptStartPosition, Legac
         TextPosition position = document->isInDocumentWrite() ? TextPosition() : scriptStartPosition;
 #if !WPROF_DISABLED
 	LOG(DependencyLog, "ScriptElement::prepareScript ThreadId:%d %lf", currentThread(), monotonicallyIncreasingTime());
-	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, wprofHTMLTag());
+	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, element()->wprofHTMLTag());
 #endif
         executeScript(ScriptSourceCode(scriptContent(), document->url(), position));
 #if !WPROF_DISABLED
@@ -274,8 +270,7 @@ bool ScriptElement::requestScript(const String& sourceUrl)
         ResourceRequest request = ResourceRequest(m_element->document()->completeURL(sourceUrl));
 
 #if !WPROF_DISABLED
-        wprofHTMLTag()->setUrl(request.url().string());
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), wprofHTMLTag());
+        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request, element()->wprofHTMLTag());
 #endif
 
         String crossOriginMode = m_element->fastGetAttribute(HTMLNames::crossoriginAttr);
@@ -338,7 +333,7 @@ void ScriptElement::execute(CachedScript* cachedScript)
     else if (!cachedScript->wasCanceled()) {
 #if !WPROF_DISABLED
 	LOG(DependencyLog, "ScriptElement::execute ThreadId:%d %lf %s", currentThread(), monotonicallyIncreasingTime(), cachedScript->url().string().utf8().data());
-	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, wprofHTMLTag());
+	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, element()->wprofHTMLTag());
 	wprofComputation->setUrlRecalcStyle(cachedScript->url().string());
 #endif
         executeScript(ScriptSourceCode(cachedScript));

@@ -179,6 +179,11 @@ void ImageLoader::updateFromElement()
             updateRequestForAccessControl(request, document->securityOrigin(), allowCredentials);
         }
 
+#if !WPROF_DISABLED
+        LOG(DependencyResults, "ImageLoader.cpp::updateFromElement PAIR3 %s", request.url().string().utf8().data());
+        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request);
+#endif
+
         if (m_loadManually) {
             bool autoLoadOtherImages = document->cachedResourceLoader()->autoLoadImages();
             document->cachedResourceLoader()->setAutoLoadImages(false);
@@ -189,11 +194,6 @@ void ImageLoader::updateFromElement()
             document->cachedResourceLoader()->setAutoLoadImages(autoLoadOtherImages);
         } else
             newImage = document->cachedResourceLoader()->requestImage(request);
-
-#if !WPROF_DISABLED
-        LOG(DependencyResults, "ImageLoader.cpp::updateFromElement PAIR3 %s", request.url().string().utf8().data());
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string());
-#endif
 
         // If we do not have an image here, it means that a cross-site
         // violation occurred.

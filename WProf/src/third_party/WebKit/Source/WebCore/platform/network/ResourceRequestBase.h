@@ -35,6 +35,10 @@
 
 #include <wtf/OwnPtr.h>
 
+#if !WPROF_DISABLED
+#include "WprofHTMLTag.h"
+#endif
+
 namespace WebCore {
 
     enum ResourceRequestCachePolicy {
@@ -61,6 +65,11 @@ namespace WebCore {
 
         const KURL& url() const;
         void setURL(const KURL& url);
+
+#if !WPROF_DISABLED
+	void setWprofHTMLTag (WprofHTMLTag* tag) {m_wprofHTMLTag = (unsigned long) tag;}
+	WprofHTMLTag* wprofHTMLTag () {return (WprofHTMLTag*) m_wprofHTMLTag;}
+#endif
 
         void removeCredentials();
 
@@ -151,6 +160,7 @@ namespace WebCore {
 
         ResourceRequestBase(const KURL& url, ResourceRequestCachePolicy policy)
             : m_url(url)
+	    , m_wprofHTMLTag(0)
             , m_cachePolicy(policy)
             , m_timeoutInterval(s_defaultTimeoutInterval)
             , m_httpMethod("GET")
@@ -171,6 +181,10 @@ namespace WebCore {
         static bool platformCompare(const ResourceRequest&, const ResourceRequest&) { return true; }
 
         KURL m_url;
+
+#if !WPROF_DISABLED
+	unsigned long m_wprofHTMLTag;
+#endif
 
         ResourceRequestCachePolicy m_cachePolicy;
         double m_timeoutInterval; // 0 is a magic value for platform default on platforms that have one.
@@ -209,6 +223,7 @@ namespace WebCore {
         KURL m_firstPartyForCookies;
 
         String m_httpMethod;
+        unsigned long m_wprofHTMLTag;
         OwnPtr<CrossThreadHTTPHeaderMapData> m_httpHeaders;
         Vector<String> m_responseContentDispositionEncodingFallbackArray;
         RefPtr<FormData> m_httpBody;

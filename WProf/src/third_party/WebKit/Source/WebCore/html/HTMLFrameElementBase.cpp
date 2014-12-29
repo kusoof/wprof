@@ -98,6 +98,8 @@ void HTMLFrameElementBase::openURL(bool lockHistory, bool lockBackForwardList)
     if (m_URL.isEmpty())
         m_URL = blankURL().string();
 
+    fprintf(stderr, "frame element open url %s\n", m_URL.string().utf8().data());
+
     Frame* parentFrame = document()->frame();
     if (!parentFrame)
         return;
@@ -214,11 +216,6 @@ void HTMLFrameElementBase::setLocation(const String& str)
         return;
 
     m_URL = AtomicString(str);
-
-#if !WPROF_DISABLED
-    LOG(DependencyLog, "HTMLFrameElementBase::setLocation %s", document()->completeURL(m_URL).string().utf8().data());
-    WprofController::getInstance()->createRequestWprofHTMLTagMapping(document()->completeURL(m_URL).string());
-#endif
 
     if (inDocument())
         openURL(false, false);

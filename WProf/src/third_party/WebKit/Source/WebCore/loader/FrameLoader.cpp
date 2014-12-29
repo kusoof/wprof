@@ -124,6 +124,11 @@
 #include "Archive.h"
 #endif
 
+#if !WPROF_DISABLED
+#include "Logging.h"
+#include "WprofController.h"
+#endif
+
 namespace WebCore {
 
 using namespace HTMLNames;
@@ -1327,6 +1332,17 @@ void FrameLoader::loadWithDocumentLoader(DocumentLoader* loader, FrameLoadType t
     policyChecker()->setLoadType(type);
     RefPtr<FormState> formState = prpFormState;
     bool isFormSubmission = formState;
+
+#if !WPROF_DISABLED
+    if(Element* ownerElement = m_frame->ownerElement()){
+      WprofHTMLTag* tag = ownerElement->wprofHTMLTag();
+      WprofController::getInstance()->createRequestWprofHTMLTagMapping(loader->request(), tag);
+    }
+    else{
+      WprofController::getInstance()->createRequestWprofHTMLTagMapping(loader->request());
+    }
+    LOG(DependencyLog, "FrameLoader::loadWithDocumentLoader %s", loader->request().url().string().utf8().data());
+ #endif
 
     const KURL& newURL = loader->request().url();
     const String& httpMethod = loader->request().httpMethod();

@@ -22,6 +22,7 @@
 *.vtg
 *.xcodeproj
 *_proto.xml
+*.svn
 *~
 .*.sw?
 .DS_Store
@@ -127,7 +128,6 @@ v8.log
 /testing/gtest
 /testserver.log
 /third_party/GTM
-/third_party/WebKit
 /third_party/adobe/flash/binaries
 /third_party/adobe/flash/symbols
 /third_party/angle

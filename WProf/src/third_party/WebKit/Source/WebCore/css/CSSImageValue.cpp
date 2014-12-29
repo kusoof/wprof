@@ -34,6 +34,8 @@
 #if !WPROF_DISABLED
 #include "Logging.h"
 #include "WprofController.h"
+#include "Frame.h"
+#include "HTMLFrameOwnerElement.h"
 #endif
 
 namespace WebCore {
@@ -87,13 +89,22 @@ StyleCachedImage* CSSImageValue::cachedImage(CachedResourceLoader* loader, const
         m_accessedImage = true;
 
         ResourceRequest request(loader->document()->completeURL(url));
-        if (CachedResourceHandle<CachedImage> cachedImage = loader->requestImage(request)) {
-            m_image = StyleCachedImage::create(cachedImage.get());
+
 #if !WPROF_DISABLED
             LOG(DependencyResults, "CSSImageValue.cpp::cachedImage PAIR3 %s", request.url().string().utf8().data());
+	    //Try to get the associated wprof tag
+	    if(loader->frame() && loader->frame()->ownerElement()){
+	      WprofHTMLTag* tag = loader->frame()->ownerElement()->wprofHTMLTag();
+	      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request, tag);
+	    }
+	    else{
+	      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request);
+	    }
+
             WprofController::getInstance()->addCSSUrl(url.utf8().data());
-            WprofController::getInstance()->createRequestWprofHTMLTagMapping(url);
 #endif
+        if (CachedResourceHandle<CachedImage> cachedImage = loader->requestImage(request)) {
+            m_image = StyleCachedImage::create(cachedImage.get());
         }
     }
 

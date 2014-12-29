@@ -77,11 +77,6 @@ inline HTMLLinkElement::HTMLLinkElement(const QualifiedName& tagName, Document* 
     , m_pendingSheetType(None)
 {
     ASSERT(hasTagName(linkTag));
-
-#if !WPROF_DISABLED
-    LOG(DependencyLog, "HTMLLinkElement.cpp::construct");
-    setWprofHTMLTag(WprofController::getInstance()->tempWprofHTMLTag());
-#endif
 }
 
 PassRefPtr<HTMLLinkElement> HTMLLinkElement::create(const QualifiedName& tagName, Document* document, bool createdByParser)
@@ -147,12 +142,6 @@ void HTMLLinkElement::parseAttribute(const Attribute& attribute)
     } else if (attribute.name() == hrefAttr) {
         String url = stripLeadingAndTrailingHTMLSpaces(attribute.value());
         m_url = url.isEmpty() ? KURL() : document()->completeURL(url);
-
-#if !WPROF_DISABLED
-        wprofHTMLTag()->setUrl(m_url.string());
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(m_url.string());
-#endif
-
         process();
     } else if (attribute.name() == typeAttr) {
         m_type = attribute.value();
@@ -246,6 +235,10 @@ void HTMLLinkElement::process()
         // Load stylesheets that are not needed for the rendering immediately with low priority.
         ResourceLoadPriority priority = blocking ? ResourceLoadPriorityUnresolved : ResourceLoadPriorityVeryLow;
         ResourceRequest request(document()->completeURL(m_url));
+
+#if !WPROF_DISABLED
+        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request, wprofHTMLTag());
+#endif
         m_cachedSheet = document()->cachedResourceLoader()->requestCSSStyleSheet(request, charset, priority);
         
         if (m_cachedSheet)

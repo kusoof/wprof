@@ -35,10 +35,6 @@
 #include "LinkRelAttribute.h"
 #include "Timer.h"
 
-#if !WPROF_DISABLED
-#include "WprofController.h"
-#endif
-
 namespace WebCore {
 
 class HTMLLinkElement;
@@ -70,13 +66,6 @@ public:
 
     void dispatchPendingEvent(LinkEventSender*);
     static void dispatchPendingLoadEvents();
-
-#if !WPROF_DISABLED
-    WprofHTMLTag* wprofHTMLTag() { return m_wprofHTMLTag; }
-    virtual void setWprofHTMLTag(WprofHTMLTag* objHash) {
-        m_wprofHTMLTag = objHash;
-    }
-#endif
 
 private:
     virtual void parseAttribute(const Attribute&) OVERRIDE;
@@ -143,10 +132,6 @@ private:
     bool m_loadedSheet;
 
     PendingSheetType m_pendingSheetType;
-
-#if !WPROF_DISABLED
-    WprofHTMLTag* m_wprofHTMLTag;
-#endif
 };
 
 } //namespace

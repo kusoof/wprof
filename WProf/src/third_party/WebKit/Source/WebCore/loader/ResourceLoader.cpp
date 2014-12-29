@@ -259,7 +259,7 @@ void ResourceLoader::didReceiveResponse(const ResourceResponse& r)
 #if !WPROF_DISABLED
     WprofController::getInstance()->createWprofResource(
 	identifier(),
-	r.url().string(),
+	m_request,
 	r.resourceLoadTiming(),
 	r.mimeType(),
 	r.expectedContentLength(),

@@ -50,7 +50,6 @@ class WprofHTMLTag {
 	    bool isFragment,
 	    bool isStartTag)
 	  : m_docUrl(docUrl),
-            m_url(emptyString()),
             m_isUsed(false)
             
         {
@@ -74,7 +73,6 @@ class WprofHTMLTag {
         
         TextPosition pos() { return m_textPosition; }
         String docUrl() { return m_docUrl; }
-        String url() { return m_url; }
         String tagName() { return m_tagName; }
         double startTime() { return m_startTime; }
 	void setStartEndTime (double start, double end) {m_startTime = start; m_endTime = end;}
@@ -84,10 +82,6 @@ class WprofHTMLTag {
         bool isStartTag() { return m_isStartTag; }
         bool isUsed() { return m_isUsed; }
 	bool isFragment() {return m_isFragment;}
-		
-        void setUrl(String url) {
-            m_url = url;
-        }
 
 	void appendUrl(String url){
 	  m_urls->append(url);

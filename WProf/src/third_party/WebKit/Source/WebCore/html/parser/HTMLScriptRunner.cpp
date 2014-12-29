@@ -226,7 +226,7 @@ bool HTMLScriptRunner::executeParsingBlockingScripts()
       wprofComputation = WprofController::getInstance()->createWprofComputation(4);
     }
     else{
-       wprofComputation = WprofController::getInstance()->createWprofComputation(4, element->wprofHTMLTag());
+      wprofComputation = WprofController::getInstance()->createWprofComputation(4, element->element()->wprofHTMLTag());
     }
     if (m_parsingBlockingScript.cachedScript())
 	wprofComputation->setUrlRecalcStyle(m_parsingBlockingScript.cachedScript()->url().string());
