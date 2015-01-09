@@ -4090,6 +4090,10 @@ void Document::dispatchWindowLoadEvent()
         return;
     domWindow->dispatchLoadEvent();
     m_loadEventFinished = true;
+ #if !WPROF_DISABLED
+        LOG(DependencyResults, "Document.cpp::setReadyState INFO (Complete %lf)", m_documentTiming.domComplete);
+        WprofController::getInstance()->setWindowLoadEventFired(url().string());
+ #endif
 }
 
 void Document::enqueueWindowEvent(PassRefPtr<Event> event)

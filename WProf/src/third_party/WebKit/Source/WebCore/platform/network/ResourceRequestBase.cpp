@@ -56,6 +56,7 @@ PassOwnPtr<ResourceRequest> ResourceRequestBase::adopt(PassOwnPtr<CrossThreadRes
     request->setWprofHTMLTag((WprofHTMLTag*)data->m_wprofHTMLTag);
     request->updateResourceRequest();
     request->m_httpHeaderFields.adopt(data->m_httpHeaders.release());
+    request->setWprofComputation((WprofComputation*) data->m_wprofComputation);
 
     size_t encodingCount = data->m_responseContentDispositionEncodingFallbackArray.size();
     if (encodingCount > 0) {
@@ -87,6 +88,7 @@ PassOwnPtr<CrossThreadResourceRequestData> ResourceRequestBase::copyData() const
     data->m_httpHeaders = httpHeaderFields().copyData();
     data->m_priority = priority();
     data->m_wprofHTMLTag = m_wprofHTMLTag;
+    data->m_wprofComputation = m_wprofComputation;
 
     data->m_responseContentDispositionEncodingFallbackArray.reserveInitialCapacity(m_responseContentDispositionEncodingFallbackArray.size());
     size_t encodingArraySize = m_responseContentDispositionEncodingFallbackArray.size();

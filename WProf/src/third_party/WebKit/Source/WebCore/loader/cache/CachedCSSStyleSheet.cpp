@@ -112,7 +112,10 @@ void CachedCSSStyleSheet::data(PassRefPtr<SharedBuffer> data, bool allDataReceiv
 
 #if !WPROF_DISABLED
     LOG(DependencyLog, "CachedCSSStyleSheet.cpp::data %lf", monotonicallyIncreasingTime());
-    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(1);
+
+    //Get the request and the wprof tag from the request
+    ResourceRequest& request = resourceRequest();
+    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(1, request.wprofHTMLTag());
     wprofComputation->setUrlRecalcStyle(url().string());
 #endif
 

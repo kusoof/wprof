@@ -208,6 +208,8 @@ bool EventTarget::fireEventListeners(Event* event)
         wprofComputation = WprofController::getInstance()->createWprofComputation(5);
 	wprofComputation->setUrlRecalcStyle(event->type().string());
     }
+
+    WprofController::getInstance()->willFireEventListeners(event);
 #endif
 
     EventListenerVector* listenerVector = d->eventListenerMap.find(event->type());
@@ -222,6 +224,7 @@ bool EventTarget::fireEventListeners(Event* event)
 	|| event->type().string() == String::format("DOMContentLoaded")) {
         wprofComputation->end();
     }
+    WprofController::getInstance()->didFireEventListeners();
 #endif
     
     return !event->defaultPrevented();

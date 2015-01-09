@@ -52,6 +52,7 @@
 #include <Document.h>
 #include <DocumentFragment.h>
 #include <ResourceRequest.h>
+#include <Event.h>
 
 namespace WebCore {
 
@@ -106,17 +107,38 @@ class WprofController {
             // Find request start time
             double time = getTimeAndRemoveMapping(url);
             
+	    //First check whether we are in the middle of a fired event, i.e. the resource
+	    //was requested due to a DOMContentLoaded, or load event
+
+	    unsigned long from = 0;
+	    WprofResourceFromType fromType = WprofFromTypeInvalid;
+	    
+	    if(request.wprofComputation()){
+	      from = (unsigned long)request.wprofComputation();
+	      fromType = WprofFromTypeComp;
+	    }
             // Find the WprofHTMLTag that this resource is requested from if any
             // Note that image requested from CSS is considered later
 	    // WprofHTMLTag* tag = getRequestWprofHTMLTagByUrl(request);
-	    WprofHTMLTag* tag = request.wprofHTMLTag();
+	    else if(request.wprofHTMLTag()) {
+		from  = (unsigned long) request.wprofHTMLTag();
+		fromType = WprofFromTypeTag;
+	      }
 
 	    // [Note] deep copy request url
-            WprofResource* resource = new WprofResource(id, url, resourceLoadTiming, mime, expectedContentLength, httpStatusCode, connectionId, connectionReused, wasCached, time, tag);
+	      WprofResource* resource = new WprofResource(id, url, resourceLoadTiming, mime, expectedContentLength, httpStatusCode, connectionId, connectionReused, wasCached, time, from, fromType);
             
             // Add to both Vector and HashMap
             m_wprofResourceVector->append(resource);
             m_wprofResourceMap->set(resource->getId(), resource);
+
+	    //fprintf(stderr, "creating resource with url %s\n", url.utf8().data());
+	    //Check if we are in the waiting for last resource state
+	    //and we have downloaded all the pending resources
+	    if(hasPageLoaded())
+	    {
+		setPageLoadComplete();
+	    }
         }
 
         /*
@@ -306,6 +328,57 @@ class WprofController {
           return event;
 	}
 
+	void willFireEventListeners(Event* event)
+	{
+	  //fprintf(stderr, "Will fire event of type %s\n", event->type().string().utf8().data());
+	  m_currentEvent = event;
+	}
+
+	void didFireEventListeners()
+	{
+	  m_currentEvent = NULL;
+	}
+
+
+	/* ------------------------------- ----------------------- 
+	                              Timers
+	----------------------------------------------------------*/
+	
+	void installTimer(int timerId, int timeout, bool singleShot)
+	{
+	  m_timers->append(timerId);
+	  //fprintf(stderr, "adding timer with id %d\n", timerId);
+	}
+
+	void removeTimer(int timerId)
+	{
+	  for(size_t i = 0; i != m_timers->size(); i++){
+	    if((*m_timers)[i] == timerId){
+	      m_timers->remove(i);
+	      break;
+	    }
+	  }
+
+	  //Check if we can complete the page load
+	  if(hasPageLoaded()){
+	    setPageLoadComplete();
+	  }
+	}
+
+	WprofComputation*  willFireTimer(int timerId)
+	{
+	  WprofComputation* comp = createWprofComputation(5);
+	  comp->setUrlRecalcStyle("Timer");
+	  return comp;
+	}
+
+	void didFireTimer(int timerId, WprofComputation* comp)
+	{
+	  comp->end();
+	  //fprintf(stderr, "timer did fire with id %d\n", timerId);
+	  removeTimer(timerId);
+	}
+
         /*
          * Create a WprofPreload object.
          * Called by HTMLPreloadScanner::preload().
@@ -324,17 +397,20 @@ class WprofController {
         // inferred by text matching
         void createRequestWprofHTMLTagMapping(ResourceRequest& request, WprofHTMLTag* tag) {
 	  String url = request.url().string();
-	  
-	  /*if(!m_requestWprofHTMLTagMap->contains(request)){
-            m_requestWprofHTMLTagMap->set(request, tag);
+	  	  
+	  //First check if we are in the middle of executing an event, if so, then the resource
+	  //download will depend on the event computation not an HTML tag
+	  if(m_currentEvent && ((m_currentEvent->type().string() == String::format("load")) 
+				|| (m_currentEvent->type().string() == String::format("DOMContentLoaded")))){
+	    WprofComputation* comp = getWprofComputation();
+	    if(comp && (comp->type() == 5)){
+	      request.setWprofComputation(getWprofComputation());
+	      //fprintf(stderr, "we are attempting to send a request during en event, set the computation in the request\n");
+	    }
 	  }
-	  else{
-	    fprintf(stdout, "The request->tag map already contains the request for url %s\n", url.utf8().data());
-	  }*/
-	  
 	  //Assign the wproftag to the request
 	  //This could be the very first request for the page, which has a null tag.
-	  if(tag){
+	  else if(tag){
 	    request.setWprofHTMLTag(tag);
 	  
 	    //Add the url to the list
@@ -342,9 +418,9 @@ class WprofController {
 	    
 	    matchWithPreload(tag);
 	  }
-	  else{
+	  /*else{
 	    fprintf(stderr, "matching request to tag, and the tag is null \n");
-	  }
+	    }*/
 
 	    /*fprintf(stderr, "adding url %s to tag with name %s line %d column %d\n", url.utf8().data(),
 	      tag->tagName().utf8().data(), tag->pos().m_line.zeroBasedInt(), tag->pos().m_column.zeroBasedInt());*/
@@ -353,27 +429,6 @@ class WprofController {
         void createRequestWprofHTMLTagMapping(ResourceRequest& request) {
 	  createRequestWprofHTMLTagMapping(request, tempWprofHTMLTag());
         }
-        
-        /*WprofHTMLTag* getRequestWprofHTMLTagByUrl(ResourceRequest& request) {
-
-	  if(m_requestWprofHTMLTagMap->contains(request)){
-	    return m_requestWprofHTMLTagMap->get(request);
-	  }
-	  else {
-	    fprintf(stdout, "We could not find the resource in the resource->tag map\n");
-	    return NULL;
-	    }
-
-	  HashMap<ResourceRequest, WprofHTMLTag*>::iterator iter = m_requestWprofHTMLTagMap->begin();
-            
-            for (; iter != m_requestWprofHTMLTagMap->end(); ++iter) {
-                if (request == iter->first) {
-                    return iter->second;
-                }
-            }
-	    fprintf(stdout, "We could not find the resource in the resource->tag map\n");
-            return NULL;
-	    }*/
 
         void addElementStart(WprofHTMLTag* tag) {
             m_elemStartVector->append(tag);
@@ -483,18 +538,42 @@ class WprofController {
         
         // Increase/decrease DOM counter, called in Document.cpp
         void increaseDomCounter() { m_domCounter++; }
+
+	void setWindowLoadEventFired(String url)
+	{
+	  if (m_state == WPROF_BEGIN){
+	    m_state = WPROF_WAITING_LAST_RESOURCE;
+
+	    //if the pending request list is already empty, call the complete event
+	    if(hasPageLoaded()){
+	      setDocumentURL(url);
+	      setPageLoadComplete();
+	    }
+
+	  } 
+	}
+
+	bool hasPageLoaded (){
+	  return (m_state == WPROF_WAITING_LAST_RESOURCE) && (m_requestTimeMap->isEmpty()) 
+	    && (m_timers->isEmpty()) && (m_domCounter <=0);
+	}
         
         void decreaseDomCounter(String url) {
             m_domCounter--;
+
+	    if(hasPageLoaded()){
+	      setDocumentURL(url);
+	      setPageLoadComplete();
+	    }
             
-            if (m_domCounter > 0) {
+            /*if (m_domCounter > 0) {
 		return;
 	    }
 
             if (url.length() < 5) {
                 clear();
                 return;
-            }
+	    }
                 
 	    if (!url.startsWith("http")) {
                 clear();
@@ -511,8 +590,31 @@ class WprofController {
                 
             // Clear maps
             outputAndClear();
-	    clear();
+	    clear();*/
         }
+
+	void setPageLoadComplete() {
+	  // Clear maps
+	  outputAndClear();
+	  clear();
+	  m_state = WPROF_BEGIN;
+        }
+
+	bool setDocumentURL(String url)
+	{
+	  /*if (!url.startsWith("http")) {
+	    clear();
+	    m_state = WPROF_BEGIN;
+	    return false;
+	    }*/
+                
+	  // Now we should have doc that only begins with http
+	  StringBuilder stringBuilder;
+
+	  m_url = createFilename(url);
+	  m_uid = m_url + String::number(monotonicallyIncreasingTime());
+	  return true;
+	}
         
 private:
         WprofController()
@@ -523,6 +625,7 @@ private:
 	        , m_HTMLLinkRecalcStyle(emptyString())
 		, m_domCounter(0)
          	, m_url(emptyString())
+	  , m_state (WPROF_BEGIN)
         {
             m_wprofResourceVector = new Vector<WprofResource*>;
             m_wprofResourceMap = new HashMap<unsigned long, WprofResource*>();
@@ -542,10 +645,14 @@ private:
             m_cssUrlVector = new Vector<String>;
             
             m_wprofComputationVector = new Vector<WprofComputation*>;
+
+	    m_wprofHTMLTagVector = new Vector<WprofHTMLTag*>();
             
             m_wprofPreloadVector = new Vector<WprofPreload*>;
 
 	    TAG = WprofConstants::ins()->TAG().utf8().data();
+
+	    m_timers = new Vector<int>();
         };
         
         void outputAndClearCSSImageMaps() {
@@ -606,6 +713,9 @@ private:
             outputAndClearCSSImageMaps();
             outputAndClearWprofComputations();
             outputAndClearWprofPreloads();
+
+	    //Also clear the temp element
+	    m_tempWprofHTMLTag = NULL;
 			
 	    fprintf(stderr, "{\"Complete': \"%s\"}\n", m_url.utf8().data());
         }
@@ -626,13 +736,14 @@ private:
                 RefPtr<ResourceLoadTiming> timing = info->resourceLoadTiming();
                 
                 if (!timing)
-                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\",\
+                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \"type\": \"%d\", \
                             \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
                             info->getId(),
                             info->url().utf8().data(),
                             info->timeDownloadStart(),
                             info->bytes(),
-                            info->fromWprofHTMLTag(),
+                            (void*)info->fromWprofObject(),
+			    info->fromType(),
                             info->mimeType().utf8().data(),
                             info->expectedContentLength(),
                             info->httpStatusCode(),
@@ -641,14 +752,15 @@ private:
                             info->wasCached()
                             );
                 else
-                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\",\
+                    fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \"type\": \"%d\", \
                             \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d,\
                             \"requestTime\": %f, \"proxyStart\": %d, \"proxyEnd\": %d, \"dnsStart\": %d, \"dnsEnd\": %d, \"connectStart\": %d, \"connectEnd\": %d, \"sendStart\": %d, \"sendEnd\": %d, \"receiveHeadersEnd\": %d, \"sslStart\": %d, \"sslEnd\": %d}}\n",
                             info->getId(),
                             info->url().utf8().data(),
                             info->timeDownloadStart(),
                             info->bytes(),
-                            info->fromWprofHTMLTag(),
+                            (void*)info->fromWprofObject(),
+			    info->fromType(),
                             info->mimeType().utf8().data(),
                             info->expectedContentLength(),
                             info->httpStatusCode(),
@@ -678,44 +790,44 @@ private:
                             chunkInfo->len()
                     );
                 }
+	    }
                 
-                // Output info of parsed objects
-                Vector<WprofHTMLTag*>* vWprofHTMLTag = info->derivedWprofHTMLTagVector();
-                for (unsigned int j = 0; j < vWprofHTMLTag->size(); ++j) {
-                    WprofHTMLTag* tag = (*vWprofHTMLTag)[j];
-		    //Get the urls that might be requested by this tag, note that scripts
-		    //can request multiple resources, like images.
-		    Vector<String>* urls = tag->urls();
+	    // Output info of parsed objects
+	    //Vector<WprofHTMLTag*>* vWprofHTMLTag = info->derivedWprofHTMLTagVector();
+	    for (unsigned int j = 0; j < m_wprofHTMLTagVector->size(); ++j) {
+	      WprofHTMLTag* tag = (*m_wprofHTMLTagVector)[j];
+	      //Get the urls that might be requested by this tag, note that scripts
+	      //can request multiple resources, like images.
+	      Vector<String>* urls = tag->urls();
 		    
-	            fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"doc\": \"%s\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
-                            tag,
-                            tag->docUrl().utf8().data(),
-                            tag->pos().m_line.zeroBasedInt(),
-                            tag->pos().m_column.zeroBasedInt(),
-                            tag->tagName().utf8().data(),
-                            tag->startTime(),
-			    tag->endTime());
+	      fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"doc\": \"%s\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
+		      tag,
+		      tag->docUrl().utf8().data(),
+		      tag->pos().m_line.zeroBasedInt(),
+		      tag->pos().m_column.zeroBasedInt(),
+		      tag->tagName().utf8().data(),
+		      tag->startTime(),
+		      tag->endTime());
 
-		    size_t numUrls = urls->size();
-		    size_t i = 0;
-		    for(Vector<String>::iterator it = urls->begin(); it!= urls->end(); it++){
-		      if (i == (numUrls -1)){
-			fprintf(stderr, "\"%s\"", it->utf8().data());
-		      }
-		      else{
-			fprintf(stderr, "\"%s\", ", it->utf8().data());
-		      }
-		      i++;
-		    }
+	      size_t numUrls = urls->size();
+	      size_t i = 0;
+	      for(Vector<String>::iterator it = urls->begin(); it!= urls->end(); it++){
+		if (i == (numUrls -1)){
+		  fprintf(stderr, "\"%s\"", it->utf8().data());
+		}
+		else{
+		  fprintf(stderr, "\"%s\", ", it->utf8().data());
+		}
+		i++;
+	      }
 
-		    fprintf(stderr, " ], \"pos\": %d, \"chunkLen\": %d, \"isStartTag\": %d, \"isFragment\": %d}}\n",
-                            tag->startTagEndPos(),
-                            tag->chunkLen(),
-                            tag->isStartTag(),
-			    tag->isFragment()
-                    );
-                }
-            }
+	      fprintf(stderr, " ], \"pos\": %d, \"chunkLen\": %d, \"isStartTag\": %d, \"isFragment\": %d}}\n",
+		      tag->startTagEndPos(),
+		      tag->chunkLen(),
+		      tag->isStartTag(),
+		      tag->isFragment()
+		      );
+	    }
             
             clearWprofResource();
         }
@@ -764,8 +876,9 @@ private:
                 //if (strcmp(event->fromWprofHTMLTag()->docUrl(), m_tempWprofHTMLTag->docUrl()) == 0)
                 //	continue;
                 
-                fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"docUrl\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urlRecalcStyle\": \"%s\"}}\n",
+                fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"from\": \"%p\", \"docUrl\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urlRecalcStyle\": \"%s\"}}\n",
                         event->getTypeForPrint().utf8().data(),
+			event,
                         event->fromWprofHTMLTag(),
                         event->fromWprofHTMLTag()->docUrl().utf8().data(),
                         event->startTime(),
@@ -803,7 +916,7 @@ private:
             m_wprofResourceVector->clear();
             m_wprofResourceMap->clear();
             m_requestTimeMap->clear();
-            //m_requestWprofHTMLTagMap->clear();
+            m_wprofHTMLTagVector->clear();
         }
         
         /*
@@ -824,6 +937,8 @@ private:
             }
 
 	    m_requestTimeMap->remove(url);
+
+	    //Check the current state, if we are in the completing phase, then we should output 
             return time;
         }
 
@@ -833,13 +948,14 @@ private:
          * @param WprofHTMLTag*
          */
         void appendDerivedWprofHTMLTag(WprofHTMLTag* tag) {
-            for (unsigned int i = 0; i < m_wprofResourceVector->size(); ++i) {
+	  m_wprofHTMLTagVector->append(tag);
+	  /*for (unsigned int i = 0; i < m_wprofResourceVector->size(); ++i) {
                 WprofResource* resource = (*m_wprofResourceVector)[i];
                 if (resource->url() == tag->docUrl()) {
                     resource->appendDerivedWprofHTMLTag(tag);
                     return;
                 }
-            }
+		}*/
         }
 
         void setTempWprofHTMLTag(WprofHTMLTag* tempWprofHTMLTag) {
@@ -874,7 +990,9 @@ private:
 
 	//Mapping betwen document fragments and their associated html tag offsets
 	HashMap<DocumentFragment*, CurrentPosition*>* m_fragmentCurrentPositionMap;
-        
+	
+	Vector<WprofHTMLTag*>* m_wprofHTMLTagVector;
+	
         // --------
         // Head-of-line dependencies: only CSS and JS are taken into account.
         // CSS blocks following s_exec(JS) until e_parse(CSS)
@@ -907,6 +1025,9 @@ private:
 
 	//Preloads that have not been matched with an HTML tag that references them
 	Vector<WprofPreload*>* m_unmatchedPreloads;
+
+	//A list of timers that have been installed, and we are waiting for them to be fired
+	Vector<int>* m_timers;
         
         // --------
         // Temp WprofHTMLTag
@@ -914,12 +1035,20 @@ private:
         int m_charConsumed;
         int m_charLen;
         String m_HTMLLinkRecalcStyle;
-        
+
+	//Store the current load or DOMContentLoaded event
+	Event* m_currentEvent;
+	
         // DOM counters so as to control when to output info
         int m_domCounter;
         String m_url; // document location, used as file name
 	String m_uid;
 	const char* TAG;
+
+	enum WprofControllerState {
+	  WPROF_BEGIN = 1,
+	  WPROF_WAITING_LAST_RESOURCE
+	} m_state;
 };
     
 }

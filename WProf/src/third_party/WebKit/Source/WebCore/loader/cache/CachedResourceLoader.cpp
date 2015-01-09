@@ -256,12 +256,10 @@ CachedResourceHandle<CachedRawResource> CachedResourceLoader::requestRawResource
     //Try to get the frame and the owner element
     if(frame() && frame()->ownerElement()){
       WprofHTMLTag* tag = frame()->ownerElement()->wprofHTMLTag();
-      if (parser) {
-        LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request, tag);
-      }
+      LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
+      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request, tag);
     }
-    else if (parser) {
+    else {
         LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
         WprofController::getInstance()->createRequestWprofHTMLTagMapping(request);
     }
