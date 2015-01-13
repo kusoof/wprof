@@ -5060,6 +5060,15 @@
             'xml/XSLTUnicodeSort.cpp',
             'xml/XSLTUnicodeSort.h',
         ],
+	'webcore_wprof_files': [
+	    'wprof/WprofController.h',
+	    'wprof/WprofController.cpp',
+	    'wprof/WprofComputation.h',
+	    'wprof/WprofResource.h',
+	    'wprof/WprofReceivedChunk.h',
+	    'wprof/WprofConstants.h',
+	    'wprof/WprofPreload.h',
+	],
         'webcore_dom_files': [
             'dom/ActiveDOMObject.cpp',
             'dom/Attr.cpp',

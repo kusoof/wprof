@@ -1463,6 +1463,8 @@ SET(WebCore_SOURCES
     storage/StorageSyncManager.cpp
     storage/StorageTracker.cpp
 
+    wprof/WprofController.cpp
+
     xml/DOMParser.cpp
     xml/NativeXPathNSResolver.cpp
     xml/XMLErrors.cpp
