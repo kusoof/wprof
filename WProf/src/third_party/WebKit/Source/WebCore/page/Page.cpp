@@ -79,6 +79,10 @@
 #include <wtf/StdLibExtras.h>
 #include <wtf/text/StringHash.h>
 
+#if !WPROF_DISABLED
+#include "WprofController.h"
+#endif
+
 namespace WebCore {
 
 static HashSet<Page*>* allPages;
@@ -179,10 +183,16 @@ Page::Page(PageClients& pageClients)
 #ifndef NDEBUG
     pageCounter.increment();
 #endif
+#if !WPROF_DISABLED
+    WprofController::getInstance()->createPage(this);
+#endif
 }
 
 Page::~Page()
 {
+  #if !WPROF_DISABLED
+    WprofController::getInstance()->pageClosed(this);
+#endif
     m_mainFrame->setView(0);
     setGroupName(String());
     allPages->remove(this);

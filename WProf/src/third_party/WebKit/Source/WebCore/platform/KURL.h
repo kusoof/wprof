@@ -218,7 +218,6 @@ public:
     const CString& utf8String() const { return m_url.utf8String(); }
 #endif
 
-
 #if USE(GOOGLEURL)
     const KURL* innerURL() const { return m_url.innerURL(); }
 #else
@@ -233,6 +232,7 @@ private:
     void invalidate();
     bool isHierarchical() const;
     static bool protocolIs(const String&, const char*);
+
 #if USE(GOOGLEURL)
     friend class KURLGooglePrivate;
     KURLGooglePrivate m_url;

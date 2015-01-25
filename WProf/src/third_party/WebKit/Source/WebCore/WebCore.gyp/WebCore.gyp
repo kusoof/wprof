@@ -1453,7 +1453,6 @@
       'type': 'static_library',
       'dependencies': [
         'webcore_prerequisites',
-	'webcore_wprof',
       ],
       'sources': [
         '<@(webcore_dom_privateheader_files)',
@@ -1476,7 +1475,6 @@
       'type': 'static_library',
       'dependencies': [
         'webcore_prerequisites',
-	'webcore_wprof',
       ],
       'sources': [
         '<@(webcore_html_privateheader_files)',
@@ -1491,8 +1489,6 @@
       'type': 'static_library',
       'dependencies': [
         'webcore_prerequisites',
-	'webcore_platform',
-	'../../WTF/WTF.gyp/WTF.gyp:wtf',
       ],
       'sources': [
         '<@(webcore_wprof_files)',
@@ -2036,8 +2032,8 @@
       'dependencies': [
         'webcore_dom',
         'webcore_html',
+	'webcore_platform',
 	'webcore_wprof',
-        'webcore_platform',
         'webcore_chromium_compositor',
         'webcore_remaining',
         'webcore_rendering',

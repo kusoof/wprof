@@ -31,16 +31,11 @@
 
 #include "WprofHTMLTag.h"
 #include "WprofReceivedChunk.h"
+#include "ResourceLoadTiming.h"
 
 namespace WebCore {
 
   class WprofComputation;
-
-  enum WprofResourceFromType {
-    WprofFromTypeInvalid = 0,
-    WprofFromTypeTag = 1,
-    WprofFromTypeComp
-  };
 
 // Define WprofResource
 // This is the data structure to store all info about resources
@@ -61,8 +56,7 @@ public:
             bool connectionReused,
             bool wasCached,
 	    double time,
-	    unsigned long from,
-	    WprofResourceFromType type
+	    WprofHTMLTag* from
 	)
 		: m_bytes(0)
         {
@@ -81,12 +75,10 @@ public:
             m_connectionReused = connectionReused;
             m_wasCached = wasCached;
             m_timeDownloadStart = time;
-            m_fromWprofObject = from;
-	    m_fromType = type;
+            m_fromWprofObject = (unsigned long)from;
 
 	    // Create WprofReceivedChunk and WprofHTMLTag vectors
             m_receivedChunkInfoVector = new Vector<WprofReceivedChunk*>;
-            m_derivedWprofHTMLTagVector = new Vector<WprofHTMLTag*>;
         };
         
         ~WprofResource() {};
@@ -102,11 +94,10 @@ public:
         bool wasCached() { return m_wasCached; }
         double timeDownloadStart() { return m_timeDownloadStart; }
         unsigned long fromWprofObject() { return m_fromWprofObject; }
-	WprofResourceFromType fromType() {return m_fromType;}
         unsigned long bytes() { return m_bytes; }
 
         Vector<WprofReceivedChunk*>* receivedChunkInfoVector() { return m_receivedChunkInfoVector; }
-        Vector<WprofHTMLTag*>* derivedWprofHTMLTagVector() { return m_derivedWprofHTMLTagVector; }
+        
         
         // Called only in WprofController::createWprofReceivedChunk()
         void addBytes(unsigned long bytes) {
@@ -123,11 +114,6 @@ public:
             m_receivedChunkInfoVector->append(info);
         }
         
-        void appendDerivedWprofHTMLTag(WprofHTMLTag* tag) {
-            ASSERT(url() == tag->docUrl());
-            m_derivedWprofHTMLTagVector->append(tag);
-        }
-        
 private:
 
         unsigned long m_id;
@@ -139,16 +125,11 @@ private:
         // Tracks how many bytes have been downloaded
         unsigned long m_bytes;
         
-        // Vector of WprofHTMLTag derived from this resource
-        // e.g., WprofHTMLTag of <script> is from an html
-        Vector<WprofHTMLTag*>* m_derivedWprofHTMLTagVector;
         
-        // The WprofHTMLTag or Computation that this resource is triggered from. There is only one
+        // The WprofHTMLTag this resource is triggered from. There is only one
         // such object for each url. Only the page request does not have one.
 	// Or if the resource is preloaded.
 	unsigned long  m_fromWprofObject;
-	
-	WprofResourceFromType m_fromType;
         
         // Info pulled out from ResourceResponseBase.h
         // ResourceLoadTiming

@@ -1194,7 +1194,7 @@ void Document::setReadyState(ReadyState readyState)
 
 #if !WPROF_DISABLED
         LOG(DependencyResults, "Document.cpp::setReadyState INFO (Loading %lf)", m_documentTiming.domLoading);
-        WprofController::getInstance()->increaseDomCounter();
+        WprofController::getInstance()->increaseDomCounter(this);
 #endif
         break;
     case Interactive:
@@ -1210,7 +1210,7 @@ void Document::setReadyState(ReadyState readyState)
 			
 #if !WPROF_DISABLED
         LOG(DependencyResults, "Document.cpp::setReadyState INFO (Complete %lf)", m_documentTiming.domComplete);
-        WprofController::getInstance()->decreaseDomCounter(url().string());
+        WprofController::getInstance()->decreaseDomCounter(this);
 #endif
         break;
     }
@@ -1804,23 +1804,12 @@ void Document::recalcStyle(StyleChange change)
         frameView->beginDeferredRepaints();
     }
 
-#if !WPROF_DISABLED
-    HTMLDocumentParser* parser1 = NULL;
-#endif
-
     ASSERT(!renderer() || renderArena());
     if (!renderer() || !renderArena())
         goto bail_out;
 
     if (m_pendingStyleRecalcShouldForce)
         change = Force;
-
-#if !WPROF_DISABLED
-    if (parser() != NULL) {
-        parser1 = (HTMLDocumentParser*)parser();
-        LOG(DependencyLog, "Document.cpp::recalcStyle (StyleResolver %p)", styleResolver());
-    }
-#endif
 
     // Recalculating the root style (on the document) is not needed in the common case.
     if ((change == Force) || (shouldDisplaySeamlesslyWithParent() && (change >= Inherit))) {
@@ -2443,12 +2432,16 @@ void Document::close()
         return;
 
 #if !WPROF_DISABLED
-    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(5);
-    wprofComputation->setUrlRecalcStyle(String::format("DOMLoaded"));
+    Page* p = page();
+    if(!p && parentDocument() && parentDocument()->page()){
+      p = parentDocument()->page();
+    }
+    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(5, p);
+    if(wprofComputation) wprofComputation->setUrlRecalcStyle(String::format("DOMLoaded"));
 #endif
     explicitClose();
 #if !WPROF_DISABLED
-    wprofComputation->end();
+    if(wprofComputation) wprofComputation->end();
 #endif
 }
 
@@ -4092,7 +4085,7 @@ void Document::dispatchWindowLoadEvent()
     m_loadEventFinished = true;
  #if !WPROF_DISABLED
         LOG(DependencyResults, "Document.cpp::setReadyState INFO (Complete %lf)", m_documentTiming.domComplete);
-        WprofController::getInstance()->setWindowLoadEventFired(url().string());
+        WprofController::getInstance()->setWindowLoadEventFired(this);
  #endif
 }
 

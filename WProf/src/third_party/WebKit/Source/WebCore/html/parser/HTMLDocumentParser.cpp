@@ -333,7 +333,6 @@ void HTMLDocumentParser::pumpTokenizer(SynchronousMode mode)
 #if !WPROF_DISABLED
 	int haveConsumed = m_input.current().numberOfCharactersConsumed() - previousCharactersConsumed;
         LOG(DependencyLog, "HTMLDocumentParser.cpp::pumpTokenizer charConsumed %d %d", m_input.current().numberOfCharactersConsumed(), m_input.current().length());
-        WprofController::getInstance()->setCharConsumed(m_input.current().numberOfCharactersConsumed(), m_input.current().numberOfCharactersConsumed() + m_input.current().length());
 
 	if(!isParsingFragment()){
 	  WprofController::getInstance()->addCharactersConsumed(haveConsumed, document(), m_input.current().currentLine().zeroBasedInt());
@@ -350,41 +349,17 @@ void HTMLDocumentParser::pumpTokenizer(SynchronousMode mode)
 
 #if !WPROF_DISABLED
      double endTime = monotonicallyIncreasingTime();
-     WprofHTMLTag* tag = WprofController::getInstance()->tempWprofHTMLTag();
-     if(tag && tag->startTime() == 0){ //make sure it hasn't been set before.
-       tag->setStartEndTime(startTime, endTime);
+
+     Document* doc = document();
+     Page* page = WprofController::getInstance()->getPageFromDocument(doc);
+
+     if(page){   
+       WprofHTMLTag* tag = WprofController::getInstance()->tempTagForPage(page);
+       if(tag && tag->startTime() == 0){ //make sure it hasn't been set before.
+	 tag->setStartEndTime(startTime, endTime);
+       }
      }
-     /*
-     // Set Tags info here by creating WprofHTMLTag
-    // Note that this is the only place for creating WprofHTMLTag
-	if((tokenType == HTMLTokenTypes::StartTag) || (tokenType == HTMLTokenTypes::EndTag)) {
-
-      //Check whether the token name is a script, link, or style
-
-      if(m_treeBuilder->isParsingFragment()){
-	WprofController::getInstance()->createWprofHTMLTag(
-	    position,
-            document()->url().string(),
-	    m_treeBuilder->fragment(),
-	    tokenName,
-	    tokenType == HTMLTokenTypes::StartTag,
-	    startTime,
-	    monotonicallyIncreasingTime()
-	);
-      }
-      else{
-	WprofController::getInstance()->createWprofHTMLTag(
-	    position,
-            document()->url().string(),
-	    document(),
-	    tokenName,
-	    tokenType == HTMLTokenTypes::StartTag,
-	    startTime,
-	    monotonicallyIncreasingTime()
-	);
-      }
-      }*/
-    #endif
+#endif
     }
 
     // Ensure we haven't been totally deref'ed after pumping. Any caller of this

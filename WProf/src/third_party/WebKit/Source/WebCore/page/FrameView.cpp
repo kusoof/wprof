@@ -940,7 +940,7 @@ void FrameView::layout(bool allowSubtree)
 {
 #if !WPROF_DISABLED
     LOG(DependencyLog, "FrameView.cpp::layout");
-    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(2);
+    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(2, m_frame->page());
 #endif
 
     if (m_inLayout)
@@ -1195,7 +1195,7 @@ void FrameView::layout(bool allowSubtree)
     }
 
 #if !WPROF_DISABLED
-    wprofComputation->end();
+    if(wprofComputation) wprofComputation->end();
 #endif
 
     InspectorInstrumentation::didLayout(cookie);
@@ -3045,8 +3045,8 @@ void FrameView::setWasScrolledByUser(bool wasScrolledByUser)
 void FrameView::paintContents(GraphicsContext* p, const IntRect& rect)
 {
 #if !WPROF_DISABLED
-    WprofComputation* wprofComputation = new WprofComputation(3, WprofController::getInstance()->tempWprofHTMLTag());
-    LOG(DependencyLog, "FrameView.cpp::paintContents");
+  WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(3, m_frame->page());
+  LOG(DependencyLog, "FrameView.cpp::paintContents");
 #endif
 
     if (!frame())

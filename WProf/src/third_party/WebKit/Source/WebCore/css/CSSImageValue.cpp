@@ -95,13 +95,14 @@ StyleCachedImage* CSSImageValue::cachedImage(CachedResourceLoader* loader, const
 	    //Try to get the associated wprof tag
 	    if(loader->frame() && loader->frame()->ownerElement()){
 	      WprofHTMLTag* tag = loader->frame()->ownerElement()->wprofHTMLTag();
-	      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request, tag);
+	      WprofController::getInstance()->createRequestWprofHTMLTagMapping(url, request, tag);
 	    }
 	    else{
-	      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request);
+	      Page* page = WprofController::getInstance()->getPageFromDocument(loader->document());
+	      if(page){
+		WprofController::getInstance()->createRequestWprofHTMLTagMapping(url, request, page);
+	      }
 	    }
-
-            WprofController::getInstance()->addCSSUrl(url.utf8().data());
 #endif
         if (CachedResourceHandle<CachedImage> cachedImage = loader->requestImage(request)) {
             m_image = StyleCachedImage::create(cachedImage.get());

@@ -61,7 +61,10 @@ StyleElement::StyleElement(Document* document, bool createdByParser)
 
 #if !WPROF_DISABLED
         LOG(DependencyLog, "StyleElement.cpp::construct");
-        setWprofHTMLTag(WprofController::getInstance()->tempWprofHTMLTag());
+	Page* page = WprofController::getInstance()->getPageFromDocument(document);
+	if(page){
+	  setWprofHTMLTag(WprofController::getInstance()->tempTagForPage(page));
+	}
 
         // Set type css
         WprofController::getInstance()->setElementTypePair(wprofHTMLTag(), 4);
@@ -168,12 +171,6 @@ void StyleElement::createSheet(Element* e, WTF::OrdinalNumber startLineNumber, c
             document->removePendingSheet();
         clearSheet();
     }
-
-#if !WPROF_DISABLED
-    //LOG(DependencyLog, "StyleElement.cpp::createSheet %s", text.utf8().data());
-    LOG(DependencyLog, "StyleElement.cpp::createSheet");
-    WprofController::getInstance()->setCSSContentPair(wprofHTMLTag(), text.utf8().data());
-#endif
 
     // If type is empty or CSS, this is a CSS style sheet.
     const AtomicString& type = this->type();

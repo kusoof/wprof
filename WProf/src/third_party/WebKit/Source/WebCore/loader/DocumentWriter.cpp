@@ -46,6 +46,10 @@
 #include "SinkDocument.h"
 #include "TextResourceDecoder.h"
 
+#if !WPROF_DISABLED
+#include "WprofController.h"
+#endif
+
 
 namespace WebCore {
 
@@ -117,6 +121,10 @@ void DocumentWriter::begin(const KURL& urlReference, bool dispatch, Document* ow
     // Create a new document before clearing the frame, because it may need to
     // inherit an aliased security context.
     RefPtr<Document> document = createDocument(url);
+
+#if !WPROF_DISABLED
+    WprofController::getInstance()->addDocument(document.get());
+#endif
     
     // If the new document is for a Plugin but we're supposed to be sandboxed from Plugins,
     // then replace the document with one whose parser will ignore the incoming data (bug 39323)

@@ -141,7 +141,7 @@ public:
 	String docUrl = document->url().string();
 	int line = source.currentLine().zeroBasedInt();
 	int column = source.currentColumn().zeroBasedInt();
-        WprofController::getInstance()->createWprofPreload(request.url().string(), docUrl, m_tagName, line + lineNumber, column);
+        WprofController::getInstance()->createWprofPreload(document, request,  m_tagName, line + lineNumber, column);
 #endif
 
         if (m_tagName == scriptTag)

@@ -227,11 +227,6 @@ void ResourceLoader::willSendRequest(ResourceRequest& request, const ResourceRes
     // anything including possibly derefing this; one example of this is Radar 3266216.
     RefPtr<ResourceLoader> protector(this);
 
-    //WprofController::getInstance()->createRequestTimeMapping(request.url().string().utf8().data());
-#if !WPROF_DISABLED
-    WprofController::getInstance()->createRequestTimeMapping(request.url().string());
-#endif
-
     ASSERT(!m_reachedTerminalState);
 
     if (m_options.sendLoadCallbacks == SendCallbacks) {
@@ -246,6 +241,9 @@ void ResourceLoader::willSendRequest(ResourceRequest& request, const ResourceRes
     if (!redirectResponse.isNull())
         resourceLoadScheduler()->crossOriginRedirectReceived(this, request.url());
     m_request = request;
+#if !WPROF_DISABLED
+    WprofController::getInstance()->createRequestTimeMapping(identifier(), m_frame->page());
+#endif
 }
 
 void ResourceLoader::didSendData(unsigned long long, unsigned long long)
@@ -257,18 +255,7 @@ void ResourceLoader::didReceiveResponse(const ResourceResponse& r)
     ASSERT(!m_reachedTerminalState);
 
 #if !WPROF_DISABLED
-    WprofController::getInstance()->createWprofResource(
-	identifier(),
-	m_request,
-	r.resourceLoadTiming(),
-	r.mimeType(),
-	r.expectedContentLength(),
-	r.httpStatusCode(),
-	r.connectionID(),
-	r.connectionReused(),
-	r.wasCached()
-    );
-
+    WprofController::getInstance()->createWprofResource(identifier(), m_request, r, m_frame->page());
     LOG(DependencyLog, "ResourceLoader::didReceiveResponse %p", r.resourceLoadTiming());
 #endif
 
@@ -303,7 +290,7 @@ void ResourceLoader::didReceiveData(const char* data, int length, long long enco
     RefPtr<ResourceLoader> protector(this);
 
 #if !WPROF_DISABLED
-    WprofController::getInstance()->createWprofReceivedChunk(identifier(), (unsigned long)length);
+    WprofController::getInstance()->createWprofReceivedChunk(identifier(), (unsigned long)length, m_frame->page());
 #endif
 
     addData(data, length, allAtOnce);

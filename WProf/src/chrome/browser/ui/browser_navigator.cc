@@ -549,7 +549,7 @@ void Navigate(NavigateParams* params) {
 
       LoadURLInContents(params->target_contents->web_contents(),
                         url, params, extra_headers);
-      DevToolsWindow::ToggleDevToolsWindow(params->target_contents->web_contents()->GetRenderViewHost(),DEVTOOLS_TOGGLE_ACTION_NONE); // Sophia
+      //DevToolsWindow::ToggleDevToolsWindow(params->target_contents->web_contents()->GetRenderViewHost(),DEVTOOLS_TOGGLE_ACTION_NONE); // Sophia
     }
   } else {
     // |target_contents| was specified non-NULL, and so we assume it has already

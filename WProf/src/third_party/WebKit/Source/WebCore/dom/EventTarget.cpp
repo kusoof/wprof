@@ -43,6 +43,7 @@
 #include "Logging.h"
 #include "WprofController.h"
 #include <wtf/CurrentTime.h>
+#include "DOMWindow.h"
 #endif
 
 using namespace WTF;
@@ -201,15 +202,23 @@ bool EventTarget::fireEventListeners(Event* event)
 #if !WPROF_DISABLED
     LOG(DependencyLog, "ScriptElement::prepareScript ThreadId:%d %lf", currentThread(), monotonicallyIncreasingTime());
 
-    WprofComputation* wprofComputation;
-    if (event->type().string() == String::format("load")
-	|| event->type().string() == String::format("DOMContentLoaded")) {
-
-        wprofComputation = WprofController::getInstance()->createWprofComputation(5);
-	wprofComputation->setUrlRecalcStyle(event->type().string());
+    WprofComputation* wprofComputation = NULL;
+    Node* node = toNode();
+    DOMWindow* window = toDOMWindow();
+    Page* page = NULL;
+    if(node){
+      page = node->document()->frame()->page();
     }
-
-    WprofController::getInstance()->willFireEventListeners(event);
+    else if (window){
+      page = window->frame()->page();
+    }
+    if (page && ((event->type().string() == String::format("load"))
+		 || (event->type().string() == String::format("DOMContentLoaded")))) {
+	  
+      wprofComputation = WprofController::getInstance()->createWprofComputation(5, page);
+      if(wprofComputation) wprofComputation->setUrlRecalcStyle(event->type().string());
+      WprofController::getInstance()->willFireEventListeners(event, wprofComputation, page);
+    }
 #endif
 
     EventListenerVector* listenerVector = d->eventListenerMap.find(event->type());
@@ -220,11 +229,10 @@ bool EventTarget::fireEventListeners(Event* event)
 #if !WPROF_DISABLED
     LOG(DependencyLog, "ScriptElement::prepareScript end %lf", monotonicallyIncreasingTime());
 
-    if (event->type().string() == String::format("load")
-	|| event->type().string() == String::format("DOMContentLoaded")) {
+    if (wprofComputation){
         wprofComputation->end();
+	WprofController::getInstance()->didFireEventListeners(page);
     }
-    WprofController::getInstance()->didFireEventListeners();
 #endif
     
     return !event->defaultPrevented();

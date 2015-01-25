@@ -257,11 +257,11 @@ CachedResourceHandle<CachedRawResource> CachedResourceLoader::requestRawResource
     if(frame() && frame()->ownerElement()){
       WprofHTMLTag* tag = frame()->ownerElement()->wprofHTMLTag();
       LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
-      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request, tag);
+      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, tag);
     }
     else {
         LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request);
+        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, frame()->page());
     }
 #endif
 

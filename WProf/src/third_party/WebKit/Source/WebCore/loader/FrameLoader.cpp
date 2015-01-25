@@ -1336,10 +1336,11 @@ void FrameLoader::loadWithDocumentLoader(DocumentLoader* loader, FrameLoadType t
 #if !WPROF_DISABLED
     if(Element* ownerElement = m_frame->ownerElement()){
       WprofHTMLTag* tag = ownerElement->wprofHTMLTag();
-      WprofController::getInstance()->createRequestWprofHTMLTagMapping(loader->request(), tag);
+      loader->request().url().parsed();
+      WprofController::getInstance()->createRequestWprofHTMLTagMapping(loader->request().url().string(), loader->request(), tag);
     }
     else{
-      WprofController::getInstance()->createRequestWprofHTMLTagMapping(loader->request());
+      WprofController::getInstance()->createRequestWprofHTMLTagMapping(loader->request().url().string(), loader->request(), frame()->page());
     }
     LOG(DependencyLog, "FrameLoader::loadWithDocumentLoader %s", loader->request().url().string().utf8().data());
  #endif

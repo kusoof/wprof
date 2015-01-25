@@ -201,7 +201,7 @@ void HTMLLinkElement::process()
 
 #if !WPROF_DISABLED
         // Set type css
-        WprofController::getInstance()->setElementTypePair(wprofHTMLTag(), 4);
+        WprofController::getInstance()->setTagTypePair(wprofHTMLTag(), 4);
 #endif
         
         String charset = getAttribute(charsetAttr);
@@ -237,7 +237,7 @@ void HTMLLinkElement::process()
         ResourceRequest request(document()->completeURL(m_url));
 
 #if !WPROF_DISABLED
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request, wprofHTMLTag());
+        WprofController::getInstance()->createRequestWprofHTMLTagMapping(m_url, request, wprofHTMLTag());
 #endif
         m_cachedSheet = document()->cachedResourceLoader()->requestCSSStyleSheet(request, charset, priority);
         
@@ -341,14 +341,6 @@ void HTMLLinkElement::setCSSStyleSheet(const String& href, const KURL& baseURL, 
     m_sheet = CSSStyleSheet::create(styleSheet, this);
     m_sheet->setMediaQueries(MediaQuerySet::createAllowingDescriptionSyntax(m_media));
     m_sheet->setTitle(title());
-
-#if !WPROF_DISABLED
-    //m_sheet->internal()->setWprofHTMLTag(wprofHTMLTag());
-    //LOG(DependencyLog, "HTMLLinkElement.cpp::setCSSStyleSheet (Document %p) %s %s", document(), document()->styleHashIdentifier(), cachedStyleSheet->sheetText(false, false).utf8().data());
-    LOG(DependencyLog, "HTMLLinkElement.cpp::setCSSStyleSheet (Document %p) %s", document(), m_url.string().utf8().data());
-    WprofController::getInstance()->setCSSContentPair(wprofHTMLTag(), cachedStyleSheet->sheetText(false, NULL));
-    WprofController::getInstance()->setHTMLLinkRecalcStyle(m_url.string());
-#endif
 
     styleSheet->parseAuthorStyleSheet(cachedStyleSheet, document()->securityOrigin());
 

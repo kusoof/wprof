@@ -100,7 +100,7 @@ int DOMTimer::install(ScriptExecutionContext* context, PassOwnPtr<ScheduledActio
     InspectorInstrumentation::didInstallTimer(context, timer->m_timeoutId, timeout, singleShot);
 
 #if !WPROF_DISABLED
-    WprofController::getInstance()->installTimer(timer->m_timeoutId, timeout, singleShot);
+    //WprofController::getInstance()->installTimer(timer->m_timeoutId, timeout, singleShot);
 #endif
 
     return timer->m_timeoutId;
@@ -117,7 +117,7 @@ void DOMTimer::removeById(ScriptExecutionContext* context, int timeoutId)
     InspectorInstrumentation::didRemoveTimer(context, timeoutId);
   
 #if !WPROD_DISABLED
-    WprofController::getInstance()->removeTimer(timeoutId);
+    //WprofController::getInstance()->removeTimer(timeoutId);
 #endif
 
     delete context->findTimeout(timeoutId);
@@ -135,8 +135,8 @@ void DOMTimer::fired()
 
     InspectorInstrumentationCookie cookie = InspectorInstrumentation::willFireTimer(context, m_timeoutId);
 #if !WPROF_DISABLED
-    WprofComputation* comp =WprofController::getInstance()->willFireTimer(m_timeoutId);
-    int timerId = m_timeoutId; //we need to store this since it is modified after we execute the timer action
+    //WprofComputation* comp =WprofController::getInstance()->willFireTimer(m_timeoutId);
+    //int timerId = m_timeoutId; //we need to store this since it is modified after we execute the timer action
 #endif
 
     // Simple case for non-one-shot timers.
@@ -154,7 +154,7 @@ void DOMTimer::fired()
         InspectorInstrumentation::didFireTimer(cookie);
 
 #if !WPROF_DISABLED
-	WprofController::getInstance()->didFireTimer(timerId, comp);
+	//WprofController::getInstance()->didFireTimer(timerId, comp);
 #endif
 
         return;
@@ -170,7 +170,7 @@ void DOMTimer::fired()
 
     InspectorInstrumentation::didFireTimer(cookie);
 #if !WPROF_DISABLED
-    WprofController::getInstance()->didFireTimer(timerId, comp);
+    //WprofController::getInstance()->didFireTimer(timerId, comp);
 #endif
     timerNestingLevel = 0;
 }

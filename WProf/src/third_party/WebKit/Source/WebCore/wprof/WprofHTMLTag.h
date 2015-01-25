@@ -36,78 +36,84 @@
 
 namespace WebCore {
 
-// Define a hash of an object (we use its text position)
-// All WprofHTMLTag instances are created once, this means that we can
-// just use its pointer as the key to retrieve it.
-class WprofHTMLTag {
-    public:
-        WprofHTMLTag(
-	    TextPosition tp,
-	    String docUrl,
-	    String tag,
-	    int pos,
-	    int len,
-	    bool isFragment,
-	    bool isStartTag)
-	  : m_docUrl(docUrl),
-            m_isUsed(false)
+  class WprofPage;
+  class WprofComputation;
+
+  // Define a hash of an object (we use its text position)
+  // All WprofHTMLTag instances are created once, this means that we can
+  // just use its pointer as the key to retrieve it.
+  class WprofHTMLTag {
+  public:
+  WprofHTMLTag(WprofPage* page,
+	       TextPosition tp,
+	       String docUrl,
+	       String tag,
+	       int pos,
+	       bool isFragment,
+	       bool isStartTag)
+    : m_docUrl(docUrl),
+      m_isUsed(false)
             
         {
-            m_textPosition = tp;
-            m_tagName = tag;
-            m_startTime = 0;
-	    m_endTime = 0;
-            m_startTagEndPos = pos;
-            m_chunkLen = len;
-            m_isStartTag = isStartTag;
-	    m_isFragment = isFragment;
-	    m_urls = new Vector<String>();
+	  m_textPosition = tp;
+	  m_tagName = tag;
+	  m_startTime = 0;
+	  m_endTime = 0;
+	  m_startTagEndPos = pos;
+	  m_isStartTag = isStartTag;
+	  m_isFragment = isFragment;
+	  m_urls = new Vector<String>();
+	  m_page = page;
+	  m_parentComputation = NULL;
         }
         
-        ~WprofHTMLTag() { 
-	  //delete m_urls;
-	}
+    ~WprofHTMLTag() { 
+      //delete m_urls;
+    }
 		
-        bool operator==(WprofHTMLTag other) { return m_textPosition == other.m_textPosition && m_docUrl == other.m_docUrl; }
-        bool operator!=(WprofHTMLTag other) { return !((*this) == other); }
+    bool operator==(WprofHTMLTag other) { return m_textPosition == other.m_textPosition && m_docUrl == other.m_docUrl; }
+    bool operator!=(WprofHTMLTag other) { return !((*this) == other); }
         
-        TextPosition pos() { return m_textPosition; }
-        String docUrl() { return m_docUrl; }
-        String tagName() { return m_tagName; }
-        double startTime() { return m_startTime; }
-	void setStartEndTime (double start, double end) {m_startTime = start; m_endTime = end;}
-	double endTime() { return m_endTime;}
-        int startTagEndPos() { return m_startTagEndPos; }
-        int chunkLen() { return m_chunkLen; }
-        bool isStartTag() { return m_isStartTag; }
-        bool isUsed() { return m_isUsed; }
-	bool isFragment() {return m_isFragment;}
+    TextPosition pos() { return m_textPosition; }
+    String docUrl() { return m_docUrl; }
+    String tagName() { return m_tagName; }
+    double startTime() { return m_startTime; }
+    void setStartEndTime (double start, double end) {m_startTime = start; m_endTime = end;}
+    double endTime() { return m_endTime;}
+    int startTagEndPos() { return m_startTagEndPos; }
+    bool isStartTag() { return m_isStartTag; }
+    bool isUsed() { return m_isUsed; }
+    bool isFragment() {return m_isFragment;}
+    WprofPage* page() {return m_page;}
+    WprofComputation* parentComputation () {return m_parentComputation;}
+    void setParentComputation (WprofComputation* comp) {m_parentComputation = comp;}
 
-	void appendUrl(String url){
-	  m_urls->append(url);
-	}
+    void appendUrl(String url){
+      m_urls->append(url);
+    }
 
-	Vector<String>* urls(){
-	  return m_urls;
-	}
+    Vector<String>* urls(){
+      return m_urls;
+    }
 
-	void setUsed() {
-	    m_isUsed = true;
-	}
+    void setUsed() {
+      m_isUsed = true;
+    }
         
-        TextPosition m_textPosition;
-        String m_docUrl;
-        String m_url;
-        String m_tagName;
-        double m_startTime;
-	double m_endTime;
-        int m_startTagEndPos;
-        int m_chunkLen;
-        bool m_isStartTag;
-        bool m_isUsed;
-	bool m_isFragment;
-	Vector<String>* m_urls;
-};
+    TextPosition m_textPosition;
+    String m_docUrl;
+    String m_url;
+    String m_tagName;
+    double m_startTime;
+    double m_endTime;
+    int m_startTagEndPos;
+    bool m_isStartTag;
+    bool m_isUsed;
+    bool m_isFragment;
+    Vector<String>* m_urls;
+    WprofPage* m_page;
+    WprofComputation* m_parentComputation;
+  };
 
 }
 #endif // WPROF_DISABLED

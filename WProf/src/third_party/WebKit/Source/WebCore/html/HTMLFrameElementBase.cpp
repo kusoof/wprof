@@ -114,11 +114,6 @@ void HTMLFrameElementBase::parseAttribute(const Attribute& attribute)
     if (attribute.name() == srcdocAttr)
         setLocation("about:srcdoc");
     else if (attribute.name() == srcAttr && !fastHasAttribute(srcdocAttr)) {
-
-#if !WPROF_DISABLED
-        LOG(DependencyResults, "HTMLFrameElementBase.cpp::parseAttribute PAIR3 %s ThreadId %d %p", stripLeadingAndTrailingHTMLSpaces(attribute.value()).utf8().data(), currentThread(), WprofController::getInstance()->tempWprofHTMLTag());
-#endif
-
         setLocation(stripLeadingAndTrailingHTMLSpaces(attribute.value()));
     } else if (isIdAttributeName(attribute.name())) {
         // Important to call through to base for the id attribute so the hasID bit gets set.

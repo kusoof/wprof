@@ -5063,6 +5063,8 @@
 	'webcore_wprof_files': [
 	    'wprof/WprofController.h',
 	    'wprof/WprofController.cpp',
+	    'wprof/WprofPage.h',
+	    'wprof/WprofPage.cpp',
 	    'wprof/WprofComputation.h',
 	    'wprof/WprofResource.h',
 	    'wprof/WprofReceivedChunk.h',

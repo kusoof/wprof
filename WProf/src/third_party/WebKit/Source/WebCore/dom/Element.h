@@ -35,6 +35,7 @@
 #if !WPROF_DISABLED
 #include "WprofController.h"
 #include "Logging.h"
+#include "Frame.h"
 #endif
 
 namespace WebCore {
@@ -447,8 +448,14 @@ protected:
         , m_tagName(tagName)
     {
 #if !WPROF_DISABLED
-      LOG(DependencyLog, "Element constructer");
-      setWprofHTMLTag(WprofController::getInstance()->tempWprofHTMLTag());
+      LOG(DependencyLog, "Element constructor");
+      Page* page = WprofController::getInstance()->getPageFromDocument(document);
+      if(page){
+	setWprofHTMLTag(WprofController::getInstance()->tempTagForPage(page));
+      }
+      else{
+	fprintf(stderr, "attempting to create an element with a null frame\n");
+      }
 #endif
     }
 

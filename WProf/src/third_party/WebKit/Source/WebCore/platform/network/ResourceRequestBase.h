@@ -35,12 +35,12 @@
 
 #include <wtf/OwnPtr.h>
 
-#if !WPROF_DISABLED
-#include "WprofHTMLTag.h"
-#include "WprofComputation.h"
-#endif
-
 namespace WebCore {
+
+#if !WPROF_DISABLED
+  class WprofHTMLTag;
+  class WprofPage;
+#endif
 
     enum ResourceRequestCachePolicy {
         UseProtocolCachePolicy, // normal load
@@ -70,8 +70,8 @@ namespace WebCore {
 #if !WPROF_DISABLED
 	void setWprofHTMLTag (WprofHTMLTag* tag) {m_wprofHTMLTag = (unsigned long) tag;}
 	WprofHTMLTag* wprofHTMLTag () {return (WprofHTMLTag*) m_wprofHTMLTag;}
-	void setWprofComputation(WprofComputation* comp){m_wprofComputation = (unsigned long) comp;}
-	WprofComputation* wprofComputation () {return (WprofComputation*) m_wprofComputation;}
+	WprofPage* wprofPage() {return (WprofPage*) m_wprofPage;}
+	void setWprofPage(WprofPage* page) { m_wprofPage = (unsigned long)page;}
 #endif
 
         void removeCredentials();
@@ -152,7 +152,9 @@ namespace WebCore {
     protected:
         // Used when ResourceRequest is initialized from a platform representation of the request
         ResourceRequestBase()
-            : m_resourceRequestUpdated(false)
+	    : m_wprofHTMLTag(0L)
+	    , m_wprofPage(0L)
+	    , m_resourceRequestUpdated(false)
             , m_platformRequestUpdated(true)
             , m_reportUploadProgress(false)
             , m_reportLoadTiming(false)
@@ -163,8 +165,8 @@ namespace WebCore {
 
         ResourceRequestBase(const KURL& url, ResourceRequestCachePolicy policy)
             : m_url(url)
-	    , m_wprofHTMLTag(0)
-	    , m_wprofComputation(0)
+	    , m_wprofHTMLTag(0L)
+	    , m_wprofPage(0L)
             , m_cachePolicy(policy)
             , m_timeoutInterval(s_defaultTimeoutInterval)
             , m_httpMethod("GET")
@@ -188,7 +190,7 @@ namespace WebCore {
 
 #if !WPROF_DISABLED
 	unsigned long m_wprofHTMLTag;
-	unsigned long m_wprofComputation;
+	unsigned long m_wprofPage;
 #endif
 
         ResourceRequestCachePolicy m_cachePolicy;
@@ -229,7 +231,7 @@ namespace WebCore {
 
         String m_httpMethod;
         unsigned long m_wprofHTMLTag;
-        unsigned long m_wprofComputation;
+        unsigned long m_wprofPage;
         OwnPtr<CrossThreadHTTPHeaderMapData> m_httpHeaders;
         Vector<String> m_responseContentDispositionEncodingFallbackArray;
         RefPtr<FormData> m_httpBody;

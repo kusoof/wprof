@@ -223,7 +223,7 @@ bool HTMLScriptRunner::executeParsingBlockingScripts()
     WprofComputation* wprofComputation = NULL;
     if(!element){
       fprintf(stderr, "In script runner, the element is null!\n");
-      wprofComputation = WprofController::getInstance()->createWprofComputation(4);
+      wprofComputation = WprofController::getInstance()->createWprofComputation(4, frame()->page());
     }
     else{
       wprofComputation = WprofController::getInstance()->createWprofComputation(4, element->element()->wprofHTMLTag());
@@ -234,7 +234,7 @@ bool HTMLScriptRunner::executeParsingBlockingScripts()
         executeParsingBlockingScript();
 #if !WPROF_DISABLED
     LOG(DependencyLog, "HTMLScriptRunner.cpp::executeParsingBlockingScripts end %lf", monotonicallyIncreasingTime());
-    wprofComputation->end();
+    if(wprofComputation) wprofComputation->end();
 #endif
     }
 
