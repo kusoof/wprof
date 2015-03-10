@@ -180,20 +180,20 @@ void ImageLoader::updateFromElement()
         }
 
 #if !WPROF_DISABLED
-        LOG(DependencyResults, "ImageLoader.cpp::updateFromElement PAIR3 %s", request.url().string().utf8().data());
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, document->cachedResourceLoader()->frame()->page());
+	LOG(DependencyResults, "ImageLoader.cpp::updateFromElement PAIR3 %s", request.url().string().utf8().data());
+	WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, m_element->wprofHTMLTag());
 #endif
 
         if (m_loadManually) {
-            bool autoLoadOtherImages = document->cachedResourceLoader()->autoLoadImages();
-            document->cachedResourceLoader()->setAutoLoadImages(false);
-            newImage = new CachedImage(request);
-            newImage->setLoading(true);
-            newImage->setOwningCachedResourceLoader(document->cachedResourceLoader());
-            document->cachedResourceLoader()->m_documentResources.set(newImage->url(), newImage.get());
-            document->cachedResourceLoader()->setAutoLoadImages(autoLoadOtherImages);
+	  bool autoLoadOtherImages = document->cachedResourceLoader()->autoLoadImages();
+	  document->cachedResourceLoader()->setAutoLoadImages(false);
+	  newImage = new CachedImage(request);
+	  newImage->setLoading(true);
+	  newImage->setOwningCachedResourceLoader(document->cachedResourceLoader());
+	  document->cachedResourceLoader()->m_documentResources.set(newImage->url(), newImage.get());
+	  document->cachedResourceLoader()->setAutoLoadImages(autoLoadOtherImages);
         } else
-            newImage = document->cachedResourceLoader()->requestImage(request);
+	  newImage = document->cachedResourceLoader()->requestImage(request);
 
         // If we do not have an image here, it means that a cross-site
         // violation occurred.

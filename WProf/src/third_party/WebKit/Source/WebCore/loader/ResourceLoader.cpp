@@ -240,9 +240,23 @@ void ResourceLoader::willSendRequest(ResourceRequest& request, const ResourceRes
 
     if (!redirectResponse.isNull())
         resourceLoadScheduler()->crossOriginRedirectReceived(this, request.url());
+
+    ResourceRequest oldRequest = m_request;
     m_request = request;
 #if !WPROF_DISABLED
     WprofController::getInstance()->createRequestTimeMapping(identifier(), m_frame->page());
+    
+    //If the request is a redirect, we need to add the tag in the request for the right resource
+    if(!request.wprofHTMLTag() && !redirectResponse.isNull()){
+      WprofController::getInstance()->redirectRequest(request.url().string(),
+						      redirectResponse.url().string(),
+						      m_request,
+						      identifier(),
+						      m_frame->page());
+     }
+    else if (redirectResponse.isNull() && request.wprofHTMLTag()){
+      WprofController::getInstance()->createResourceTagMapping(identifier(), m_request.wprofHTMLTag(),  m_frame->page());
+    }
 #endif
 }
 

@@ -164,13 +164,17 @@ namespace WebCore {
      *
      * @param String the preloaded url
      */
-    void createWprofPreload(Document* document, ResourceRequest& request, String tagName, int line, int column);
+    void createWprofPreload(Document* document, ResourceRequest& request, String url, String tagName, int line, int column);
         
     // CSS -> Image doesn't need this because this kind of dependency is
     // inferred by text matching
     void createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, WprofHTMLTag* tag);
         
     void createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, Page* page);
+
+    void redirectRequest(String url, String redirectUrl, ResourceRequest& request, unsigned long resourceId,  Page* page);
+    
+    void createResourceTagMapping(unsigned long resourceId, WprofHTMLTag* tag, Page* page);
 
     void addCharactersConsumed(int numberChars, Document* document, int row);
 

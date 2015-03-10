@@ -40,11 +40,6 @@
 #include "ScriptEventListener.h"
 #include "Settings.h"
 
-#if !WPROF_DISABLED
-#include "Logging.h"
-#include "WprofController.h"
-#endif
-
 namespace WebCore {
 
 using namespace HTMLNames;
@@ -97,8 +92,6 @@ void HTMLFrameElementBase::openURL(bool lockHistory, bool lockBackForwardList)
 
     if (m_URL.isEmpty())
         m_URL = blankURL().string();
-
-    fprintf(stderr, "frame element open url %s\n", m_URL.string().utf8().data());
 
     Frame* parentFrame = document()->frame();
     if (!parentFrame)

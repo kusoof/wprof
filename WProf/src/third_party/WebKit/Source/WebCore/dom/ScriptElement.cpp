@@ -270,7 +270,7 @@ bool ScriptElement::requestScript(const String& sourceUrl)
         ResourceRequest request = ResourceRequest(m_element->document()->completeURL(sourceUrl));
 
 #if !WPROF_DISABLED
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(sourceUrl, request, element()->wprofHTMLTag());
+        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, element()->wprofHTMLTag());
 #endif
 
         String crossOriginMode = m_element->fastGetAttribute(HTMLNames::crossoriginAttr);

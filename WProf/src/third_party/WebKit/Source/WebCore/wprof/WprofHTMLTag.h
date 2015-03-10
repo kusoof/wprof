@@ -92,6 +92,20 @@ namespace WebCore {
       m_urls->append(url);
     }
 
+    void removeUrl(String url){
+      bool found = false;
+      size_t i = 0;
+      for(; i < m_urls->size(); i++){
+	if(url == (*m_urls)[i]){
+	  found = true;
+	  break;
+	}
+      }
+      if(found){
+	m_urls->remove(i);
+      }
+    }
+    
     Vector<String>* urls(){
       return m_urls;
     }

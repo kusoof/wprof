@@ -39,6 +39,7 @@ namespace WebCore {
   {
     m_currentEvent = 0;
     m_eventComputation = 0;
+    m_complete = false;
   }
         
   WprofPage::~WprofPage() {
@@ -142,6 +143,13 @@ namespace WebCore {
    */
   void WprofPage::createRequestTimeMapping(unsigned long resourceId) {
     m_requestTimeMap.set(resourceId, monotonicallyIncreasingTime());
+  }
+
+  void WprofPage::createResourceTagMapping(unsigned long resourceId, WprofHTMLTag* tag){
+    if(m_identifierTagMap.get(resourceId)){
+      
+    }
+    m_identifierTagMap.set(resourceId, tag);
   }
 
   /*---------------------------------------------------------------------------------
@@ -252,8 +260,23 @@ namespace WebCore {
 
   
   // Attach the html tag to the request so we can refer to it later when the resource has finished downloading.
-  void WprofPage::createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, WprofHTMLTag* tag) {	  	  
-    
+  void WprofPage::createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, WprofHTMLTag* tag) {
+    //Check to see if we have this tag
+    if(tag){
+      Vector<WprofHTMLTag*>::iterator it = m_tags.begin();
+      bool found = false;
+      for(; it != m_tags.end(); it++){
+	if ((*it) == tag){
+	  found = true;
+	  break;
+	}
+      }
+
+      if(!found){
+	fprintf(stderr, "The tag is not found in the page\n");
+      }
+    }
+
     //Assign the tag to the request
     //This could be the very first request for the page, which has a null tag.
     if(tag){
@@ -263,9 +286,24 @@ namespace WebCore {
       tag->appendUrl(url);
       
       //Attempt to match the preloaded resource to the request from this tag.
-      matchWithPreload(tag);
+      matchWithPreload(tag, url);
     }
     request.setWprofPage(this);
+  }
+
+  //If this is a redirect, remove the original url from the tag, and add the new url
+  void WprofPage::redirectRequest(String url, String redirectUrl, ResourceRequest& request, unsigned long resourceId) {
+
+    //Try to find the tag associated with the resource
+    WprofHTMLTag* tag = NULL;
+    if(m_identifierTagMap.contains(resourceId)){
+      tag = m_identifierTagMap.get(resourceId);
+    }
+    
+    if(tag){
+      tag->removeUrl(redirectUrl);
+      createRequestWprofHTMLTagMapping(url, request, tag);
+    }
   }
         
   //If we have no tag, then the best we can do is match the request to the most recent tag.
@@ -318,12 +356,12 @@ namespace WebCore {
     m_unmatchedPreloads.append(preload);
   }
 
-  void WprofPage::matchWithPreload(WprofHTMLTag* tag){
+  void WprofPage::matchWithPreload(WprofHTMLTag* tag, String tagUrl){
     Vector<WprofPreload*>::iterator it = m_unmatchedPreloads.begin();
     size_t position = 0;
     TextPosition textPosition = tag->pos();
     for(; it != m_unmatchedPreloads.end(); it++){
-      if((*it)->matchesToken(tag->docUrl(), tag->urls(), tag->tagName(), textPosition.m_line.zeroBasedInt(), textPosition.m_column.zeroBasedInt())){
+      if((*it)->matchesToken(tag->docUrl(), tagUrl, tag->tagName(), textPosition.m_line.zeroBasedInt(), textPosition.m_column.zeroBasedInt())){
 	(*it)->setFromTag(tag);
 	m_unmatchedPreloads.remove(position);
 	break;
@@ -497,15 +535,13 @@ namespace WebCore {
 
   void WprofPage::setPageURL(String url)
   {             
-    fprintf(stderr, "before set page url is %s\n", url.utf8().data()); 
     //Copy the url string
     String urlCopy(url);
     // Now we should have doc that only begins with http
     StringBuilder stringBuilder;
-
-    m_url = createFilename(urlCopy);
+    m_url = urlCopy;
+    //m_url = createFilename(urlCopy);
     m_uid = m_url + String::number(monotonicallyIncreasingTime());
-    fprintf(stderr, "after set page url is %s\n", url.utf8().data()); 
   }
   
   /* ----------------------------------------------------------------
@@ -563,10 +599,11 @@ namespace WebCore {
     outputWprofComputations();
     outputWprofPreloads();
 
-    //Also clear the temp element
-    m_tempWprofHTMLTag = NULL;
+    //TODO: should we do this? causes crashes, we parse end of file tags as the page closes.
+    //m_tempWprofHTMLTag = NULL;
 			
     fprintf(stderr, "{\"Complete': \"%s\"}\n", m_url.utf8().data());
+    m_complete = true;
   }
         
   void WprofPage::clear() {
@@ -589,7 +626,7 @@ namespace WebCore {
                 
       if (!timing)
 	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
-                            \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
+\"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
 		info->getId(),
 		info->url().utf8().data(),
 		info->timeDownloadStart(),
@@ -604,7 +641,7 @@ namespace WebCore {
 		);
       else
 	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
-                            \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d,\
+\"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d, \
                             \"requestTime\": %f, \"proxyStart\": %d, \"proxyEnd\": %d, \"dnsStart\": %d, \"dnsEnd\": %d, \"connectStart\": %d,\
                             \"connectEnd\": %d, \"sendStart\": %d, \"sendEnd\": %d, \"receiveHeadersEnd\": %d, \"sslStart\": %d, \"sslEnd\": %d}}\n",
 		info->getId(),
@@ -650,8 +687,7 @@ namespace WebCore {
       //can request multiple resources, like images.
       Vector<String>* urls = tag->urls();
 		    
-      fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"comp\": \"%p\", \"doc\": \"%s\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\",\
-                        \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
+      fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"comp\": \"%p\", \"doc\": \"%s\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
 	      tag,
 	      tag->parentComputation(),
 	      tag->docUrl().utf8().data(),
@@ -738,18 +774,24 @@ namespace WebCore {
       WprofPreload* pr = m_preloads[i];
                 
       if (pr->fromWprofHTMLTag() == NULL){
-	fprintf(stderr, "{\"Preload\": {\"code\": \"\", \"scriptCode\": \"%p\", \"docUrl\": \"%s\", \"url\": \"%s\", \"time\": %lf}}\n",
+	fprintf(stderr, "{\"Preload\": {\"code\": \"(nil)\", \"scriptCode\": \"%p\", \"docUrl\": \"%s\", \"url\": \"%s\", \"tag\": \"%s\", \"row\": %d, \"column\": %d, \"time\": %lf}}\n",
 		pr->executingScriptTag(),
 		pr->executingScriptTag()->docUrl().utf8().data(),
 		pr->url().utf8().data(),
+		pr->tagName().utf8().data(),
+		pr->line(),
+		pr->column(),
 		pr->time());
       }
       else{
-	fprintf(stderr, "{\"Preload\": {\"code\": \"%p\", \"scriptCode\": \"%p\", \"docUrl\": \"%s\", \"url\": \"%s\", \"time\": %lf}}\n",
+	fprintf(stderr, "{\"Preload\": {\"code\": \"%p\", \"scriptCode\": \"%p\", \"docUrl\": \"%s\", \"url\": \"%s\", \"tag\": \"%s\", \"row\": %d, \"column\": %d, \"time\": %lf}}\n",
 		pr->fromWprofHTMLTag(),
 		pr->executingScriptTag(),
 		pr->fromWprofHTMLTag()->docUrl().utf8().data(),
 		pr->url().utf8().data(),
+		pr->tagName().utf8().data(),
+		pr->line(),
+		pr->column(),
 		pr->time());
       }
     }

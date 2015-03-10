@@ -166,6 +166,9 @@ namespace WebCore {
         PageGroup& group() { if (!m_group) initGroup(); return *m_group; }
         PageGroup* groupPtr() { return m_group; } // can return 0
 
+#if !WPROF_DISABLED
+	void notifyMainFrameClosed();
+#endif
         void incrementFrameCount() { ++m_frameCount; }
         void decrementFrameCount() { ASSERT(m_frameCount); --m_frameCount; }
         int frameCount() const { checkFrameCountConsistency(); return m_frameCount; }

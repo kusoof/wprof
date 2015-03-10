@@ -32,6 +32,7 @@
 #include "WprofHTMLTag.h"
 #include <wtf/CurrentTime.h>
 #include <wtf/Vector.h>
+#include <stdio.h>
 
 namespace WebCore {
 
@@ -69,18 +70,18 @@ class WprofPreload {
 	int column() { return m_column;}
 	String tagName() {return m_tagName;}
 
-	bool matchesToken (String docUrl, Vector<String>* urls, String tagName, int line, int column){
-	  if (m_docUrl != docUrl) return false;
+	bool matchesToken (String docUrl, String url, String tagName, int line, int column){
+	  if (m_docUrl != docUrl) {
+	    return false;
+	  }
 	  
 	  bool matches = (m_tagName == tagName) 
 	    && (m_line == line) && (m_column == column);
 	  
 	  if (!matches){
 	    //line number might be inaccurate check the urls
-	    for(Vector<String>::iterator it = urls->begin(); it != urls->end(); it++){
-	      if(((*it) == m_url) && (m_tagName == tagName)){
-		return true;
-	      }
+	    if((url == m_url) && (m_tagName == tagName)){
+	      return true;
 	    }
 	  }
 	  return matches;

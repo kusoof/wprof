@@ -221,6 +221,12 @@ Page::~Page()
 
 }
 
+#if !WPROF_DISABLED
+  void Page::notifyMainFrameClosed(){
+    WprofController::getInstance()->pageClosed(this);
+  }
+#endif
+
 ArenaSize Page::renderTreeSize() const
 {
     ArenaSize total(0, 0);

@@ -2288,6 +2288,9 @@ void WebViewImpl::dispatchUnloadEvent()
 {
     // Run unload handlers.
     m_page->mainFrame()->loader()->closeURL();
+#if !WPROF_DISABLED
+    m_page->notifyMainFrameClosed();
+#endif
 }
 
 WebFrame* WebViewImpl::mainFrame()

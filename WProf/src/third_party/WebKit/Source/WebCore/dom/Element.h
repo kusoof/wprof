@@ -65,7 +65,7 @@ public:
 #if !WPROF_DISABLED
     WprofHTMLTag* wprofHTMLTag() { return m_wprofHTMLTag; }
     virtual void setWprofHTMLTag(WprofHTMLTag* objHash) {
-        m_wprofHTMLTag = objHash;
+      m_wprofHTMLTag = objHash;
     }
 #endif
 

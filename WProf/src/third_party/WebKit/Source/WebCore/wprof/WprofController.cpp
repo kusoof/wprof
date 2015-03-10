@@ -54,7 +54,7 @@ namespace WebCore {
     }
     else {
       //complain?
-      fprintf(stderr,"We do not have a wprof page for page %x\n", page);
+      fprintf(stderr,"We do not have a wprof page for page %p\n", page);
     }
     return NULL;
   }
@@ -110,6 +110,9 @@ namespace WebCore {
   {
     //Dispatch to the correct page
     WprofPage* wpage = getWprofPage(page);
+    if(wpage->isComplete()){
+      fprintf(stderr, "the page has already completed, why are we downloading resources?\n");
+    }
     wpage->createWprofResource(resourceId, request, response);
   }					   
 
@@ -135,6 +138,11 @@ namespace WebCore {
   void WprofController::createRequestTimeMapping(unsigned long resourceId, Page* page) {
     WprofPage* wpage = getWprofPage(page);
     wpage->createRequestTimeMapping(resourceId);
+  }
+
+  void WprofController::createResourceTagMapping(unsigned long resourceId, WprofHTMLTag* tag, Page* page) {
+    WprofPage* wpage = getWprofPage(page);
+    wpage->createResourceTagMapping(resourceId, tag);
   }
 
   /*
@@ -281,15 +289,15 @@ namespace WebCore {
    *
    * @param String the preloaded url
    */
-  void WprofController::createWprofPreload(Document* document, ResourceRequest& request, String tagName, int line, int column) {
+  void WprofController::createWprofPreload(Document* document, ResourceRequest& request, String url, String tagName, int line, int column) {
 
     String docUrl = document->url().string();
-    String url = request.url().string();
+    //String url = request.url().string();
     Page* page = getPageFromDocument(document);
     if(page){
       WprofPage* wpage = getWprofPage(page);
       request.setWprofPage(wpage);
-      wpage->createWprofPreload(docUrl, url, tagName, line, column);
+      wpage->createWprofPreload(url, docUrl, tagName, line, column);
     }
   }
         
@@ -297,12 +305,27 @@ namespace WebCore {
   // inferred by text matching
   void WprofController::createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, WprofHTMLTag* tag) {
     WprofPage* wpage = tag->page();
+    if(wpage->isComplete()){
+      fprintf(stderr, "the page has already completed, why are we setting the request tag mapping from the wrong page?\n");
+    }
     wpage->createRequestWprofHTMLTagMapping(url, request, tag);
   }
         
   void WprofController::createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, Page* page) {
     WprofPage* wpage = getWprofPage(page);
+    if(wpage->isComplete()){
+      fprintf(stderr, "the page has already completed, why are we setting the request tag mapping from the wrong page?\n");
+    }
     wpage->createRequestWprofHTMLTagMapping(url, request);
+  }
+
+  void WprofController::redirectRequest(String url, String redirectUrl, ResourceRequest& request, unsigned long resourceId, Page* page)
+  {
+    WprofPage* wpage = getWprofPage(page);
+    if(wpage->isComplete()){
+      fprintf(stderr, "the page has already completed, why are we setting the request tag mapping from the wrong page?\n");
+    }
+    wpage->redirectRequest(url, redirectUrl, request, resourceId);
   }
 
   void WprofController::addCharactersConsumed(int numberChars, Document* document, int row){

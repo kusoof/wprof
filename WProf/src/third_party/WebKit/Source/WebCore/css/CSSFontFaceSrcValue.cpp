@@ -32,6 +32,14 @@
 #include "Node.h"
 #include "StyleSheetContents.h"
 
+#if !WPROF_DISABLED
+#include "Logging.h"
+#include "WprofController.h"
+#include "Frame.h"
+#include "HTMLFrameOwnerElement.h"
+#endif
+
+
 namespace WebCore {
 
 #if ENABLE(SVG_FONTS)
@@ -83,6 +91,21 @@ CachedFont* CSSFontFaceSrcValue::cachedFont(Document* document)
 {
     if (!m_cachedFont) {
         ResourceRequest request(document->completeURL(m_resource));
+
+#if !WPROF_DISABLED
+	CachedResourceLoader* loader = document->cachedResourceLoader();
+	//Try to get the associated wprof tag
+	if(loader->frame() && loader->frame()->ownerElement()){
+	  WprofHTMLTag* tag = loader->frame()->ownerElement()->wprofHTMLTag();
+	  WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, tag);
+	}
+	else{
+	  Page* page = WprofController::getInstance()->getPageFromDocument(document);
+	  if(page){
+	    WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, page);
+	  }
+	}
+#endif
         m_cachedFont = document->cachedResourceLoader()->requestFont(request);
     }
     return m_cachedFont.get();

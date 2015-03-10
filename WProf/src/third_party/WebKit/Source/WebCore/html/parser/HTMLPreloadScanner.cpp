@@ -137,19 +137,22 @@ public:
         ResourceRequest request = document->completeURL(m_urlToLoad, baseURL);
 
 #if !WPROF_DISABLED
-        LOG(DependencyLog, "HTMLPreloadScanner::preload ThreadId:%d %s", currentThread(), request.url().string().utf8().data());
-	String docUrl = document->url().string();
-	int line = source.currentLine().zeroBasedInt();
-	int column = source.currentColumn().zeroBasedInt();
-        WprofController::getInstance()->createWprofPreload(document, request,  m_tagName, line + lineNumber, column);
+	  LOG(DependencyLog, "HTMLPreloadScanner::preload ThreadId:%d %s", currentThread(), request.url().string().utf8().data());
+	  String docUrl = document->url().string();
+	  int line = source.currentLine().zeroBasedInt();
+	  int column = source.currentColumn().zeroBasedInt();
+	  WprofController::getInstance()->createWprofPreload(document, request, request.url(),  m_tagName, line + lineNumber, column);
 #endif
 
-        if (m_tagName == scriptTag)
-            cachedResourceLoader->preload(CachedResource::Script, request, m_charset, scanningBody);
-        else if (m_tagName == imgTag || (m_tagName == inputTag && m_inputIsImage))
-            cachedResourceLoader->preload(CachedResource::ImageResource, request, String(), scanningBody);
-        else if (m_tagName == linkTag && m_linkIsStyleSheet && m_linkMediaAttributeIsScreen) 
-            cachedResourceLoader->preload(CachedResource::CSSStyleSheet, request, m_charset, scanningBody);
+        if (m_tagName == scriptTag){
+	  cachedResourceLoader->preload(CachedResource::Script, request, m_charset, scanningBody);
+	}
+        else if (m_tagName == imgTag || (m_tagName == inputTag && m_inputIsImage)){
+	  cachedResourceLoader->preload(CachedResource::ImageResource, request, String(), scanningBody);
+	}
+        else if (m_tagName == linkTag && m_linkIsStyleSheet && m_linkMediaAttributeIsScreen) {
+	  cachedResourceLoader->preload(CachedResource::CSSStyleSheet, request, m_charset, scanningBody);
+	}
     }
 
     const AtomicString& tagName() const { return m_tagName; }

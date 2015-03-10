@@ -36,6 +36,13 @@
 #include "StyleCachedImageSet.h"
 #include "StylePendingImage.h"
 
+#if !WPROF_DISABLED
+#include "WprofController.h"
+#include "Frame.h"
+#include "HTMLFrameOwnerElement.h"
+#endif
+
+
 namespace WebCore {
 
 CSSImageSetValue::CSSImageSetValue()
@@ -106,6 +113,19 @@ StyleCachedImageSet* CSSImageSetValue::cachedImageSet(CachedResourceLoader* load
         // and any CSS transforms. https://bugs.webkit.org/show_bug.cgi?id=81698
         ImageWithScale image = bestImageForScaleFactor();
         ResourceRequest request(loader->document()->completeURL(image.imageURL));
+#if !WPROF_DISABLED
+	    //Try to get the associated wprof tag
+	    if(loader->frame() && loader->frame()->ownerElement()){
+	      WprofHTMLTag* tag = loader->frame()->ownerElement()->wprofHTMLTag();
+	      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url(), request, tag);
+	    }
+	    else{
+	      Page* page = WprofController::getInstance()->getPageFromDocument(loader->document());
+	      if(page){
+		WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url(), request, page);
+	      }
+	    }
+#endif
         if (CachedResourceHandle<CachedImage> cachedImage = loader->requestImage(request)) {
             m_imageSet = StyleCachedImageSet::create(cachedImage.get(), image.scaleFactor, this);
             m_accessedBestFitImage = true;

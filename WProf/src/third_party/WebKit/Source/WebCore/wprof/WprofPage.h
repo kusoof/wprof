@@ -98,6 +98,8 @@ namespace WebCore
      */
     void createRequestTimeMapping(unsigned long resourceId);
 
+    void createResourceTagMapping(unsigned long resourceId, WprofHTMLTag* tag);
+
     /*-------------------------------------------------------------------------
       HTML Tag Creation
       --------------------------------------------------------------------------*/
@@ -127,6 +129,7 @@ namespace WebCore
     // Place the html tag inside the request for later reference when we actually receive the response.
     void createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, WprofHTMLTag* tag);
     void createRequestWprofHTMLTagMapping(String url, ResourceRequest& request);
+    void redirectRequest(String url, String redirectUrl, ResourceRequest& request, unsigned long resourceId);
 
     /* ------------------------------------------------------------------------
        Computation Creation
@@ -187,6 +190,10 @@ namespace WebCore
     //Output the page contents to a file
     void output();
 
+    bool isComplete() {
+      return m_complete;
+    }
+
     void setTagTypePair(WprofHTMLTag* tag, int value);
 
   private:
@@ -196,7 +203,7 @@ namespace WebCore
     void addStartTag(WprofHTMLTag* tag);
 
     //Match a preloaded resource with the HTML tag that references it
-    void matchWithPreload(WprofHTMLTag* tag);
+    void matchWithPreload(WprofHTMLTag* tag, String tagUrl);
 
     // For temporarily stored obj hash
     void setTempWprofHTMLTag(WprofHTMLTag* tempWprofHTMLTag);
@@ -266,6 +273,9 @@ namespace WebCore
     // <url, request time>
     HashMap<unsigned long, double> m_requestTimeMap;
 
+    //A map between a resource identifier and the tag that referenced the resource
+    HashMap<unsigned long, WprofHTMLTag*> m_identifierTagMap;
+
     // A vector for the HTML tags for the documents of this page.
     Vector<WprofHTMLTag*> m_tags;
 
@@ -312,6 +322,8 @@ namespace WebCore
 	
     // DOM counters so as to control when to output info
     int m_domCounter;
+
+    bool m_complete;
 
     enum WprofControllerState {
       WPROF_BEGIN = 1,
