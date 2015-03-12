@@ -243,6 +243,7 @@ void ResourceLoader::willSendRequest(ResourceRequest& request, const ResourceRes
 
     ResourceRequest oldRequest = m_request;
     m_request = request;
+
 #if !WPROF_DISABLED
     WprofController::getInstance()->createRequestTimeMapping(identifier(), m_frame->page());
     

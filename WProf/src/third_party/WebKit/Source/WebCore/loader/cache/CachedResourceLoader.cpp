@@ -463,6 +463,13 @@ CachedResourceHandle<CachedResource> CachedResourceLoader::requestResource(Cache
         resource = loadResource(type, request, charset, priority, options);
         break;
     case Revalidate:
+#if !WPROF_DISABLED
+      //We need to set the new page and wprof html tag in the resource so that it's copied
+      //onto the revalidated resource
+      resource.get()->resourceRequest().setWprofHTMLTag(request.wprofHTMLTag());
+      resource.get()->resourceRequest().setWprofPage(request.wprofPage());
+#endif
+
         resource = revalidateResource(resource.get(), priority, options);
         break;
     case Use:

@@ -205,11 +205,16 @@ bool EventTarget::fireEventListeners(Event* event)
     WprofComputation* wprofComputation = NULL;
     Node* node = toNode();
     DOMWindow* window = toDOMWindow();
+    /*if (node && (!node->document()->frame()) && ((event->type().string() == String::format("load"))
+	|| (event->type().string() == String::format("DOMContentLoaded")))) {
+      fprintf(stderr, "in here\n");
+    }*/
+
     Page* page = NULL;
-    if(node){
+    if(node && node->document()->frame()){
       page = node->document()->frame()->page();
     }
-    else if (window){
+    else if (window && window->frame()){
       page = window->frame()->page();
     }
     if (page && ((event->type().string() == String::format("load"))

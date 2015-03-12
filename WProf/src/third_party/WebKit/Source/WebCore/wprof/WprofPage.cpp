@@ -90,6 +90,22 @@ namespace WebCore {
 	    
     // Find request start time
     double time = getTimeForResource(resourceId);
+
+    /*if(request.wprofHTMLTag()){
+	WprofHTMLTag* tag = request.wprofHTMLTag();
+	Vector<WprofHTMLTag*>::iterator it = m_tags.begin();
+	bool found = false;
+	for(; it != m_tags.end(); it++){
+	  if ((*it) == tag){
+	    found = true;
+	    break;
+	  }
+	}
+	
+	if(!found){
+	  fprintf(stderr, "The tag is not found in the page\n");
+	}
+	}*/
             
     // Find the WprofHTMLTag that this resource is requested from if any
     // [Note] deep copy request url

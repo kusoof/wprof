@@ -115,7 +115,14 @@ void CachedCSSStyleSheet::data(PassRefPtr<SharedBuffer> data, bool allDataReceiv
 
     //Get the request and the wprof tag from the request
     ResourceRequest& request = resourceRequest();
-    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(1, request.wprofPage()->page());
+    WprofComputation* wprofComputation = NULL;
+    if(request.wprofHTMLTag()){
+      wprofComputation = WprofController::getInstance()->createWprofComputation(1, request.wprofHTMLTag());
+    }
+    else{
+      //sometimes the css file is preloaded, i.e. the request tag is null.
+      wprofComputation = WprofController::getInstance()->createWprofComputation(1, request.wprofPage()->page());
+    } 
     wprofComputation->setUrlRecalcStyle(url().string());
 #endif
 

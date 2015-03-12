@@ -450,6 +450,7 @@ protected:
 #if !WPROF_DISABLED
       LOG(DependencyLog, "Element constructor");
       Page* page = WprofController::getInstance()->getPageFromDocument(document);
+      m_wprofHTMLTag = NULL;
       if(page){
 	setWprofHTMLTag(WprofController::getInstance()->tempTagForPage(page));
       }
