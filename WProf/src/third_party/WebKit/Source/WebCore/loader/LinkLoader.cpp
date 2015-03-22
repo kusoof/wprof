@@ -49,6 +49,12 @@
 #include "Prerenderer.h"
 #endif
 
+#if !WPROF_DISABLED
+#include "WprofController.h"
+#include "HTMLLinkElement.h"
+#endif
+
+
 namespace WebCore {
 
 LinkLoader::LinkLoader(LinkLoaderClient* client)
@@ -125,6 +131,12 @@ bool LinkLoader::loadLink(const LinkRelAttribute& relAttribute, const String& ty
             m_cachedLinkResource->removeClient(this);
             m_cachedLinkResource = 0;
         }
+
+#if !WPROF_DISABLED
+	//Rather hacky, downcasting to HTMLLinkElement ...
+        WprofController::getInstance()->createRequestWprofHTMLTagMapping(href, linkRequest, ((HTMLLinkElement*)m_client)->wprofHTMLTag());
+#endif
+
         m_cachedLinkResource = document->cachedResourceLoader()->requestLinkResource(type, linkRequest, priority);
         if (m_cachedLinkResource)
             m_cachedLinkResource->addClient(this);
