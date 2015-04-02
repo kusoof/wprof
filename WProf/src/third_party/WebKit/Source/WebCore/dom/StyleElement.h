@@ -45,9 +45,9 @@ protected:
     CSSStyleSheet* sheet() const { return m_sheet.get(); }
 
 #if !WPROF_DISABLED
-    WprofHTMLTag* wprofHTMLTag() { return m_wprofHTMLTag; }
-    virtual void setWprofHTMLTag(WprofHTMLTag* objHash) {
-        m_wprofHTMLTag = objHash;
+    WprofGenTag* wprofElement() { return m_wprofGenTag; }
+    virtual void setWprofElement(WprofGenTag* objHash) {
+        m_wprofGenTag = objHash;
     }
 #endif
 
@@ -73,7 +73,7 @@ private:
     WTF::OrdinalNumber m_startLineNumber;
 
 #if !WPROF_DISABLED
-    WprofHTMLTag* m_wprofHTMLTag;
+    WprofGenTag* m_wprofGenTag;
 #endif
 };
 

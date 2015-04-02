@@ -201,7 +201,7 @@ void HTMLLinkElement::process()
 
 #if !WPROF_DISABLED
         // Set type css
-        WprofController::getInstance()->setTagTypePair(wprofHTMLTag(), 4);
+        WprofController::getInstance()->setElementTypePair(wprofElement(), 4);
 #endif
         
         String charset = getAttribute(charsetAttr);
@@ -237,7 +237,7 @@ void HTMLLinkElement::process()
         ResourceRequest request(document()->completeURL(m_url));
 
 #if !WPROF_DISABLED
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(m_url, request, wprofHTMLTag());
+        WprofController::getInstance()->createRequestWprofElementMapping(m_url, request, wprofElement());
 #endif
         m_cachedSheet = document()->cachedResourceLoader()->requestCSSStyleSheet(request, charset, priority);
         

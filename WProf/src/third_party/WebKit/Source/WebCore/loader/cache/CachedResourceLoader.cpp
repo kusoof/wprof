@@ -255,13 +255,13 @@ CachedResourceHandle<CachedRawResource> CachedResourceLoader::requestRawResource
     HTMLDocumentParser* parser = (HTMLDocumentParser*)(document()->parser());
     //Try to get the frame and the owner element
     if(frame() && frame()->ownerElement()){
-      WprofHTMLTag* tag = frame()->ownerElement()->wprofHTMLTag();
+      WprofGenTag* element = frame()->ownerElement()->wprofElement();
       LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
-      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, tag);
+      WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, element);
     }
     else {
         LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, frame()->page());
+        WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, frame()->page());
     }
 #endif
 
@@ -464,9 +464,9 @@ CachedResourceHandle<CachedResource> CachedResourceLoader::requestResource(Cache
         break;
     case Revalidate:
 #if !WPROF_DISABLED
-      //We need to set the new page and wprof html tag in the resource so that it's copied
+      //We need to set the new page and wprof element in the resource so that it's copied
       //onto the revalidated resource
-      resource.get()->resourceRequest().setWprofHTMLTag(request.wprofHTMLTag());
+      resource.get()->resourceRequest().setWprofElement(request.wprofElement());
       resource.get()->resourceRequest().setWprofPage(request.wprofPage());
 #endif
 

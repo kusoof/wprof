@@ -76,6 +76,10 @@
 #include "StyleResolver.h"
 #include <wtf/text/CString.h>
 
+#if !WPROF_DISABLED
+#include "WprofController.h"
+#endif
+
 namespace WebCore {
 
 using namespace HTMLNames;
@@ -291,6 +295,10 @@ PassRefPtr<Element> HTMLDocument::createElement(const AtomicString& name, Except
         ec = INVALID_CHARACTER_ERR;
         return 0;
     }
+
+#if !WPROF_DISABLED
+    WprofController::getInstance()->createWprofGenTag(this->url().string(), this, name);
+#endif
     return HTMLElementFactory::createHTMLElement(QualifiedName(nullAtom, name.lower(), xhtmlNamespaceURI), this, 0, false);
 }
 

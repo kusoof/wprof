@@ -42,6 +42,7 @@
 #if !WPROF_DISABLED
 #include "Logging.h"
 #include "WprofController.h"
+#include "WprofComputation.h"
 #include <wtf/CurrentTime.h>
 #include "DOMWindow.h"
 #endif
@@ -199,34 +200,33 @@ bool EventTarget::fireEventListeners(Event* event)
     if (!d)
         return true;
 
+    EventListenerVector* listenerVector = d->eventListenerMap.find(event->type());
+
 #if !WPROF_DISABLED
-    LOG(DependencyLog, "ScriptElement::prepareScript ThreadId:%d %lf", currentThread(), monotonicallyIncreasingTime());
-
     WprofComputation* wprofComputation = NULL;
-    Node* node = toNode();
-    DOMWindow* window = toDOMWindow();
-    /*if (node && (!node->document()->frame()) && ((event->type().string() == String::format("load"))
-	|| (event->type().string() == String::format("DOMContentLoaded")))) {
-      fprintf(stderr, "in here\n");
-    }*/
-
     Page* page = NULL;
-    if(node && node->document()->frame()){
-      page = node->document()->frame()->page();
-    }
-    else if (window && window->frame()){
-      page = window->frame()->page();
-    }
-    if (page && ((event->type().string() == String::format("load"))
-		 || (event->type().string() == String::format("DOMContentLoaded")))) {
+    if(listenerVector && listenerVector->size()){
+    
+      Node* node = toNode();
+      DOMWindow* window = toDOMWindow();
+    
+      if(node && node->document()->frame()){
+	page = node->document()->frame()->page();
+      }
+      else if (window && window->frame()){
+	page = window->frame()->page();
+      }
+      /*if (page && ((event->type().string() == String::format("load"))
+	|| (event->type().string() == String::format("DOMContentLoaded")))) {*/
+      if(page){
 	  
-      wprofComputation = WprofController::getInstance()->createWprofComputation(5, page);
-      if(wprofComputation) wprofComputation->setUrlRecalcStyle(event->type().string());
-      WprofController::getInstance()->willFireEventListeners(event, wprofComputation, page);
+	wprofComputation = WprofController::getInstance()->createWprofComputation(5, page);
+	if(wprofComputation) wprofComputation->setUrlRecalcStyle(event->type().string());
+	WprofController::getInstance()->willFireEventListeners(event, wprofComputation, page);
+      }
     }
 #endif
 
-    EventListenerVector* listenerVector = d->eventListenerMap.find(event->type());
 
     if (listenerVector)
         fireEventListeners(event, d, *listenerVector);

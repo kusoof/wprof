@@ -63,9 +63,9 @@ public:
     virtual ~Element();
 
 #if !WPROF_DISABLED
-    WprofHTMLTag* wprofHTMLTag() { return m_wprofHTMLTag; }
-    virtual void setWprofHTMLTag(WprofHTMLTag* objHash) {
-      m_wprofHTMLTag = objHash;
+    WprofGenTag* wprofElement() { return m_wprofTag; }
+    virtual void setWprofElement(WprofGenTag* objHash) {
+      m_wprofTag = objHash;
     }
 #endif
 
@@ -450,9 +450,9 @@ protected:
 #if !WPROF_DISABLED
       LOG(DependencyLog, "Element constructor");
       Page* page = WprofController::getInstance()->getPageFromDocument(document);
-      m_wprofHTMLTag = NULL;
+      m_wprofTag = NULL;
       if(page){
-	setWprofHTMLTag(WprofController::getInstance()->tempTagForPage(page));
+	setWprofElement(WprofController::getInstance()->tempElementForPage(page));
       }
       else{
 	fprintf(stderr, "attempting to create an element with a null frame\n");
@@ -461,7 +461,7 @@ protected:
     }
 
 #if !WProf_DISABLED
-    WprofHTMLTag* m_wprofHTMLTag;
+    WprofGenTag* m_wprofTag;
 #endif
 
     virtual InsertionNotificationRequest insertedInto(ContainerNode*) OVERRIDE;

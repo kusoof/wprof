@@ -25,26 +25,40 @@
  */
 
 #include "WprofPage.h"
+
+#include "WprofResource.h"
+#include "WprofComputation.h"
+#include "WprofHTMLTag.h"
+#include "WprofGenTag.h"
+#include "WprofElement.h"
+#include "WprofPreload.h"
+
 #include <Frame.h>
+
+#include "Document.h"
+#include "Page.h"
+#include "ResourceRequest.h"
 
 namespace WebCore {
 
 
   WprofPage::WprofPage(Page* page)
     : m_page(page)
-    , m_tempWprofHTMLTag(NULL)
+    , m_tempWprofGenTag(NULL)
     , m_charConsumed(0)
     , m_domCounter(0)
     , m_state (WPROF_BEGIN)
   {
     m_currentEvent = 0;
-    m_eventComputation = 0;
+    m_currentComputation = 0;
     m_complete = false;
   }
         
   WprofPage::~WprofPage() {
     clear();
   }
+
+  Page* WprofPage::page () {return m_page;}
 
 
   /*--------------------------------------------------------------------------
@@ -91,9 +105,9 @@ namespace WebCore {
     // Find request start time
     double time = getTimeForResource(resourceId);
 
-    /*if(request.wprofHTMLTag()){
-	WprofHTMLTag* tag = request.wprofHTMLTag();
-	Vector<WprofHTMLTag*>::iterator it = m_tags.begin();
+    /*if(request.wprofElement()){
+	WprofElement* tag = request.wprofElement();
+	Vector<WprofElement*>::iterator it = m_tags.begin();
 	bool found = false;
 	for(; it != m_tags.end(); it++){
 	  if ((*it) == tag){
@@ -119,7 +133,7 @@ namespace WebCore {
 						connectionReused,
 						wasCached,
 						time,
-						request.wprofHTMLTag());
+						request.wprofElement());
             
     // Add to both Vector and HashMap
     m_resources.append(resource);
@@ -161,11 +175,11 @@ namespace WebCore {
     m_requestTimeMap.set(resourceId, monotonicallyIncreasingTime());
   }
 
-  void WprofPage::createResourceTagMapping(unsigned long resourceId, WprofHTMLTag* tag){
-    if(m_identifierTagMap.get(resourceId)){
+  void WprofPage::createResourceElementMapping(unsigned long resourceId, WprofElement* element){
+    if(m_identifierElementMap.get(resourceId)){
       
     }
-    m_identifierTagMap.set(resourceId, tag);
+    m_identifierElementMap.set(resourceId, element);
   }
 
   /*---------------------------------------------------------------------------------
@@ -209,7 +223,7 @@ namespace WebCore {
     // Add WprofHTMLTag to its vector
     m_tags.append(tag);
 
-    setTempWprofHTMLTag(tag);
+    setTempWprofGenTag(tag);
 
     if (isStartTag) {
       // Add tag to the start vector
@@ -221,12 +235,43 @@ namespace WebCore {
 	// we care about (<script>, <link> and <style>)
 
 	// Set type as normal. We will change it if async or defer
-	setTagTypePair(tag, 1); // normal
+	setElementTypePair(tag, 1); // normal
       }
     }
+    //Set computation if it triggered the current tag
+    if(m_currentComputation){
+      tag->setParentComputation(m_currentComputation);
+    }
+  }
+
+  void WprofPage::createWprofGenTag(String docUrl,
+				    Document* document,
+				    String token){
+
+    
+
+    WprofGenTag* element = new WprofGenTag(this, docUrl, token);
+    // Add WprofHTMLTag to its vector
+    m_tags.append(element);
+
+    setTempWprofGenTag(element);
+
+    
+    if (token == String::format("script")) {
+      // Add tag to tempWprofHTMLTag for EndTag
+      // This works because there is no children inside elements
+      // we care about (<script>, <link> and <style>)
+
+      // Set type as normal. We will change it if async or defer
+      setElementTypePair(element, 1); // normal
+    }
+    
     //Set computation if it triggered the event
-    if(m_eventComputation){
-      tag->setParentComputation(m_eventComputation);
+    if(m_currentComputation){
+      element->setParentComputation(m_currentComputation);
+    }
+    else{
+      fprintf(stderr, "computation is null\n");
     }
   }
 
@@ -251,7 +296,7 @@ namespace WebCore {
     // Add WprofHTMLTag to its vector
     m_tags.append(tag);
 
-    setTempWprofHTMLTag(tag);
+    setTempWprofGenTag(tag);
 
     if (isStartTag) {
       // Add tag to the start vector
@@ -263,26 +308,26 @@ namespace WebCore {
 	// we care about (<script>, <link> and <style>)
 
 	// Set type as normal. We will change it if async or defer
-	setTagTypePair(tag, 1); // normal
+	setElementTypePair(tag, 1); // normal
       }
     }
 
     //If we are in the middle of executing an event, then the parsed tag will depend on the computation
     //Set computation if it triggered the parsing
-    if(m_eventComputation){
-      tag->setParentComputation(m_eventComputation);
+    if(m_currentComputation){
+      tag->setParentComputation(m_currentComputation);
     }
   }
 
   
   // Attach the html tag to the request so we can refer to it later when the resource has finished downloading.
-  void WprofPage::createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, WprofHTMLTag* tag) {
+  void WprofPage::createRequestWprofElementMapping(String url, ResourceRequest& request, WprofGenTag* element) {
     //Check to see if we have this tag
-    if(tag){
-      Vector<WprofHTMLTag*>::iterator it = m_tags.begin();
+    if(element){
+      Vector<WprofGenTag*>::iterator it = m_tags.begin();
       bool found = false;
       for(; it != m_tags.end(); it++){
-	if ((*it) == tag){
+	if ((*it) == element){
 	  found = true;
 	  break;
 	}
@@ -293,16 +338,27 @@ namespace WebCore {
       }
     }
 
+    //Check whether we have a current computation
+    //Note: rather hacky to downcast WprofElement to WprofGenTag ... neex to fix later
+    if(m_currentComputation && (m_currentComputation->type() == 4) && (!element || (element->parentComputation() != m_currentComputation))){
+      
+      //If the selected element has the computation as the predecessor,
+      //then it's ok to let the resource's predecessor be the element, not the computation
+
+      //Otherwise do the following
+      request.setWprofElement(m_currentComputation);
+      m_currentComputation->appendUrl(url);
+    }
     //Assign the tag to the request
     //This could be the very first request for the page, which has a null tag.
-    if(tag){
-      request.setWprofHTMLTag(tag);
+    else if(element){
+      request.setWprofElement(element);
 	  
       //Add the url to the list
-      tag->appendUrl(url);
+      element->appendUrl(url);
       
       //Attempt to match the preloaded resource to the request from this tag.
-      matchWithPreload(tag, url);
+       matchWithPreload(element, url);
     }
     request.setWprofPage(this);
   }
@@ -311,20 +367,29 @@ namespace WebCore {
   void WprofPage::redirectRequest(String url, String redirectUrl, ResourceRequest& request, unsigned long resourceId) {
 
     //Try to find the tag associated with the resource
-    WprofHTMLTag* tag = NULL;
-    if(m_identifierTagMap.contains(resourceId)){
-      tag = m_identifierTagMap.get(resourceId);
+    WprofElement* element = NULL;
+    if(m_identifierElementMap.contains(resourceId)){
+      element = m_identifierElementMap.get(resourceId);
     }
     
-    if(tag){
-      tag->removeUrl(redirectUrl);
-      createRequestWprofHTMLTagMapping(url, request, tag);
+    if(element){
+      element->removeUrl(redirectUrl);
+      
+      if(element){
+	request.setWprofElement(element);
+	  
+	//Add the url to the list
+	element->appendUrl(url);
+      
+	//No attempt to match with a preload. TODO: does this break things?	
+      } 
     }
+    request.setWprofPage(this);
   }
         
   //If we have no tag, then the best we can do is match the request to the most recent tag.
-  void WprofPage::createRequestWprofHTMLTagMapping(String url, ResourceRequest& request) {
-    createRequestWprofHTMLTagMapping(url, request, tempWprofHTMLTag());
+  void WprofPage::createRequestWprofElementMapping(String url, ResourceRequest& request) {
+    createRequestWprofElementMapping(url, request, tempWprofGenTag());
   }
 
 
@@ -338,24 +403,30 @@ namespace WebCore {
    * @param int type of the WprofComputation
    */
   WprofComputation* WprofPage::createWprofComputation(int type) {
-    WprofComputation* event = new WprofComputation(type, tempWprofHTMLTag());
-    m_computations.append(event);
-
-    return event;
+    return createWprofComputation(type, NULL);
   }
 
-  WprofComputation* WprofPage::createWprofComputation(int type, WprofHTMLTag* tag){
+  WprofComputation* WprofPage::createWprofComputation(int type, WprofElement* element){
 
-    if(!tag){
-      tag = tempWprofHTMLTag();
+    if(!element){
+      element = tempWprofGenTag();
     }
 
-    WprofComputation* event = new WprofComputation(type, tag);
+    WprofComputation* event = new WprofComputation(type, element, this);
     m_computations.append(event);
+
+    //if this is a script or timer, then set the current event
+    if((type == 4) || (type == 6) || (type == 5)){
+      m_currentComputation = event;
+    }
 
     return event;
   }
 
+  void WprofPage::setCurrentComputationComplete(){
+    m_currentComputation = NULL;
+  }
+  
   /*-----------------------------------------------------------------
     Preloads
     ---------------------------------------------------------------------*/
@@ -367,18 +438,18 @@ namespace WebCore {
    * @param String the preloaded url
    */
   void WprofPage::createWprofPreload(String url, String docUrl, String tagName, int line, int column) {
-    WprofPreload* preload = new WprofPreload(tempWprofHTMLTag(), url, docUrl, tagName, line, column);
+    WprofPreload* preload = new WprofPreload(tempWprofGenTag(), url, docUrl, tagName, line, column);
     m_preloads.append(preload);
     m_unmatchedPreloads.append(preload);
   }
 
-  void WprofPage::matchWithPreload(WprofHTMLTag* tag, String tagUrl){
+  void WprofPage::matchWithPreload(WprofGenTag* tag, String tagUrl){
     Vector<WprofPreload*>::iterator it = m_unmatchedPreloads.begin();
     size_t position = 0;
-    TextPosition textPosition = tag->pos();
     for(; it != m_unmatchedPreloads.end(); it++){
-      if((*it)->matchesToken(tag->docUrl(), tagUrl, tag->tagName(), textPosition.m_line.zeroBasedInt(), textPosition.m_column.zeroBasedInt())){
-	(*it)->setFromTag(tag);
+      if(tag->matchesPreload((*it), tagUrl)){
+	//Only a WprofHTMLTag can match
+	(*it)->setFromTag((WprofHTMLTag*) tag);
 	m_unmatchedPreloads.remove(position);
 	break;
       }
@@ -433,13 +504,13 @@ namespace WebCore {
   {
     //fprintf(stderr, "Will fire event of type %s\n", event->type().string().utf8().data());
     m_currentEvent = event;
-    m_eventComputation = comp;
+    m_currentComputation = comp;
   }
 
   void WprofPage::didFireEventListeners()
   {
     m_currentEvent = NULL;
-    m_eventComputation = NULL;
+    m_currentComputation = NULL;
   }
 
 
@@ -447,62 +518,59 @@ namespace WebCore {
      Timers
      ----------------------------------------------------------*/
 	
-  /*void WprofPage::installTimer(int timerId, int timeout, bool singleShot)
+  void WprofPage::installTimer(int timerId, int timeout, bool singleShot)
   {
-    m_timers.append(timerId);
-    //fprintf(stderr, "adding timer with id %d\n", timerId);
+    if(m_currentComputation){
+      m_timers.set(timerId, m_currentComputation);
+    }
   }
 
   void WprofPage::removeTimer(int timerId)
   {
-    for(size_t i = 0; i != m_timers.size(); i++){
-      if(m_timers[i] == timerId){
-	m_timers.remove(i);
-	break;
-      }
-    }
-
-    //Check if we can complete the page load
-    if(hasPageLoaded()){
-      setPageLoadComplete();
+    if(m_timers.contains(timerId)){
+      m_timers.remove(timerId);
     }
   }
 
   WprofComputation*  WprofPage::willFireTimer(int timerId)
   {
-    WprofComputation* comp = createWprofComputation(5);
-    comp->setUrlRecalcStyle("Timer");
+    //Get the computation that triggered the timer
+    WprofComputation* parent = NULL;
+    if(m_timers.contains(timerId)){
+      parent = m_timers.get(timerId);
+    }
+    WprofComputation* comp = createWprofComputation(6, parent);
+    
     return comp;
   }
 
   void WprofPage::didFireTimer(int timerId, WprofComputation* comp)
   {
     comp->end();
-    //fprintf(stderr, "timer did fire with id %d\n", timerId);
     removeTimer(timerId);
-    }*/
+  }
         
   void WprofPage::addStartTag(WprofHTMLTag* tag) {
     m_startTags.append(tag);
   }
         
-  void WprofPage::setTagTypePair(WprofHTMLTag* key, int value) {
+  void WprofPage::setElementTypePair(WprofGenTag* key, int value) {
     if (key == NULL)
       return;
             
     // Should check whether key has existed
-    HashMap<WprofHTMLTag*, int>::iterator iter = m_tagTypeMap.begin();
-    for (; iter != m_tagTypeMap.end(); ++iter) {
+    HashMap<WprofGenTag*, int>::iterator iter = m_elementTypeMap.begin();
+    for (; iter != m_elementTypeMap.end(); ++iter) {
       if (*key == *iter->first) {
-	m_tagTypeMap.set(iter->first, value);
+	m_elementTypeMap.set(iter->first, value);
 	return;
       }
     }
-    m_tagTypeMap.set(key, value);
+    m_elementTypeMap.set(key, value);
   }
         
   // For temporarily stored obj hash
-  WprofHTMLTag* WprofPage::tempWprofHTMLTag() { return m_tempWprofHTMLTag; }
+  WprofGenTag* WprofPage::tempWprofGenTag() { return m_tempWprofGenTag; }
         
         
   // ---------------------------------------------------------------
@@ -588,7 +656,7 @@ namespace WebCore {
         
   void WprofPage::clearHOLMaps() {
     clearStartTags();
-    m_tagTypeMap.clear();
+    m_elementTypeMap.clear();
   }
         
   String WprofPage::createFilename(String url) {
@@ -614,9 +682,7 @@ namespace WebCore {
     outputHOLMaps();
     outputWprofComputations();
     outputWprofPreloads();
-
-    //TODO: should we do this? causes crashes, we parse end of file tags as the page closes.
-    //m_tempWprofHTMLTag = NULL;
+    
 			
     fprintf(stderr, "{\"Complete': \"%s\"}\n", m_url.utf8().data());
     m_complete = true;
@@ -698,38 +764,8 @@ namespace WebCore {
                 
     // Output info of parsed objects
     for (unsigned int j = 0; j < m_tags.size(); ++j) {
-      WprofHTMLTag* tag = m_tags[j];
-      //Get the urls that might be requested by this tag, note that scripts
-      //can request multiple resources, like images.
-      Vector<String>* urls = tag->urls();
-		    
-      fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"comp\": \"%p\", \"doc\": \"%s\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
-	      tag,
-	      tag->parentComputation(),
-	      tag->docUrl().utf8().data(),
-	      tag->pos().m_line.zeroBasedInt(),
-	      tag->pos().m_column.zeroBasedInt(),
-	      tag->tagName().utf8().data(),
-	      tag->startTime(),
-	      tag->endTime());
-
-      size_t numUrls = urls->size();
-      size_t i = 0;
-      for(Vector<String>::iterator it = urls->begin(); it!= urls->end(); it++){
-	if (i == (numUrls -1)){
-	  fprintf(stderr, "\"%s\"", it->utf8().data());
-	}
-	else{
-	  fprintf(stderr, "\"%s\", ", it->utf8().data());
-	}
-	i++;
-      }
-
-      fprintf(stderr, " ], \"pos\": %d, \"isStartTag\": %d, \"isFragment\": %d}}\n",
-	      tag->startTagEndPos(),
-	      tag->isStartTag(),
-	      tag->isFragment()
-	      );
+      WprofElement* element = m_tags[j];
+      element->print();
     }
   }
         
@@ -737,24 +773,19 @@ namespace WebCore {
     // Output start tag vectors
     unsigned int i = 0;
     for (; i < m_startTags.size(); i++) {
-      WprofHTMLTag* startObjHash = m_startTags[i];
+      WprofGenTag* startObjHash = m_startTags[i];
                 
       if (startObjHash == NULL)
 	continue;
                 
       // Skip non-script and non-css
-      if (!m_tagTypeMap.get(startObjHash))
+      if (!m_elementTypeMap.get(startObjHash))
 	continue;
-                
-      TextPosition pos_s = startObjHash->m_textPosition;
-      fprintf(stderr, "{\"HOL\": {\"type\": %d, \"docUrl\": \"%s\", \"code\": \"%p\", \"row\": %d, \"column\": %d, \"url\": \"%s\"}}\n",
-	      m_tagTypeMap.get(startObjHash),
-	      startObjHash->m_docUrl.utf8().data(),
-	      startObjHash,
-	      pos_s.m_line.zeroBasedInt(),
-	      pos_s.m_column.zeroBasedInt(),
-	      startObjHash->m_url.utf8().data()
-	      );
+      
+      fprintf(stderr, "{\"HOL\": {\"type\": %d, \"docUrl\": \"%s\", \"code\": \"%p\"}}\n",
+	      m_elementTypeMap.get(startObjHash),
+	      startObjHash->docUrl().utf8().data(),
+	      startObjHash);
     }
   }
         
@@ -765,23 +796,10 @@ namespace WebCore {
       if (event == NULL)
 	continue;
 					
-      if (event->fromWprofHTMLTag() == NULL)
+      if (event->fromWprofElement() == NULL)
 	continue;
                 
-      // m_tempWprofHTMLTag->docUrl() indicates current url
-      //if (strcmp(event->fromWprofHTMLTag()->docUrl(), m_tempWprofHTMLTag->docUrl()) == 0)
-      //	continue;
-                
-      fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"from\": \"%p\",\
-\"docUrl\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urlRecalcStyle\": \"%s\"}}\n",
-	      event->getTypeForPrint().utf8().data(),
-	      event,
-	      event->fromWprofHTMLTag(),
-	      event->fromWprofHTMLTag()->docUrl().utf8().data(),
-	      event->startTime(),
-	      event->endTime(),
-	      event->urlRecalcStyle().utf8().data()
-	      );
+      event->print();
     }
   }
         
@@ -837,8 +855,8 @@ namespace WebCore {
     return time;
   }
 
-  void WprofPage::setTempWprofHTMLTag(WprofHTMLTag* tempWprofHTMLTag) {
-    m_tempWprofHTMLTag = tempWprofHTMLTag;
+  void WprofPage::setTempWprofGenTag(WprofGenTag* tempWprofGenTag) {
+    m_tempWprofGenTag = tempWprofGenTag;
 
   }
     

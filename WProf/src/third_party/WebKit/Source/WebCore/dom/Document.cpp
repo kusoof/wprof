@@ -219,6 +219,7 @@
 #if !WPROF_DISABLED
 #include "HTMLDocumentParser.h"
 #include "WprofController.h"
+#include "WprofComputation.h"
 #endif
 
 using namespace std;

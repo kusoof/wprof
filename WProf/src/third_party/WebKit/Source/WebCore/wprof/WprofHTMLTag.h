@@ -29,20 +29,16 @@
 
 #if !WPROF_DISABLED
 
+#include "WprofGenTag.h"
 #include <wtf/text/TextPosition.h>
-#include <wtf/text/WTFString.h>
-#include <wtf/Vector.h>
 #include <string.h>
 
 namespace WebCore {
 
-  class WprofPage;
-  class WprofComputation;
-
   // Define a hash of an object (we use its text position)
   // All WprofHTMLTag instances are created once, this means that we can
   // just use its pointer as the key to retrieve it.
-  class WprofHTMLTag {
+  class WprofHTMLTag : public WprofGenTag {
   public:
   WprofHTMLTag(WprofPage* page,
 	       TextPosition tp,
@@ -50,83 +46,25 @@ namespace WebCore {
 	       String tag,
 	       int pos,
 	       bool isFragment,
-	       bool isStartTag)
-    : m_docUrl(docUrl),
-      m_isUsed(false)
-            
-        {
-	  m_textPosition = tp;
-	  m_tagName = tag;
-	  m_startTime = 0;
-	  m_endTime = 0;
-	  m_startTagEndPos = pos;
-	  m_isStartTag = isStartTag;
-	  m_isFragment = isFragment;
-	  m_urls = new Vector<String>();
-	  m_page = page;
-	  m_parentComputation = NULL;
-        }
+	       bool isStartTag);
         
-    ~WprofHTMLTag() { 
-      //delete m_urls;
-    }
-		
-    bool operator==(WprofHTMLTag other) { return m_textPosition == other.m_textPosition && m_docUrl == other.m_docUrl; }
-    bool operator!=(WprofHTMLTag other) { return !((*this) == other); }
+    ~WprofHTMLTag();
+
+    void print();
+
+    bool matchesPreload(WprofPreload* preload, String url);
         
-    TextPosition pos() { return m_textPosition; }
-    String docUrl() { return m_docUrl; }
-    String tagName() { return m_tagName; }
-    double startTime() { return m_startTime; }
-    void setStartEndTime (double start, double end) {m_startTime = start; m_endTime = end;}
-    double endTime() { return m_endTime;}
-    int startTagEndPos() { return m_startTagEndPos; }
-    bool isStartTag() { return m_isStartTag; }
-    bool isUsed() { return m_isUsed; }
-    bool isFragment() {return m_isFragment;}
-    WprofPage* page() {return m_page;}
-    WprofComputation* parentComputation () {return m_parentComputation;}
-    void setParentComputation (WprofComputation* comp) {m_parentComputation = comp;}
+    TextPosition pos();
+    int startTagEndPos();
+    bool isStartTag();
 
-    void appendUrl(String url){
-      m_urls->append(url);
-    }
-
-    void removeUrl(String url){
-      bool found = false;
-      size_t i = 0;
-      for(; i < m_urls->size(); i++){
-	if(url == (*m_urls)[i]){
-	  found = true;
-	  break;
-	}
-      }
-      if(found){
-	m_urls->remove(i);
-      }
-    }
+  private:
     
-    Vector<String>* urls(){
-      return m_urls;
-    }
-
-    void setUsed() {
-      m_isUsed = true;
-    }
         
     TextPosition m_textPosition;
-    String m_docUrl;
-    String m_url;
-    String m_tagName;
-    double m_startTime;
-    double m_endTime;
+    
     int m_startTagEndPos;
     bool m_isStartTag;
-    bool m_isUsed;
-    bool m_isFragment;
-    Vector<String>* m_urls;
-    WprofPage* m_page;
-    WprofComputation* m_parentComputation;
   };
 
 }

@@ -28,35 +28,25 @@
 #define WprofController_h
 
 #if !WPROF_DISABLED
-#include "config.h"
-#include "Logging.h"
-#include "ResourceLoadTiming.h"
-#include "WprofComputation.h"
-#include "WprofHTMLTag.h"
+
 #include "WprofPage.h"
-#include "WprofPreload.h"
-#include "WprofReceivedChunk.h"
-#include "WprofResource.h"
 #include <wtf/HashMap.h>
 #include <wtf/CurrentTime.h>
 #include <wtf/MD5.h>
 #include <wtf/Vector.h>
-#include <wtf/text/CString.h>
-#include <wtf/text/StringBuilder.h>
 #include <wtf/text/TextPosition.h>
 #include <wtf/text/WTFString.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include "Document.h"
-#include "DocumentFragment.h"
-#include "ResourceRequest.h"
-#include "Page.h"
 
 namespace WebCore {
 
   class ResourceResponse;
+  class WprofElement;
+  class WprofComputation;
+
+  class Document;
+  class DocumentFragment;
+  class ResourceRequest;
+  class Page;
     
   class WprofController {
   public:
@@ -124,17 +114,21 @@ namespace WebCore {
 			    String token,
 			    bool isStartTag);
 
+    void createWprofGenTag(String docUrl,
+			   Document* document,
+			   String token);
+
     /*
      * Create a WprofComputation object.
      *
      * @param int type of the WprofComputation
      */
     WprofComputation* createWprofComputation(int type, Page* page);
-    WprofComputation* createWprofComputation(int type, WprofHTMLTag* tag);
+    WprofComputation* createWprofComputation(int type, WprofElement* element);
 
-    WprofHTMLTag* tempTagForPage(Page* page);
+    WprofGenTag* tempElementForPage(Page* page);
 
-    void setTagTypePair(WprofHTMLTag* tag, int value);
+    void setElementTypePair(WprofGenTag* element, int value);
 
     /*
       ----------------------------------------------------------
@@ -150,13 +144,13 @@ namespace WebCore {
        Timers
        ----------------------------------------------------------*/
 	
-    /*void installTimer(int timerId, int timeout, bool singleShot);
+    void installTimer(int timerId, int timeout, bool singleShot, Document* d);
 
-    void removeTimer(int timerId);
+    void removeTimer(int timerId, Document* d);
 
-    WprofComputation*  willFireTimer(int timerId);
+    WprofComputation*  willFireTimer(int timerId, Document* d);
 
-    void didFireTimer(int timerId, WprofComputation* comp);*/
+    void didFireTimer(int timerId, WprofComputation* comp, Document* d);
 
     /*
      * Create a WprofPreload object.
@@ -168,13 +162,13 @@ namespace WebCore {
         
     // CSS -> Image doesn't need this because this kind of dependency is
     // inferred by text matching
-    void createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, WprofHTMLTag* tag);
+    void createRequestWprofElementMapping(String url, ResourceRequest& request, WprofGenTag* element);
         
-    void createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, Page* page);
+    void createRequestWprofElementMapping(String url, ResourceRequest& request, Page* page);
 
     void redirectRequest(String url, String redirectUrl, ResourceRequest& request, unsigned long resourceId,  Page* page);
     
-    void createResourceTagMapping(unsigned long resourceId, WprofHTMLTag* tag, Page* page);
+    void createResourceElementMapping(unsigned long resourceId, WprofElement* tag, Page* page);
 
     void addCharactersConsumed(int numberChars, Document* document, int row);
 
@@ -193,8 +187,6 @@ namespace WebCore {
 
     void setPageLoadComplete();
     Page* getPageFromDocument(Document* document);
-
-    void setElementTypePair(WprofHTMLTag* tag, int value);
         
   private:
   WprofController();

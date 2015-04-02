@@ -134,7 +134,7 @@ bool LinkLoader::loadLink(const LinkRelAttribute& relAttribute, const String& ty
 
 #if !WPROF_DISABLED
 	//Rather hacky, downcasting to HTMLLinkElement ...
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(href, linkRequest, ((HTMLLinkElement*)m_client)->wprofHTMLTag());
+        WprofController::getInstance()->createRequestWprofElementMapping(href, linkRequest, ((HTMLLinkElement*)m_client)->wprofElement());
 #endif
 
         m_cachedLinkResource = document->cachedResourceLoader()->requestLinkResource(type, linkRequest, priority);

@@ -25,6 +25,16 @@
  */
 
 #include "WprofController.h"
+#include "WprofElement.h"
+#include "WprofGenTag.h"
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "Document.h"
+#include "DocumentFragment.h"
+#include "ResourceRequest.h"
 
 namespace WebCore {
 
@@ -91,9 +101,9 @@ namespace WebCore {
     }
   }
 
-  WprofHTMLTag* WprofController::tempTagForPage(Page* page){
+  WprofGenTag* WprofController::tempElementForPage(Page* page){
     WprofPage* wpage = getWprofPage(page);
-    return wpage->tempWprofHTMLTag();
+    return wpage->tempWprofGenTag();
   }
         
   /*
@@ -140,9 +150,9 @@ namespace WebCore {
     wpage->createRequestTimeMapping(resourceId);
   }
 
-  void WprofController::createResourceTagMapping(unsigned long resourceId, WprofHTMLTag* tag, Page* page) {
+  void WprofController::createResourceElementMapping(unsigned long resourceId, WprofElement* element, Page* page) {
     WprofPage* wpage = getWprofPage(page);
-    wpage->createResourceTagMapping(resourceId, tag);
+    wpage->createResourceElementMapping(resourceId, element);
   }
 
   /*
@@ -174,6 +184,24 @@ namespace WebCore {
 
   }
 
+  void WprofController::createWprofGenTag(String docUrl,
+					  Document* document,
+					  String token){
+
+    //Try to get the document's page
+    Page* page = getPageFromDocument(document);
+
+    if(page){
+      WprofPage* wpage = getWprofPage(page);
+      wpage->createWprofGenTag(docUrl, document, token);
+    }
+    else{
+      //Complain!
+      fprintf(stderr, "The page for the document is NULL\n");
+    }
+
+  }
+
   //Wprof tags created from parsing a document fragment.
   void WprofController::createWprofHTMLTag(TextPosition textPosition,
 					   String docUrl,
@@ -194,8 +222,8 @@ namespace WebCore {
     }
   }
 
-  void WprofController::setTagTypePair(WprofHTMLTag* tag, int value){
-    tag->page()->setTagTypePair(tag, value);
+  void WprofController::setElementTypePair(WprofGenTag* element, int value){
+    element->page()->setElementTypePair(element, value);
   }
 
   /*
@@ -214,13 +242,13 @@ namespace WebCore {
     return comp;
   }
 
-  WprofComputation* WprofController::createWprofComputation(int type, WprofHTMLTag* tag){
-    if(!tag){
-      fprintf(stderr, "The tag is null when attempting to create a computation of type %d\n", type);
+  WprofComputation* WprofController::createWprofComputation(int type, WprofElement* element){
+    if(!element){
+      fprintf(stderr, "The element is null when attempting to create a computation of type %d\n", type);
       return NULL;
     }
-    WprofPage* wpage = tag->page();
-    WprofComputation* comp = wpage->createWprofComputation(type, tag);
+    WprofPage* wpage = element->page();
+    WprofComputation* comp = wpage->createWprofComputation(type, element);
     return comp;
   }
 
@@ -237,51 +265,47 @@ namespace WebCore {
     wpage->didFireEventListeners();
   }
 
-  void WprofController::setElementTypePair(WprofHTMLTag* tag, int value)
-  {
-    WprofPage* wpage = tag->page();
-    wpage->setTagTypePair(tag, value);
-  }
-
-
   /* ------------------------------- ----------------------- 
      Timers
      ----------------------------------------------------------*/
 	
-  /*void WprofController::installTimer(int timerId, int timeout, bool singleShot)
+  void WprofController::installTimer(int timerId, int timeout, bool singleShot, Document* d)
   {
-    m_timers->append(timerId);
-    //fprintf(stderr, "adding timer with id %d\n", timerId);
-  }
-
-  void WprofController::removeTimer(int timerId)
-  {
-    for(size_t i = 0; i != m_timers->size(); i++){
-      if((*m_timers)[i] == timerId){
-	m_timers->remove(i);
-	break;
-      }
-    }
-
-    //Check if we can complete the page load
-    if(hasPageLoaded()){
-      setPageLoadComplete();
+    Page* page = getPageFromDocument(d);
+    if(page){
+      WprofPage* wpage = getWprofPage(page);
+      wpage->installTimer(timerId, timeout, singleShot);
     }
   }
 
-  WprofComputation*  WprofController::willFireTimer(int timerId)
+  void WprofController::removeTimer(int timerId, Document* d)
   {
-    WprofComputation* comp = createWprofComputation(5);
-    comp->setUrlRecalcStyle("Timer");
+    Page* page = getPageFromDocument(d);
+    if(page){
+      WprofPage* wpage = getWprofPage(page);
+      wpage->removeTimer(timerId);
+    }
+  }
+
+  WprofComputation*  WprofController::willFireTimer(int timerId, Document* d)
+  {
+    WprofComputation* comp = NULL;
+    Page* page = getPageFromDocument(d);
+    if(page){
+      WprofPage* wpage = getWprofPage(page);
+      comp = wpage->willFireTimer(timerId);
+    }
     return comp;
   }
 
-  void WprofController::didFireTimer(int timerId, WprofComputation* comp)
+  void WprofController::didFireTimer(int timerId, WprofComputation* comp, Document* d)
   {
-    comp->end();
-    //fprintf(stderr, "timer did fire with id %d\n", timerId);
-    removeTimer(timerId);
-    }*/
+    Page* page = getPageFromDocument(d);
+    if(page){
+      WprofPage* wpage = getWprofPage(page);
+      wpage->didFireTimer(timerId, comp);
+    }
+  }
 
   /*
    * Create a WprofPreload object.
@@ -303,20 +327,20 @@ namespace WebCore {
         
   // CSS -> Image doesn't need this because this kind of dependency is
   // inferred by text matching
-  void WprofController::createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, WprofHTMLTag* tag) {
-    WprofPage* wpage = tag->page();
+  void WprofController::createRequestWprofElementMapping(String url, ResourceRequest& request, WprofGenTag* element) {
+    WprofPage* wpage = element->page();
     if(wpage->isComplete()){
       fprintf(stderr, "the page has already completed, why are we setting the request tag mapping from the wrong page?\n");
     }
-    wpage->createRequestWprofHTMLTagMapping(url, request, tag);
+    wpage->createRequestWprofElementMapping(url, request, element);
   }
         
-  void WprofController::createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, Page* page) {
+  void WprofController::createRequestWprofElementMapping(String url, ResourceRequest& request, Page* page) {
     WprofPage* wpage = getWprofPage(page);
     if(wpage->isComplete()){
       fprintf(stderr, "the page has already completed, why are we setting the request tag mapping from the wrong page?\n");
     }
-    wpage->createRequestWprofHTMLTagMapping(url, request);
+    wpage->createRequestWprofElementMapping(url, request);
   }
 
   void WprofController::redirectRequest(String url, String redirectUrl, ResourceRequest& request, unsigned long resourceId, Page* page)

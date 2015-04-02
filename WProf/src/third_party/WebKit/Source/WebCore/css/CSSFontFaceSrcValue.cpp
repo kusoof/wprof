@@ -96,13 +96,13 @@ CachedFont* CSSFontFaceSrcValue::cachedFont(Document* document)
 	CachedResourceLoader* loader = document->cachedResourceLoader();
 	//Try to get the associated wprof tag
 	if(loader->frame() && loader->frame()->ownerElement()){
-	  WprofHTMLTag* tag = loader->frame()->ownerElement()->wprofHTMLTag();
-	  WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, tag);
+	  WprofGenTag* element = loader->frame()->ownerElement()->wprofElement();
+	  WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, element);
 	}
 	else{
 	  Page* page = WprofController::getInstance()->getPageFromDocument(document);
 	  if(page){
-	    WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, page);
+	    WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, page);
 	  }
 	}
 #endif

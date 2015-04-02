@@ -107,9 +107,6 @@ private:
     String m_characterEncoding;
     String m_fallbackCharacterEncoding;
 
-#if !WPROF_DISABLED
-        WprofHTMLTag* m_wprofHTMLTag;
-#endif
 };
 
 ScriptElement* toScriptElement(Element*);

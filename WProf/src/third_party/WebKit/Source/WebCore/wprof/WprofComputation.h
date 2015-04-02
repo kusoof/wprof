@@ -27,63 +27,34 @@
 
 #if !WPROF_DISABLED
 
-#include "WprofHTMLTag.h"
+#include "WprofElement.h"
 #include <wtf/CurrentTime.h>
 
 namespace WebCore {
 
-//
-class WprofComputation {
-    public:
-        WprofComputation(int type, WprofHTMLTag* tag)
-		: m_endTime(-1)
-                , m_urlRecalcStyle(emptyString())
-        {
-            m_type = type;
-            m_startTime = monotonicallyIncreasingTime();
-            m_fromWprofHTMLTag = tag;
-        };
+
+  class WprofComputation : public WprofElement {
+  public:
+    WprofComputation(int type, WprofElement* element, WprofPage* page);      
+    ~WprofComputation();
         
-        ~WprofComputation() {};
+    int type();
+    WprofElement* fromWprofElement();
+    String urlRecalcStyle();
         
-        int type() { return m_type; }
-        double startTime() { return m_startTime; }
-        double endTime() { return m_endTime; }
-        WprofHTMLTag* fromWprofHTMLTag() { return m_fromWprofHTMLTag; }
-        String urlRecalcStyle() { return m_urlRecalcStyle; }
+    void setUrlRecalcStyle(String url);
+    void end();
         
-        void setUrlRecalcStyle(String url) {
-            m_urlRecalcStyle = url;
-        }
+    String getTypeForPrint();
+
+    void print();
         
-        void end(){
-            m_endTime = monotonicallyIncreasingTime();
-        }
-        
-        String getTypeForPrint() {
-            switch (m_type) {
-                case 1:
-                    return String::format("recalcStyle");
-                case 2:
-                    return String::format("layout");
-                case 3:
-                    return String::format("paint");
-                case 4:
-                    return String::format("execScript");
-                case 5:
-                    return String::format("fireEvent");
-                default:
-                    break;
-            }
-            return String::format("undefined");
-        }
-        
-    private:
-        int m_type; // 1: recalcStyle; 2: layout; 3: paint
-        double m_startTime;
-        double m_endTime;
-        WprofHTMLTag* m_fromWprofHTMLTag;
-        String m_urlRecalcStyle;
+  protected:
+    int m_type; // 1: recalcStyle; 2: layout; 3: paint
+    double m_startTime;
+    double m_endTime;
+    WprofElement* m_fromWprofElement;
+    String m_urlRecalcStyle;
 };
 	
 }

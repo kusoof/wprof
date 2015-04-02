@@ -114,15 +114,15 @@ StyleCachedImageSet* CSSImageSetValue::cachedImageSet(CachedResourceLoader* load
         ImageWithScale image = bestImageForScaleFactor();
         ResourceRequest request(loader->document()->completeURL(image.imageURL));
 #if !WPROF_DISABLED
-	    //Try to get the associated wprof tag
+	    //Try to get the associated wprof element
 	    if(loader->frame() && loader->frame()->ownerElement()){
-	      WprofHTMLTag* tag = loader->frame()->ownerElement()->wprofHTMLTag();
-	      WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url(), request, tag);
+	      WprofGenTag* element = loader->frame()->ownerElement()->wprofElement();
+	      WprofController::getInstance()->createRequestWprofElementMapping(request.url(), request, element);
 	    }
 	    else{
 	      Page* page = WprofController::getInstance()->getPageFromDocument(loader->document());
 	      if(page){
-		WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url(), request, page);
+		WprofController::getInstance()->createRequestWprofElementMapping(request.url(), request, page);
 	      }
 	    }
 #endif

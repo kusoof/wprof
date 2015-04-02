@@ -41,6 +41,7 @@
 #if !WPROF_DISABLED
 #include "Logging.h"
 #include "WprofController.h"
+#include "WprofComputation.h"
 #include <wtf/CurrentTime.h>
 #include <wtf/MD5.h>
 #include <wtf/text/CString.h>
@@ -113,11 +114,11 @@ void CachedCSSStyleSheet::data(PassRefPtr<SharedBuffer> data, bool allDataReceiv
 #if !WPROF_DISABLED
     LOG(DependencyLog, "CachedCSSStyleSheet.cpp::data %lf", monotonicallyIncreasingTime());
 
-    //Get the request and the wprof tag from the request
+    //Get the request and the wprof element from the request
     ResourceRequest& request = resourceRequest();
     WprofComputation* wprofComputation = NULL;
-    if(request.wprofHTMLTag()){
-      wprofComputation = WprofController::getInstance()->createWprofComputation(1, request.wprofHTMLTag());
+    if(request.wprofElement()){
+      wprofComputation = WprofController::getInstance()->createWprofComputation(1, request.wprofElement());
     }
     else{
       //sometimes the css file is preloaded, i.e. the request tag is null.

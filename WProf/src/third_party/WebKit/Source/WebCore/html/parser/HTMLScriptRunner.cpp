@@ -43,6 +43,8 @@
 
 #if !WPROF_DISABLED
 #include "WprofController.h"
+#include "WprofGenTag.h"
+#include "WprofComputation.h"
 #include <wtf/CurrentTime.h>
 #include "Logging.h"
 #endif
@@ -226,7 +228,7 @@ bool HTMLScriptRunner::executeParsingBlockingScripts()
       wprofComputation = WprofController::getInstance()->createWprofComputation(4, frame()->page());
     }
     else{
-      wprofComputation = WprofController::getInstance()->createWprofComputation(4, element->element()->wprofHTMLTag());
+      wprofComputation = WprofController::getInstance()->createWprofComputation(4, element->element()->wprofElement());
     }
     if (m_parsingBlockingScript.cachedScript())
 	wprofComputation->setUrlRecalcStyle(m_parsingBlockingScript.cachedScript()->url().string());

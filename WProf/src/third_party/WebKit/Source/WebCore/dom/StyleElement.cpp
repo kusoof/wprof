@@ -63,11 +63,11 @@ StyleElement::StyleElement(Document* document, bool createdByParser)
         LOG(DependencyLog, "StyleElement.cpp::construct");
 	Page* page = WprofController::getInstance()->getPageFromDocument(document);
 	if(page){
-	  setWprofHTMLTag(WprofController::getInstance()->tempTagForPage(page));
+	  setWprofElement(WprofController::getInstance()->tempElementForPage(page));
 	}
 
         // Set type css
-        WprofController::getInstance()->setElementTypePair(wprofHTMLTag(), 4);
+        WprofController::getInstance()->setElementTypePair(wprofElement(), 4);
 #endif
 }
 

@@ -49,6 +49,7 @@
 #if !WPROF_DISABLED
 #include "Logging.h"
 #include "WprofController.h"
+#include "WprofGenTag.h"
 #include <wtf/CurrentTime.h>
 #include <wtf/MD5.h>
 #include <wtf/Vector.h>
@@ -354,9 +355,9 @@ void HTMLDocumentParser::pumpTokenizer(SynchronousMode mode)
      Page* page = WprofController::getInstance()->getPageFromDocument(doc);
 
      if(page){   
-       WprofHTMLTag* tag = WprofController::getInstance()->tempTagForPage(page);
-       if(tag && tag->startTime() == 0){ //make sure it hasn't been set before.
-	 tag->setStartEndTime(startTime, endTime);
+       WprofElement* element = WprofController::getInstance()->tempElementForPage(page);
+       if(element && element->startTime() == 0){ //make sure it hasn't been set before.
+	 element->setStartEndTime(startTime, endTime);
        }
      }
 #endif

@@ -28,14 +28,34 @@
 #define WprofResource_h
 
 #if !WPROF_DISABLED
-
-#include "WprofHTMLTag.h"
-#include "WprofReceivedChunk.h"
+#include "config.h"
 #include "ResourceLoadTiming.h"
+#include <wtf/text/WTFString.h>
 
 namespace WebCore {
 
   class WprofComputation;
+  class WprofElement;
+
+
+// Define WprofReceivedChunk
+// Note: Created only in ResourceLoader::didReceiveData()
+//
+// This can be retrieved in WprofResource
+  class WprofReceivedChunk {
+  public:
+    WprofReceivedChunk(unsigned long id_url, unsigned long len, double time);
+    ~WprofReceivedChunk();
+        
+    unsigned long getId();
+    unsigned long len();
+    double time();
+
+  private:
+    unsigned long m_id;
+    unsigned long m_len;
+    double m_time;
+  };
 
 // Define WprofResource
 // This is the data structure to store all info about resources
@@ -45,74 +65,41 @@ namespace WebCore {
 class WprofResource {
 public:
 
-        WprofResource(
-	    unsigned long id,
-	    String url,
-            RefPtr<ResourceLoadTiming> resourceLoadTiming,
-            String mime,
-            long long expectedContentLength,
-            int httpStatusCode,
-            unsigned connectionId,
-            bool connectionReused,
-            bool wasCached,
-	    double time,
-	    WprofHTMLTag* from
-	)
-		: m_bytes(0)
-        {
-            m_id = id;
-
-	    // [Note] deep copy
-            if (resourceLoadTiming != NULL)
-            	m_resourceLoadTiming = resourceLoadTiming->deepCopy();
-
-	    m_url = url;
-	    m_mimeType = mime;
-
-            m_expectedContentLength = expectedContentLength;
-            m_httpStatusCode = httpStatusCode;
-            m_connectionId = connectionId;
-            m_connectionReused = connectionReused;
-            m_wasCached = wasCached;
-            m_timeDownloadStart = time;
-            m_fromWprofObject = (unsigned long)from;
-
-	    // Create WprofReceivedChunk and WprofHTMLTag vectors
-            m_receivedChunkInfoVector = new Vector<WprofReceivedChunk*>;
-        };
+  WprofResource(unsigned long id,
+		String url,
+		RefPtr<ResourceLoadTiming> resourceLoadTiming,
+		String mime,
+		long long expectedContentLength,
+		int httpStatusCode,
+		unsigned connectionId,
+		bool connectionReused,
+		bool wasCached,
+		double time,
+		WprofElement* from);
+	        
+  ~WprofResource();
         
-        ~WprofResource() {};
-        
-        unsigned long getId() { return m_id; }
-        String url() { return m_url; }
-        RefPtr<ResourceLoadTiming> resourceLoadTiming() { return m_resourceLoadTiming; }
-        String mimeType() { return m_mimeType; }
-        long long expectedContentLength() { return m_expectedContentLength; }
-        int httpStatusCode() { return m_httpStatusCode; }
-        unsigned connectionId() { return m_connectionId; }
-        bool connectionReused() { return m_connectionReused; }
-        bool wasCached() { return m_wasCached; }
-        double timeDownloadStart() { return m_timeDownloadStart; }
-        unsigned long fromWprofObject() { return m_fromWprofObject; }
-        unsigned long bytes() { return m_bytes; }
+  unsigned long getId();
+  String url();
+  RefPtr<ResourceLoadTiming> resourceLoadTiming();
+  String mimeType();
+  long long expectedContentLength();
+  int httpStatusCode();
+  unsigned connectionId();
+  bool connectionReused();
+  bool wasCached();
+  double timeDownloadStart();
+  unsigned long fromWprofObject();
+  unsigned long bytes();
 
-        Vector<WprofReceivedChunk*>* receivedChunkInfoVector() { return m_receivedChunkInfoVector; }
+  Vector<WprofReceivedChunk*>* receivedChunkInfoVector();
         
         
-        // Called only in WprofController::createWprofReceivedChunk()
-        void addBytes(unsigned long bytes) {
-            m_bytes += bytes;
-        }
+  // Called only in WprofController::createWprofReceivedChunk()
+  void addBytes(unsigned long bytes);
         
-        // Called only in WprofController::createWprofReceivedChunk()
-        void appendWprofReceivedChunk(WprofReceivedChunk* info) {
-            if (info == NULL)
-                return;
-            
-            // TODO temp comment out
-            //ASSERT(info->getId() == getId());
-            m_receivedChunkInfoVector->append(info);
-        }
+  // Called only in WprofController::createWprofReceivedChunk()
+  void appendWprofReceivedChunk(WprofReceivedChunk* info);
         
 private:
 

@@ -94,13 +94,13 @@ StyleCachedImage* CSSImageValue::cachedImage(CachedResourceLoader* loader, const
             LOG(DependencyResults, "CSSImageValue.cpp::cachedImage PAIR3 %s", request.url().string().utf8().data());
 	    //Try to get the associated wprof tag
 	    if(loader->frame() && loader->frame()->ownerElement()){
-	      WprofHTMLTag* tag = loader->frame()->ownerElement()->wprofHTMLTag();
-	      WprofController::getInstance()->createRequestWprofHTMLTagMapping(url, request, tag);
+	      WprofGenTag* element = loader->frame()->ownerElement()->wprofElement();
+	      WprofController::getInstance()->createRequestWprofElementMapping(url, request, element);
 	    }
 	    else{
 	      Page* page = WprofController::getInstance()->getPageFromDocument(loader->document());
 	      if(page){
-		WprofController::getInstance()->createRequestWprofHTMLTagMapping(url, request, page);
+		WprofController::getInstance()->createRequestWprofElementMapping(url, request, page);
 	      }
 	    }
 #endif

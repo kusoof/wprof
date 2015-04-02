@@ -17,18 +17,18 @@
 #include <wtf/text/WTFString.h>
 
 //Wprof includes
-#include "WprofResource.h"
-#include "WprofComputation.h"
-#include "WprofHTMLTag.h"
-#include "WprofPreload.h"
-#include "WprofReceivedChunk.h"
+//#include "WprofResource.h"
+//#include "WprofComputation.h"
+//#include "WprofHTMLTag.h"
+//#include "WprofElement.h"
+//#include "WprofPreload.h"
 
 //WebCore includes
-#include "Page.h"
+/*#include "Page.h"
 #include "Document.h"
 #include "DocumentFragment.h"
 #include "ResourceRequest.h"
-#include "Event.h"
+#include "Event.h"*/
 
 //Other includes
 #include <string.h>
@@ -44,6 +44,19 @@ namespace WebCore
 {
   class ResourceRequest;
   class ResourceResponse;
+
+  class WprofResource;
+  class WprofComputation;
+  class WprofHTMLTag;
+  class WprofGenTag;
+  class WprofElement;
+  class WprofPreload;
+  class WprofReceivedChunk;
+
+  class Page;
+  class Document;
+  class DocumentFragment;
+  class Event;
 
   typedef struct CurrentPosition {
     int position;
@@ -63,7 +76,7 @@ namespace WebCore
     WprofPage(Page* page);
     ~WprofPage();
 
-    Page* page () {return m_page;}
+    Page* page ();
 
     /*----------------------------------------------------------------
       Document Addition
@@ -98,7 +111,7 @@ namespace WebCore
      */
     void createRequestTimeMapping(unsigned long resourceId);
 
-    void createResourceTagMapping(unsigned long resourceId, WprofHTMLTag* tag);
+    void createResourceElementMapping(unsigned long resourceId, WprofElement* element);
 
     /*-------------------------------------------------------------------------
       HTML Tag Creation
@@ -126,9 +139,15 @@ namespace WebCore
 			    String token,
 			    bool isStartTag);
 
+    //Wprof element created from javascript using createElement
+    void createWprofGenTag(String docUrl,
+			   Document* document,
+			   String token);
+
+
     // Place the html tag inside the request for later reference when we actually receive the response.
-    void createRequestWprofHTMLTagMapping(String url, ResourceRequest& request, WprofHTMLTag* tag);
-    void createRequestWprofHTMLTagMapping(String url, ResourceRequest& request);
+    void createRequestWprofElementMapping(String url, ResourceRequest& request, WprofGenTag* element);
+    void createRequestWprofElementMapping(String url, ResourceRequest& request);
     void redirectRequest(String url, String redirectUrl, ResourceRequest& request, unsigned long resourceId);
 
     /* ------------------------------------------------------------------------
@@ -140,7 +159,9 @@ namespace WebCore
      * @param int type of the WprofComputation
      */
     WprofComputation* createWprofComputation(int type);
-    WprofComputation* createWprofComputation(int type, WprofHTMLTag* tag);
+    WprofComputation* createWprofComputation(int type, WprofElement* element);
+
+    void setCurrentComputationComplete();
 
     /*-------------------------------------------------------------------------
       Preloads
@@ -174,15 +195,15 @@ namespace WebCore
        Timers
        ----------------------------------------------------------*/
 	
-    /*void installTimer(int timerId, int timeout, bool singleShot);
+    void installTimer(int timerId, int timeout, bool singleShot);
 
     void removeTimer(int timerId);
 
     WprofComputation*  willFireTimer(int timerId);
 
-    void didFireTimer(int timerId, WprofComputation* comp);*/
+    void didFireTimer(int timerId, WprofComputation* comp);
 
-    WprofHTMLTag* tempWprofHTMLTag();
+    WprofGenTag* tempWprofGenTag();
 
     void willFireEventListeners(Event* event, WprofComputation* comp);
     void didFireEventListeners();
@@ -194,7 +215,7 @@ namespace WebCore
       return m_complete;
     }
 
-    void setTagTypePair(WprofHTMLTag* tag, int value);
+    void setElementTypePair(WprofGenTag* element, int value);
 
   private:
     /*------------------------------------------------------------------------------
@@ -203,10 +224,10 @@ namespace WebCore
     void addStartTag(WprofHTMLTag* tag);
 
     //Match a preloaded resource with the HTML tag that references it
-    void matchWithPreload(WprofHTMLTag* tag, String tagUrl);
+    void matchWithPreload(WprofGenTag* tag, String tagUrl);
 
     // For temporarily stored obj hash
-    void setTempWprofHTMLTag(WprofHTMLTag* tempWprofHTMLTag);
+    void setTempWprofGenTag(WprofGenTag* tempWprofGenTag);
 
     /*
      * Get the request time of a url and delete its corresponding mapping
@@ -273,11 +294,11 @@ namespace WebCore
     // <url, request time>
     HashMap<unsigned long, double> m_requestTimeMap;
 
-    //A map between a resource identifier and the tag that referenced the resource
-    HashMap<unsigned long, WprofHTMLTag*> m_identifierTagMap;
+    //A map between a resource identifier and the element that referenced the resource
+    HashMap<unsigned long, WprofElement*> m_identifierElementMap;
 
     // A vector for the HTML tags for the documents of this page.
-    Vector<WprofHTMLTag*> m_tags;
+    Vector<WprofGenTag*> m_tags;
 
     // --------
     // Track computational events and what triggers them
@@ -306,19 +327,19 @@ namespace WebCore
     // - async:  s_exec triggered by e_download
     // See WebCore/html/parser/HTMLTreeBuilder.cpp for more details
     Vector<WprofHTMLTag*> m_startTags; // s_download(element) > position
-    HashMap<WprofHTMLTag*, int> m_tagTypeMap; // 1: normal; 2: defer; 3: async; 4: CSS
+    HashMap<WprofGenTag*, int> m_elementTypeMap; // 1: normal; 2: defer; 3: async; 4: CSS
     
-    //A list of timers that have been installed, and we are waiting for them to be fired
-    Vector<int> m_timers;
+    //A map of timers that have been installed, and waiting to fire, pointing to the computations that triggered them
+    HashMap<int, WprofComputation*> m_timers;
         
     // --------
-    // Temp WprofHTMLTag
-    WprofHTMLTag* m_tempWprofHTMLTag;
+    // Temp WprofElement, which could be an HTML tag, or a javascript generated element
+    WprofGenTag* m_tempWprofGenTag;
     int m_charConsumed;
 
     //Store the current load or DOMContentLoaded event
     Event* m_currentEvent;
-    WprofComputation* m_eventComputation;
+    WprofComputation* m_currentComputation;
 	
     // DOM counters so as to control when to output info
     int m_domCounter;

@@ -54,7 +54,7 @@ PassOwnPtr<ResourceRequest> ResourceRequestBase::adopt(PassOwnPtr<CrossThreadRes
     request->setHTTPMethod(data->m_httpMethod);
     request->setPriority(data->m_priority);
 #if !WPROF_DISABLED
-    request->setWprofHTMLTag((WprofHTMLTag*)data->m_wprofHTMLTag);
+    request->setWprofElement((WprofElement*)data->m_wprofElement);
     request->setWprofPage((WprofPage*) data->m_wprofPage);
 #endif
     request->updateResourceRequest();
@@ -90,7 +90,7 @@ PassOwnPtr<CrossThreadResourceRequestData> ResourceRequestBase::copyData() const
     data->m_httpHeaders = httpHeaderFields().copyData();
     data->m_priority = priority();
  #if !WPROF_DISABLED
-    data->m_wprofHTMLTag = m_wprofHTMLTag;
+    data->m_wprofElement = m_wprofElement;
     data->m_wprofPage = m_wprofPage;
  #endif
 

@@ -53,6 +53,8 @@
 #if !WPROF_DISABLED
 #include "Logging.h"
 #include "WprofController.h"
+#include "WprofComputation.h"
+#include "WprofGenTag.h"
 #include <wtf/CurrentTime.h>
 #endif
 
@@ -245,7 +247,7 @@ bool ScriptElement::prepareScript(const TextPosition& scriptStartPosition, Legac
         TextPosition position = document->isInDocumentWrite() ? TextPosition() : scriptStartPosition;
 #if !WPROF_DISABLED
 	LOG(DependencyLog, "ScriptElement::prepareScript ThreadId:%d %lf", currentThread(), monotonicallyIncreasingTime());
-	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, element()->wprofHTMLTag());
+	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, element()->wprofElement());
 #endif
         executeScript(ScriptSourceCode(scriptContent(), document->url(), position));
 #if !WPROF_DISABLED
@@ -270,7 +272,7 @@ bool ScriptElement::requestScript(const String& sourceUrl)
         ResourceRequest request = ResourceRequest(m_element->document()->completeURL(sourceUrl));
 
 #if !WPROF_DISABLED
-        WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, element()->wprofHTMLTag());
+        WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, element()->wprofElement());
 #endif
 
         String crossOriginMode = m_element->fastGetAttribute(HTMLNames::crossoriginAttr);
@@ -333,7 +335,7 @@ void ScriptElement::execute(CachedScript* cachedScript)
     else if (!cachedScript->wasCanceled()) {
 #if !WPROF_DISABLED
 	LOG(DependencyLog, "ScriptElement::execute ThreadId:%d %lf %s", currentThread(), monotonicallyIncreasingTime(), cachedScript->url().string().utf8().data());
-	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, element()->wprofHTMLTag());
+	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, element()->wprofElement());
 	wprofComputation->setUrlRecalcStyle(cachedScript->url().string());
 #endif
         executeScript(ScriptSourceCode(cachedScript));

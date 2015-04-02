@@ -38,7 +38,7 @@
 namespace WebCore {
 
 #if !WPROF_DISABLED
-  class WprofHTMLTag;
+  class WprofElement;
   class WprofPage;
 #endif
 
@@ -68,8 +68,8 @@ namespace WebCore {
         void setURL(const KURL& url);
 
 #if !WPROF_DISABLED
-	void setWprofHTMLTag (WprofHTMLTag* tag) {m_wprofHTMLTag = (unsigned long) tag;}
-	WprofHTMLTag* wprofHTMLTag () {return (WprofHTMLTag*) m_wprofHTMLTag;}
+	void setWprofElement (WprofElement* tag) {m_wprofElement = (unsigned long) tag;}
+	WprofElement* wprofElement () {return (WprofElement*) m_wprofElement;}
 	WprofPage* wprofPage() {return (WprofPage*) m_wprofPage;}
 	void setWprofPage(WprofPage* page) { m_wprofPage = (unsigned long)page;}
 #endif
@@ -152,7 +152,7 @@ namespace WebCore {
     protected:
         // Used when ResourceRequest is initialized from a platform representation of the request
         ResourceRequestBase()
-	    : m_wprofHTMLTag(0L)
+	    : m_wprofElement(0L)
 	    , m_wprofPage(0L)
 	    , m_resourceRequestUpdated(false)
             , m_platformRequestUpdated(true)
@@ -165,7 +165,7 @@ namespace WebCore {
 
         ResourceRequestBase(const KURL& url, ResourceRequestCachePolicy policy)
             : m_url(url)
-	    , m_wprofHTMLTag(0L)
+	    , m_wprofElement(0L)
 	    , m_wprofPage(0L)
             , m_cachePolicy(policy)
             , m_timeoutInterval(s_defaultTimeoutInterval)
@@ -189,7 +189,7 @@ namespace WebCore {
         KURL m_url;
 
 #if !WPROF_DISABLED
-	unsigned long m_wprofHTMLTag;
+	unsigned long m_wprofElement;
 	unsigned long m_wprofPage;
 #endif
 
@@ -230,7 +230,7 @@ namespace WebCore {
         KURL m_firstPartyForCookies;
 
         String m_httpMethod;
-        unsigned long m_wprofHTMLTag;
+        unsigned long m_wprofElement;
         unsigned long m_wprofPage;
         OwnPtr<CrossThreadHTTPHeaderMapData> m_httpHeaders;
         Vector<String> m_responseContentDispositionEncodingFallbackArray;

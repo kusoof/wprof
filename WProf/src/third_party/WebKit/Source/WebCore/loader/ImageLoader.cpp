@@ -181,7 +181,7 @@ void ImageLoader::updateFromElement()
 
 #if !WPROF_DISABLED
 	LOG(DependencyResults, "ImageLoader.cpp::updateFromElement PAIR3 %s", request.url().string().utf8().data());
-	WprofController::getInstance()->createRequestWprofHTMLTagMapping(request.url().string(), request, m_element->wprofHTMLTag());
+	WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, m_element->wprofElement());
 #endif
 
         if (m_loadManually) {

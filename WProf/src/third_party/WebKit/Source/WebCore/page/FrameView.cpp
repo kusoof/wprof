@@ -90,6 +90,7 @@
 #if !WPROF_DISABLED
 #include "Logging.h"
 #include "WprofController.h"
+#include "WprofComputation.h"
 #endif
 
 namespace WebCore {

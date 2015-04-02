@@ -69,7 +69,7 @@ void HTMLScriptElement::parseAttribute(const Attribute& attribute)
         handleSourceAttribute(attribute.value());
     } else if (attribute.name() == asyncAttr) {
 #if !WPROF_DISABLED
-        WprofController::getInstance()->setElementTypePair(wprofHTMLTag(), 3); // async
+      WprofController::getInstance()->setElementTypePair(wprofElement(), 3); // async
 #endif
         handleAsyncAttribute();
     } else if (attribute.name() == onloadAttr)
