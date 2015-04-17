@@ -23,6 +23,7 @@
 
 #include "CSSValue.h"
 #include <wtf/RefPtr.h>
+#include "Element.h"
 
 namespace WebCore {
 
@@ -46,6 +47,8 @@ public:
 
     PassRefPtr<CSSValue> cloneForCSSOM() const;
 
+    void setElement(Element* element) { m_element = element;}
+
 protected:
     CSSImageValue(ClassType, const String& url);
 
@@ -60,6 +63,7 @@ private:
     String m_url;
     RefPtr<StyleImage> m_image;
     bool m_accessedImage;
+    Element* m_element;
 };
 
 } // namespace WebCore

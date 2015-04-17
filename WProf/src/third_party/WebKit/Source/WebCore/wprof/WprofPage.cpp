@@ -50,7 +50,6 @@ namespace WebCore {
     , m_state (WPROF_BEGIN)
   {
     m_currentEvent = 0;
-    m_currentComputation = 0;
     m_complete = false;
   }
         
@@ -220,6 +219,7 @@ namespace WebCore {
 					 isFragment,
 					 isStartTag);
 
+
     // Add WprofHTMLTag to its vector
     m_tags.append(tag);
 
@@ -239,9 +239,11 @@ namespace WebCore {
       }
     }
     //Set computation if it triggered the current tag
-    if(m_currentComputation){
-      tag->setParentComputation(m_currentComputation);
+    if(!m_computationStack.empty()){
+      WprofComputation* currentComputation = m_computationStack.top();
+      tag->setParentComputation(currentComputation);
     }
+    //tag->print();
   }
 
   void WprofPage::createWprofGenTag(String docUrl,
@@ -255,7 +257,6 @@ namespace WebCore {
     m_tags.append(element);
 
     setTempWprofGenTag(element);
-
     
     if (token == String::format("script")) {
       // Add tag to tempWprofHTMLTag for EndTag
@@ -267,12 +268,14 @@ namespace WebCore {
     }
     
     //Set computation if it triggered the event
-    if(m_currentComputation){
-      element->setParentComputation(m_currentComputation);
+    if(!m_computationStack.empty()){
+      WprofComputation* currentComputation = m_computationStack.top();
+      element->setParentComputation(currentComputation);
     }
     else{
-      fprintf(stderr, "computation is null\n");
+      fprintf(stderr, "computation is null for element %s\n", token.utf8().data());
     }
+    //element->print();
   }
 
   //Wprof tags created from parsing a document fragment.
@@ -292,6 +295,7 @@ namespace WebCore {
 					 charPos->position,
 					 true,
 					 isStartTag);
+
 
     // Add WprofHTMLTag to its vector
     m_tags.append(tag);
@@ -314,9 +318,11 @@ namespace WebCore {
 
     //If we are in the middle of executing an event, then the parsed tag will depend on the computation
     //Set computation if it triggered the parsing
-    if(m_currentComputation){
-      tag->setParentComputation(m_currentComputation);
+    if(!m_computationStack.empty()){
+      WprofComputation* currentComputation = m_computationStack.top();
+      tag->setParentComputation(currentComputation);
     }
+    //tag->print();
   }
 
   
@@ -339,15 +345,18 @@ namespace WebCore {
     }
 
     //Check whether we have a current computation
-    //Note: rather hacky to downcast WprofElement to WprofGenTag ... neex to fix later
-    if(m_currentComputation && (m_currentComputation->type() == 4) && (!element || (element->parentComputation() != m_currentComputation))){
+    WprofComputation* currentComputation = NULL;
+    if(!m_computationStack.empty()){
+      currentComputation = m_computationStack.top();
+    }
+    if(currentComputation && (!element || (element->parentComputation() != currentComputation))){
       
       //If the selected element has the computation as the predecessor,
       //then it's ok to let the resource's predecessor be the element, not the computation
 
       //Otherwise do the following
-      request.setWprofElement(m_currentComputation);
-      m_currentComputation->appendUrl(url);
+      request.setWprofElement(currentComputation);
+      currentComputation->appendUrl(url);
     }
     //Assign the tag to the request
     //This could be the very first request for the page, which has a null tag.
@@ -415,16 +424,21 @@ namespace WebCore {
     WprofComputation* event = new WprofComputation(type, element, this);
     m_computations.append(event);
 
-    //if this is a script or timer, then set the current event
-    if((type == 4) || (type == 6) || (type == 5)){
-      m_currentComputation = event;
+    //if this is a script, fire event, css, or timer, then set the current event
+    if((type == 4) || (type == 6) || (type == 5) || (type == 1)){
+      m_computationStack.push(event);
+      //fprintf(stderr, "the start computation is here %s\n", event->getTypeForPrint().utf8().data()); 
     }
 
     return event;
   }
 
   void WprofPage::setCurrentComputationComplete(){
-    m_currentComputation = NULL;
+    if(!m_computationStack.empty()){
+      WprofComputation* event = m_computationStack.top();
+      m_computationStack.pop();
+      //fprintf(stderr, "the end computation is here %s\n", event->getTypeForPrint().utf8().data()); 
+    }
   }
   
   /*-----------------------------------------------------------------
@@ -504,13 +518,15 @@ namespace WebCore {
   {
     //fprintf(stderr, "Will fire event of type %s\n", event->type().string().utf8().data());
     m_currentEvent = event;
-    m_currentComputation = comp;
+    //m_computationStack.push(comp);
   }
 
   void WprofPage::didFireEventListeners()
   {
     m_currentEvent = NULL;
-    m_currentComputation = NULL;
+    /*if(!m_computationStack.empty()){
+      m_computationStack.pop();
+      }*/
   }
 
 
@@ -520,15 +536,18 @@ namespace WebCore {
 	
   void WprofPage::installTimer(int timerId, int timeout, bool singleShot)
   {
-    if(m_currentComputation){
-      m_timers.set(timerId, m_currentComputation);
+    if(!m_computationStack.empty()){
+      WprofComputation* currentComputation = m_computationStack.top();
+      m_timers.set(timerId, currentComputation);
     }
+    m_timeouts.set(timerId, timeout);
   }
 
   void WprofPage::removeTimer(int timerId)
   {
     if(m_timers.contains(timerId)){
       m_timers.remove(timerId);
+      m_timeouts.remove(timerId);
     }
   }
 
@@ -539,8 +558,13 @@ namespace WebCore {
     if(m_timers.contains(timerId)){
       parent = m_timers.get(timerId);
     }
+    
     WprofComputation* comp = createWprofComputation(6, parent);
     
+    if(m_timeouts.contains(timerId)){
+      int timeout = m_timeouts.get(timerId);
+      comp->setUrlRecalcStyle(String::format("%d", timeout));
+    }
     return comp;
   }
 

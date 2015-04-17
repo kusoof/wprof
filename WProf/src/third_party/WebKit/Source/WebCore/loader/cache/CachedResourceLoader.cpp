@@ -253,8 +253,13 @@ CachedResourceHandle<CachedRawResource> CachedResourceLoader::requestRawResource
 {
 #if !WPROF_DISABLED
     HTMLDocumentParser* parser = (HTMLDocumentParser*)(document()->parser());
+    
+    //If this function was called from the plugin route, the request should already have a wprof element set. Check it
+    if(request.wprofElement()){
+      WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, (WprofGenTag*)request.wprofElement());
+    }
     //Try to get the frame and the owner element
-    if(frame() && frame()->ownerElement()){
+    else if(frame() && frame()->ownerElement()){
       WprofGenTag* element = frame()->ownerElement()->wprofElement();
       LOG(DependencyResults, "CachedResourceLoader.cpp::requestRawResource PAIR3 %s", request.url().string().utf8().data());
       WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, element);

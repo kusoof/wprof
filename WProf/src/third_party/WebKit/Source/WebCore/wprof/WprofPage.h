@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <stack>
 
 #include "Logging.h"
 #include "ResourceLoadTiming.h"
@@ -331,15 +332,18 @@ namespace WebCore
     
     //A map of timers that have been installed, and waiting to fire, pointing to the computations that triggered them
     HashMap<int, WprofComputation*> m_timers;
+
+    //A map of the timer installed and its timeout value
+    HashMap<int, int> m_timeouts;
         
     // --------
     // Temp WprofElement, which could be an HTML tag, or a javascript generated element
     WprofGenTag* m_tempWprofGenTag;
     int m_charConsumed;
 
-    //Store the current load or DOMContentLoaded event
+    //Store the current computation or load or DOMContentLoaded events in a stack
     Event* m_currentEvent;
-    WprofComputation* m_currentComputation;
+    std::stack<WprofComputation*> m_computationStack;
 	
     // DOM counters so as to control when to output info
     int m_domCounter;

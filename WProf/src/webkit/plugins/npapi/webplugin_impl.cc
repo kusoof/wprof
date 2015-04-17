@@ -1232,6 +1232,7 @@ bool WebPluginImpl::InitiateHTTPRequest(unsigned long resource_id,
   info.request.setRequestorProcessID(delegate_->GetProcessId());
   info.request.setTargetType(WebURLRequest::TargetIsObject);
   info.request.setHTTPMethod(WebString::fromUTF8(method));
+  info.request.setWprofElement(container_->coreElement());
   info.pending_failure_notification = false;
   info.notify_redirects = notify_redirects;
   info.is_plugin_src_load = is_plugin_src_load;

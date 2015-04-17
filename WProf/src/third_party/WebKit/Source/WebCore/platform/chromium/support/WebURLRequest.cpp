@@ -32,6 +32,9 @@
 #include <public/WebURLRequest.h>
 
 #include "ResourceRequest.h"
+#include "HTMLPlugInElement.h"
+#include "WprofElement.h"
+#include "WprofGenTag.h"
 #include "WebURLRequestPrivate.h"
 #include <public/WebHTTPBody.h>
 #include <public/WebHTTPHeaderVisitor.h>
@@ -135,6 +138,10 @@ bool WebURLRequest::allowCookies() const
 void WebURLRequest::setAllowCookies(bool allowCookies)
 {
     m_private->m_resourceRequest->setAllowCookies(allowCookies);
+}
+
+void WebURLRequest::setWprofElement(WebCore::HTMLPlugInElement* element){
+  m_private->m_resourceRequest->setWprofElement(element->wprofElement());
 }
 
 bool WebURLRequest::allowStoredCredentials() const

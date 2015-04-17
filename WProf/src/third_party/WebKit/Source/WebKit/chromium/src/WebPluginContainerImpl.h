@@ -94,6 +94,7 @@ public:
 
     // WebPluginContainer methods
     virtual WebElement element();
+    virtual WebCore::HTMLPlugInElement* coreElement();
     virtual void invalidate();
     virtual void invalidateRect(const WebRect&);
     virtual void scrollRect(int dx, int dy, const WebRect&);

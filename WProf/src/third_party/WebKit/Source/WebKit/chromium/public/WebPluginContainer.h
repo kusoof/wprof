@@ -33,6 +33,10 @@
 
 struct NPObject;
 
+namespace WebCore {
+  class HTMLPlugInElement;
+}
+
 namespace WebKit {
 
 class WebElement;
@@ -46,6 +50,8 @@ class WebPluginContainer {
 public:
     // Returns the element containing this plugin.
     virtual WebElement element() = 0;
+
+    virtual WebCore::HTMLPlugInElement* coreElement() = 0;
 
     virtual void invalidate() = 0;
     virtual void invalidateRect(const WebRect&) = 0;

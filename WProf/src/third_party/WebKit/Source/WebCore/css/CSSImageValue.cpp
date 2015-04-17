@@ -44,6 +44,7 @@ CSSImageValue::CSSImageValue(ClassType classType, const String& url)
     : CSSValue(classType)
     , m_url(url)
     , m_accessedImage(false)
+    , m_element(0)
 {
 }
 
@@ -51,6 +52,7 @@ CSSImageValue::CSSImageValue(const String& url)
     : CSSValue(ImageClass)
     , m_url(url)
     , m_accessedImage(false)
+    , m_element(0)
 {
 }
 
@@ -59,6 +61,7 @@ CSSImageValue::CSSImageValue(const String& url, StyleImage* image)
     , m_url(url)
     , m_image(image)
     , m_accessedImage(true)
+    , m_element(0)
 {
 }
 
@@ -93,7 +96,10 @@ StyleCachedImage* CSSImageValue::cachedImage(CachedResourceLoader* loader, const
 #if !WPROF_DISABLED
             LOG(DependencyResults, "CSSImageValue.cpp::cachedImage PAIR3 %s", request.url().string().utf8().data());
 	    //Try to get the associated wprof tag
-	    if(loader->frame() && loader->frame()->ownerElement()){
+	    if (m_element && m_element->wprofElement()){
+	      WprofController::getInstance()->createRequestWprofElementMapping(url, request, m_element->wprofElement());
+	    }
+	    else if(loader->frame() && loader->frame()->ownerElement()){
 	      WprofGenTag* element = loader->frame()->ownerElement()->wprofElement();
 	      WprofController::getInstance()->createRequestWprofElementMapping(url, request, element);
 	    }

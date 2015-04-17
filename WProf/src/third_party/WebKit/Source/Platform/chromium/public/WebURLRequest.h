@@ -35,8 +35,15 @@
 #include "WebHTTPBody.h"
 
 #if WEBKIT_IMPLEMENTATION
-namespace WebCore { class ResourceRequest; }
+namespace WebCore { 
+  class ResourceRequest; 
+}
 #endif
+
+namespace WebCore {
+  class WprofElement;
+  class HTMLPlugInElement;
+}
 
 namespace WebKit {
 
@@ -181,6 +188,8 @@ public:
     WEBKIT_EXPORT ExtraData* extraData() const;
     WEBKIT_EXPORT void setExtraData(ExtraData*);
 
+    WEBKIT_EXPORT void setWprofElement(WebCore::HTMLPlugInElement* element);
+    
 #if WEBKIT_IMPLEMENTATION
     WebCore::ResourceRequest& toMutableResourceRequest();
     const WebCore::ResourceRequest& toResourceRequest() const;

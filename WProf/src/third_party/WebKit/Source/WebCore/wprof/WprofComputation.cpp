@@ -53,7 +53,7 @@ namespace WebCore {
     m_endTime = monotonicallyIncreasingTime();
 
     //if this is a script execution, notify the page
-    if((m_type == 4) || (m_type == 6) || (m_type == 5)){
+    if((m_type == 4) || (m_type == 6) || (m_type == 5) || (m_type == 1)){
       m_page->setCurrentComputationComplete();
     }
   }

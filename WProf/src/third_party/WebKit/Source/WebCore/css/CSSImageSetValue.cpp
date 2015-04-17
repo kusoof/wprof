@@ -49,6 +49,7 @@ CSSImageSetValue::CSSImageSetValue()
     : CSSValueList(ImageSetClass, CommaSeparator)
     , m_accessedBestFitImage(false)
     , m_scaleFactor(1)
+    , m_element(0)
 {
 }
 
@@ -115,16 +116,19 @@ StyleCachedImageSet* CSSImageSetValue::cachedImageSet(CachedResourceLoader* load
         ResourceRequest request(loader->document()->completeURL(image.imageURL));
 #if !WPROF_DISABLED
 	    //Try to get the associated wprof element
-	    if(loader->frame() && loader->frame()->ownerElement()){
-	      WprofGenTag* element = loader->frame()->ownerElement()->wprofElement();
-	      WprofController::getInstance()->createRequestWprofElementMapping(request.url(), request, element);
-	    }
-	    else{
-	      Page* page = WprofController::getInstance()->getPageFromDocument(loader->document());
-	      if(page){
-		WprofController::getInstance()->createRequestWprofElementMapping(request.url(), request, page);
-	      }
-	    }
+	if (m_element && m_element->wprofElement()){
+	  WprofController::getInstance()->createRequestWprofElementMapping(request.url(), request, m_element->wprofElement());
+	}
+	if(loader->frame() && loader->frame()->ownerElement()){
+	  WprofGenTag* element = loader->frame()->ownerElement()->wprofElement();
+	  WprofController::getInstance()->createRequestWprofElementMapping(request.url(), request, element);
+	}
+	else{
+	  Page* page = WprofController::getInstance()->getPageFromDocument(loader->document());
+	  if(page){
+	    WprofController::getInstance()->createRequestWprofElementMapping(request.url(), request, page);
+	  }
+	}
 #endif
         if (CachedResourceHandle<CachedImage> cachedImage = loader->requestImage(request)) {
             m_imageSet = StyleCachedImageSet::create(cachedImage.get(), image.scaleFactor, this);

@@ -312,6 +312,10 @@ WebElement WebPluginContainerImpl::element()
     return WebElement(m_element);
 }
 
+  WebCore::HTMLPlugInElement* WebPluginContainerImpl::coreElement(){
+    return m_element;
+  }
+
 void WebPluginContainerImpl::invalidate()
 {
     Widget::invalidate();

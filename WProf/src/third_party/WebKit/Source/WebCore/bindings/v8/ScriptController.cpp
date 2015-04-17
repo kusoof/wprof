@@ -188,6 +188,8 @@ ScriptValue ScriptController::evaluate(const ScriptSourceCode& sourceCode)
     const String* savedSourceURL = m_sourceURL;
     m_sourceURL = &sourceURL;
 
+    //fprintf(stderr, "source code url is %s\n and source code is %s\n", sourceCode.url().string().utf8().data(), sourceCode.source().utf8().data());
+
     v8::HandleScope handleScope;
     v8::Handle<v8::Context> v8Context = V8Proxy::mainWorldContext(m_proxy->frame());
     if (v8Context.IsEmpty())

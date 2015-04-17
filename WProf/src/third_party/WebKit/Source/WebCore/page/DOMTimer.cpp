@@ -149,6 +149,9 @@ void DOMTimer::fired()
       comp =WprofController::getInstance()->willFireTimer(m_timeoutId, d);
       timerId = m_timeoutId; //we need to store this since it is modified after we execute the timer action
     }
+    else{
+      fprintf(stderr, "context is not a document, cannot create computation for timer fire\n");
+    }
 #endif
 
     // Simple case for non-one-shot timers.

@@ -5449,6 +5449,7 @@ PassRefPtr<StyleImage> StyleResolver::loadPendingImage(StylePendingImage* pendin
 
     if (pendingImage->cssImageValue()) {
         CSSImageValue* imageValue = pendingImage->cssImageValue();
+	imageValue->setElement(m_element);
         return imageValue->cachedImage(cachedResourceLoader);
     }
 
@@ -5461,6 +5462,7 @@ PassRefPtr<StyleImage> StyleResolver::loadPendingImage(StylePendingImage* pendin
 #if ENABLE(CSS_IMAGE_SET)
     if (pendingImage->cssImageSetValue()) {
         CSSImageSetValue* imageSetValue = pendingImage->cssImageSetValue();
+	imageSetValue->setElement(m_element);
         return imageSetValue->cachedImageSet(cachedResourceLoader);
     }
 #endif

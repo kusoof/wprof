@@ -29,6 +29,7 @@
 #if ENABLE(CSS_IMAGE_SET)
 
 #include "CSSValueList.h"
+#include "Element.h"
 
 namespace WebCore {
 
@@ -62,6 +63,8 @@ public:
 
     PassRefPtr<CSSImageSetValue> cloneForCSSOM() const;
 
+    void setElement(Element* element) { m_element = element;}
+
 protected:
     ImageWithScale bestImageForScaleFactor();
 
@@ -80,6 +83,7 @@ private:
     float m_scaleFactor;
 
     Vector<ImageWithScale> m_imagesInSet;
+    Element* m_element;
 };
 
 } // namespace WebCore

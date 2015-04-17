@@ -333,6 +333,7 @@ v8::Local<v8::Value> V8Proxy::evaluate(const ScriptSourceCode& source, Node* nod
         TRACE_EVENT_END0("v8", "v8.compile");
         TRACE_EVENT0("v8", "v8.run");
 #endif
+	//fprintf(stderr, "evaluate script source %s\n", source.source().utf8().data());
         result = runScript(script);
     }
 
@@ -438,6 +439,8 @@ v8::Local<v8::Value> V8Proxy::instrumentedCallFunction(Frame* frame, v8::Handle<
         TRACE_EVENT1("v8", "v8.callFunction", "callsite", resourceString(function).utf8());
 #endif
         V8RecursionScope recursionScope(context);
+	String rstring = resourceString(function);
+	//fprintf(stderr, "the resource string is %s : %d\n", rstring.utf8().data(), function->GetScriptColumnNumber());
         result = function->Call(receiver, argc, args);
     }
 

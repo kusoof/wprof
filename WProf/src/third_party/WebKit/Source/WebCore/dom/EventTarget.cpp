@@ -216,13 +216,24 @@ bool EventTarget::fireEventListeners(Event* event)
       else if (window && window->frame()){
 	page = window->frame()->page();
       }
+      else if (scriptExecutionContext()->isDocument()){
+	Document* document = static_cast<Document*>(scriptExecutionContext());
+	page = document->frame()->page();
+      }
+
+      if(!page){
+	fprintf(stderr, "attempting to log fire event computation but we don't have a page pointer\n");
+      }
+	
       /*if (page && ((event->type().string() == String::format("load"))
 	|| (event->type().string() == String::format("DOMContentLoaded")))) {*/
       if(page){
 	  
 	wprofComputation = WprofController::getInstance()->createWprofComputation(5, page);
-	if(wprofComputation) wprofComputation->setUrlRecalcStyle(event->type().string());
-	WprofController::getInstance()->willFireEventListeners(event, wprofComputation, page);
+	if(wprofComputation){
+	  wprofComputation->setUrlRecalcStyle(event->type().string());
+	  //fprintf(stderr, "the event start is %s\n", event->type().string().utf8().data());
+	}
       }
     }
 #endif
@@ -236,7 +247,10 @@ bool EventTarget::fireEventListeners(Event* event)
 
     if (wprofComputation){
         wprofComputation->end();
-	WprofController::getInstance()->didFireEventListeners(page);
+	//fprintf(stderr, "the event end is %s\n", event->type().string().utf8().data());
+    }
+    else if (listenerVector){
+      fprintf(stderr, "event fired but computation was nil\n");
     }
 #endif
     
