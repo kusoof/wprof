@@ -440,6 +440,14 @@ namespace WebCore {
       //fprintf(stderr, "the end computation is here %s\n", event->getTypeForPrint().utf8().data()); 
     }
   }
+
+  WprofComputation* WprofPage::getCurrentComputation(){
+    WprofComputation* comp = NULL;
+    if(!m_computationStack.empty()){
+      comp = m_computationStack.top();
+    }
+    return comp;
+  }
   
   /*-----------------------------------------------------------------
     Preloads
@@ -708,7 +716,7 @@ namespace WebCore {
     outputWprofPreloads();
     
 			
-    fprintf(stderr, "{\"Complete': \"%s\"}\n", m_url.utf8().data());
+    fprintf(stderr, "{\"Complete\": \"%s\"}\n", m_url.utf8().data());
     m_complete = true;
   }
         

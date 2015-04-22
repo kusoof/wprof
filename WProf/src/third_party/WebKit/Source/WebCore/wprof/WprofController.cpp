@@ -105,6 +105,11 @@ namespace WebCore {
     WprofPage* wpage = getWprofPage(page);
     return wpage->tempWprofGenTag();
   }
+
+  WprofComputation* WprofController::getCurrentComputationForPage(Page* page){
+    WprofPage* wpage = getWprofPage(page);
+    return wpage->getCurrentComputation();
+  }
         
   /*
    * This function creates a WprofResource object.

@@ -254,10 +254,16 @@ CachedResourceHandle<CachedRawResource> CachedResourceLoader::requestRawResource
 #if !WPROF_DISABLED
     HTMLDocumentParser* parser = (HTMLDocumentParser*)(document()->parser());
     
+    Element* mediaElement = document()->findMediaElementWithUrl(request.url());
     //If this function was called from the plugin route, the request should already have a wprof element set. Check it
     if(request.wprofElement()){
       WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, (WprofGenTag*)request.wprofElement());
     }
+    //Check if this is a video download, i.e. ask the document about its media elements
+    else if (mediaElement){
+      WprofGenTag* element = mediaElement->wprofElement();
+      WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, element);
+    } 
     //Try to get the frame and the owner element
     else if(frame() && frame()->ownerElement()){
       WprofGenTag* element = frame()->ownerElement()->wprofElement();
@@ -435,6 +441,10 @@ CachedResourceHandle<CachedResource> CachedResourceLoader::requestResource(Cache
     KURL url = request.url();
     
     LOG(ResourceLoading, "CachedResourceLoader::requestResource '%s', charset '%s', priority=%d, forPreload=%u", url.string().latin1().data(), charset.latin1().data(), priority, forPreload);
+
+    //****Wprof
+    //For now, force evict everything
+    //memoryCache()->setDisabled(true);
     
     // If only the fragment identifiers differ, it is the same resource.
     url = MemoryCache::removeFragmentIdentifierIfNeeded(url);

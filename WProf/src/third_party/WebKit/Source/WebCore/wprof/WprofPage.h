@@ -164,6 +164,8 @@ namespace WebCore
 
     void setCurrentComputationComplete();
 
+    WprofComputation* getCurrentComputation();
+
     /*-------------------------------------------------------------------------
       Preloads
       -------------------------------------------------------------------------*/

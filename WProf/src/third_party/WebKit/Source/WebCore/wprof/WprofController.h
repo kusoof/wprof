@@ -126,6 +126,8 @@ namespace WebCore {
     WprofComputation* createWprofComputation(int type, Page* page);
     WprofComputation* createWprofComputation(int type, WprofElement* element);
 
+    WprofComputation* getCurrentComputationForPage(Page* page);
+
     WprofGenTag* tempElementForPage(Page* page);
 
     void setElementTypePair(WprofGenTag* element, int value);

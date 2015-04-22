@@ -38,15 +38,6 @@
 #include <wtf/CurrentTime.h>
 #include <wtf/Vector.h>
 
-#if !WPROF_DISABLED
-#include "Logging.h"
-#include "WprofController.h"
-#include "WprofComputation.h"
-#include <wtf/CurrentTime.h>
-#include <wtf/MD5.h>
-#include <wtf/text/CString.h>
-#endif
-
 namespace WebCore {
 
 CachedCSSStyleSheet::CachedCSSStyleSheet(const ResourceRequest& resourceRequest, const String& charset)
@@ -111,22 +102,6 @@ void CachedCSSStyleSheet::data(PassRefPtr<SharedBuffer> data, bool allDataReceiv
     m_data = data;
     setEncodedSize(m_data.get() ? m_data->size() : 0);
 
-#if !WPROF_DISABLED
-    LOG(DependencyLog, "CachedCSSStyleSheet.cpp::data %lf", monotonicallyIncreasingTime());
-
-    //Get the request and the wprof element from the request
-    ResourceRequest& request = resourceRequest();
-    WprofComputation* wprofComputation = NULL;
-    if(request.wprofElement()){
-      wprofComputation = WprofController::getInstance()->createWprofComputation(1, request.wprofElement());
-    }
-    else{
-      //sometimes the css file is preloaded, i.e. the request tag is null.
-      wprofComputation = WprofController::getInstance()->createWprofComputation(1, request.wprofPage()->page());
-    } 
-    wprofComputation->setUrlRecalcStyle(url().string());
-#endif
-
     // Decode the data to find out the encoding and keep the sheet text around during checkNotify()
     if (m_data) {
         m_decodedSheetText = m_decoder->decode(m_data->data(), m_data->size());
@@ -136,11 +111,6 @@ void CachedCSSStyleSheet::data(PassRefPtr<SharedBuffer> data, bool allDataReceiv
     checkNotify();
     // Clear the decoded text as it is unlikely to be needed immediately again and is cheap to regenerate.
     m_decodedSheetText = String();
-
-#if !WPROF_DISABLED
-    LOG(DependencyLog, "CachedCSSStyleSheet.cpp::data done %lf", monotonicallyIncreasingTime());
-    wprofComputation->end();
-#endif
 }
 
 void CachedCSSStyleSheet::checkNotify()

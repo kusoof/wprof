@@ -51,7 +51,11 @@
 #if !WPROF_DISABLED
 #include "Logging.h"
 #include "WprofController.h"
+#include "WprofComputation.h"
+#include "WprofGenTag.h"
 #include <wtf/CurrentTime.h>
+#include <wtf/MD5.h>
+#include <wtf/text/CString.h>
 #endif
 
 namespace WebCore {
@@ -190,10 +194,6 @@ void HTMLLinkElement::process()
     if (!m_linkLoader.loadLink(m_relAttribute, type, m_sizes->toString(), m_url, document()))
         return;
 
-#if !WPROF_DISABLED
-    LOG(DependencyLog, "HTMLLinkElement.cpp::process");
-#endif
-
     bool acceptIfTypeContainsTextCSS = document()->page() && document()->page()->settings() && document()->page()->settings()->treatsAnyTextCSSLinkAsStylesheet();
 
     if (m_disabledState != Disabled && (m_relAttribute.m_isStyleSheet || (acceptIfTypeContainsTextCSS && type.contains("text/css")))
@@ -320,6 +320,13 @@ void HTMLLinkElement::setCSSStyleSheet(const String& href, const KURL& baseURL, 
 
     CSSParserContext parserContext(document(), baseURL, charset);
 
+#if !WPROF_DISABLED
+
+    //Get the wprof element and create the computation
+    WprofComputation*  wprofComputation = WprofController::getInstance()->createWprofComputation(1, wprofElement());
+    wprofComputation->setUrlRecalcStyle(href);
+#endif
+
 #if ENABLE(PARSED_STYLE_SHEET_CACHING)
     if (RefPtr<StyleSheetContents> restoredSheet = const_cast<CachedCSSStyleSheet*>(cachedStyleSheet)->restoreParsedStyleSheet(parserContext)) {
         ASSERT(restoredSheet->isCacheable());
@@ -330,7 +337,8 @@ void HTMLLinkElement::setCSSStyleSheet(const String& href, const KURL& baseURL, 
         m_sheet->setTitle(title());
 
         m_loading = false;
-        sheetLoaded();
+
+	sheetLoaded();
         notifyLoadedSheetAndAllCriticalSubresources(false);
         return;
     }
@@ -345,6 +353,7 @@ void HTMLLinkElement::setCSSStyleSheet(const String& href, const KURL& baseURL, 
     styleSheet->parseAuthorStyleSheet(cachedStyleSheet, document()->securityOrigin());
 
     m_loading = false;
+
     styleSheet->notifyLoadedSheet(cachedStyleSheet);
     styleSheet->checkLoaded();
 
@@ -482,9 +491,25 @@ void HTMLLinkElement::removePendingSheet()
 
         // Document::removePendingSheet() triggers the style selector recalc for blocking sheets.
         document()->styleResolverChanged(RecalcStyleImmediately);
+ 
+#if !WPROF_DISABLED
+	Page* p = wprofElement()->page()->page();
+	WprofComputation* comp = WprofController::getInstance()->getCurrentComputationForPage(p);
+	if(comp && (comp->type() ==1)){
+	  comp->end();
+	}
+#endif
+
         return;
     }
     document()->removePendingSheet();
+#if !WPROF_DISABLED
+    Page* p = wprofElement()->page()->page();
+    WprofComputation* comp = WprofController::getInstance()->getCurrentComputationForPage(p);
+    if(comp && (comp->type() ==1)){
+      comp->end();
+    }
+#endif
 }
 
 DOMSettableTokenList* HTMLLinkElement::sizes() const

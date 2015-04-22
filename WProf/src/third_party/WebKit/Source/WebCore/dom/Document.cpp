@@ -172,6 +172,9 @@
 #include <wtf/StdLibExtras.h>
 #include <wtf/text/StringBuffer.h>
 
+//Wprof
+#include "HTMLMediaElement.h"
+
 #if ENABLE(SHARED_WORKERS)
 #include "SharedWorkerRepository.h"
 #endif
@@ -3331,6 +3334,18 @@ void Document::removePendingSheet()
 
     styleResolverChanged(RecalcStyleIfNeeded);
 
+#if !WPROF_DISABLED
+    Page* p = page();
+    if(!p && parentDocument() && parentDocument()->page()){
+      p = parentDocument()->page();
+    }
+    WprofComputation* comp = WprofController::getInstance()->getCurrentComputationForPage(p);
+    if(comp && (comp->type() ==1)){
+      comp->end();
+    }
+#endif
+
+
     if (ScriptableDocumentParser* parser = scriptableDocumentParser())
         parser->executeScriptsWaitingForStylesheets();
 
@@ -4530,6 +4545,19 @@ void Document::registerForMediaVolumeCallbacks(Element* e)
 void Document::unregisterForMediaVolumeCallbacks(Element* e)
 {
     m_mediaVolumeCallbackElements.remove(e);
+}
+
+//WPROF
+
+Element* Document::findMediaElementWithUrl(const KURL& url){
+  for(HashSet<Element*>::iterator it = m_mediaVolumeCallbackElements.begin(); it!= m_mediaVolumeCallbackElements.end(); ++it){
+    //Fixme! extremely hacky downcast.
+    HTMLMediaElement* me = (HTMLMediaElement*)(*it);
+    if (me->currentSrc() == url){
+      return *it;
+    }
+  }
+  return NULL;
 }
 
 void Document::privateBrowsingStateDidChange() 

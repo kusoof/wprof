@@ -244,7 +244,7 @@ void ResourceLoader::willSendRequest(ResourceRequest& request, const ResourceRes
     ResourceRequest oldRequest = m_request;
     m_request = request;
 
-    if(m_request.url().string().contains(String::format(".swf"))){
+    if(m_request.url().string().contains(String::format(".webm"))){
       fprintf(stderr, "in here\n");
     }
 

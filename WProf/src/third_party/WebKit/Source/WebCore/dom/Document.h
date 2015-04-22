@@ -971,6 +971,7 @@ public:
 
     void registerForMediaVolumeCallbacks(Element*);
     void unregisterForMediaVolumeCallbacks(Element*);
+    Element* findMediaElementWithUrl(const KURL& url);
     void mediaVolumeDidChange();
 
     void registerForPrivateBrowsingStateChangedCallbacks(Element*);
