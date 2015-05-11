@@ -247,7 +247,7 @@ bool ScriptElement::prepareScript(const TextPosition& scriptStartPosition, Legac
         TextPosition position = document->isInDocumentWrite() ? TextPosition() : scriptStartPosition;
 #if !WPROF_DISABLED
 	LOG(DependencyLog, "ScriptElement::prepareScript ThreadId:%d %lf", currentThread(), monotonicallyIncreasingTime());
-	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, element()->wprofElement());
+	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationExecScript, element()->wprofElement());
 #endif
         executeScript(ScriptSourceCode(scriptContent(), document->url(), position));
 #if !WPROF_DISABLED
@@ -335,7 +335,7 @@ void ScriptElement::execute(CachedScript* cachedScript)
     else if (!cachedScript->wasCanceled()) {
 #if !WPROF_DISABLED
 	LOG(DependencyLog, "ScriptElement::execute ThreadId:%d %lf %s", currentThread(), monotonicallyIncreasingTime(), cachedScript->url().string().utf8().data());
-	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(4, element()->wprofElement());
+	WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationExecScript, element()->wprofElement());
 	wprofComputation->setUrlRecalcStyle(cachedScript->url().string());
 #endif
         executeScript(ScriptSourceCode(cachedScript));

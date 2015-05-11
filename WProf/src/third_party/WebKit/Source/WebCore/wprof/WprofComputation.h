@@ -33,29 +33,77 @@
 namespace WebCore {
 
 
+  typedef enum {
+    ComputationRecalcStyle = 1,
+    ComputationLayout = 2,
+    ComputationPaint = 3,
+    ComputationExecScript = 4,
+    ComputationFireEvent= 5,
+    ComputationTimer = 6
+  } WprofComputationType;
+  
   class WprofComputation : public WprofElement {
   public:
-    WprofComputation(int type, WprofElement* element, WprofPage* page);      
+    WprofComputation(WprofComputationType type, WprofElement* element, WprofPage* page);      
     ~WprofComputation();
         
-    int type();
+    virtual WprofComputationType type();
     WprofElement* fromWprofElement();
     String urlRecalcStyle();
         
     void setUrlRecalcStyle(String url);
-    void end();
+    virtual void end();
         
     String getTypeForPrint();
 
-    void print();
+    virtual void print();
+    virtual bool isComputation();
+    virtual WprofElement* parent();
+
+    bool isRenderType(){
+      return (m_type == ComputationPaint) || (m_type == ComputationLayout);
+    }
+
+    virtual String docUrl();
         
   protected:
-    int m_type; // 1: recalcStyle; 2: layout; 3: paint
+    WprofComputationType m_type; // 1: recalcStyle; 2: layout; 3: paint
     double m_startTime;
     double m_endTime;
     WprofElement* m_fromWprofElement;
     String m_urlRecalcStyle;
-};
+  };
+
+  typedef enum {
+    EventTargetOther = 0,
+    EventTargetElement = 1,
+    EventTargetWindow,
+    EventTargetDocument,
+    EventTargetXMLHTTPRequest,
+  } WprofEventTargetType;
+
+  class WprofEvent : public WprofComputation {
+  public:
+    WprofEvent (String name, WprofElement* target, WprofEventTargetType targetType, String info, String docUrl, WprofPage* page);
+    WprofEvent (String name, WprofElement* target, WprofEventTargetType targetType, String docUrl, WprofPage* page);
+
+    void print();
+    WprofComputationType type () {return ComputationFireEvent;}
+
+    WprofElement* target();
+    WprofEventTargetType targetType();
+    String info();
+    String EventName();
+
+  protected:
+    WprofEventTargetType m_targetType;
+    String m_info;
+    String m_docUrl;
+
+    //Helper Function
+    String targetTypeString();
+    
+  };
 	
 }
 #endif // WPROF_DISABLED

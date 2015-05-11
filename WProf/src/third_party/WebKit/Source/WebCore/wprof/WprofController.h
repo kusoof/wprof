@@ -73,6 +73,11 @@ namespace WebCore {
 			     ResourceRequest& request,
 			     const ResourceResponse& response,
 			     Page* page);
+
+    void createWprofCachedResource(unsigned long resourceId,
+				   ResourceRequest& request,
+				   Page* page);
+    
     /*
      * This function creates a WprofReceivedChunk object.
      * Called by ResourceLoader::didReceiveData().
@@ -123,10 +128,14 @@ namespace WebCore {
      *
      * @param int type of the WprofComputation
      */
-    WprofComputation* createWprofComputation(int type, Page* page);
-    WprofComputation* createWprofComputation(int type, WprofElement* element);
+    WprofComputation* createWprofComputation(WprofComputationType type, Page* page);
+    WprofComputation* createWprofComputation(WprofComputationType type, WprofElement* element);
 
     WprofComputation* getCurrentComputationForPage(Page* page);
+
+    WprofEvent* createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl);
+    WprofEvent* createWprofEvent(String name, WprofEventTargetType targetType, String info, String docUrl, Page* page);
+
 
     WprofGenTag* tempElementForPage(Page* page);
 
@@ -164,7 +173,7 @@ namespace WebCore {
         
     // CSS -> Image doesn't need this because this kind of dependency is
     // inferred by text matching
-    void createRequestWprofElementMapping(String url, ResourceRequest& request, WprofGenTag* element);
+    void createRequestWprofElementMapping(String url, ResourceRequest& request, WprofElement* element);
         
     void createRequestWprofElementMapping(String url, ResourceRequest& request, Page* page);
 

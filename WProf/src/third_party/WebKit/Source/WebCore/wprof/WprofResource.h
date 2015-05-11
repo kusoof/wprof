@@ -71,6 +71,7 @@ public:
 		String mime,
 		long long expectedContentLength,
 		int httpStatusCode,
+		String httpMethod,
 		unsigned connectionId,
 		bool connectionReused,
 		bool wasCached,
@@ -91,6 +92,7 @@ public:
   double timeDownloadStart();
   unsigned long fromWprofObject();
   unsigned long bytes();
+  String httpMethod();
 
   Vector<WprofReceivedChunk*>* receivedChunkInfoVector();
         
@@ -128,6 +130,8 @@ private:
         unsigned m_connectionId;
         bool m_connectionReused;
         bool m_wasCached;
+
+	String m_httpMethod;
 };
 	
 }

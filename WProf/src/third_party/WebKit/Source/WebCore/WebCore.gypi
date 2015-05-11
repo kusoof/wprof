@@ -5078,6 +5078,8 @@
 	    'wprof/WprofHTMLTag.cpp',
 	    'wprof/WprofGenTag.h',
 	    'wprof/WprofGenTag.cpp',
+	    'wprof/WprofCachedResource.h',
+	    'wprof/WprofCachedResource.cpp',
 	],
         'webcore_dom_files': [
             'dom/ActiveDOMObject.cpp',

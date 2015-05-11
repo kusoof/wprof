@@ -180,7 +180,7 @@ void FieldTrial::SetForced() {
   // Explicit forcing should only be for cases where we want to set the group
   // probabilities before the hard coded field trial setup is executed. So
   // there must have been at least one non-default group appended at that point.
-  DCHECK_GT(next_group_number_, kDefaultGroupNumber + 1);
+  DCHECK_GE(next_group_number_, kDefaultGroupNumber + 1);
 
   // And we must finalize the group choice before we mark ourselves as forced.
   group();

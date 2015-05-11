@@ -225,10 +225,10 @@ bool HTMLScriptRunner::executeParsingBlockingScripts()
     WprofComputation* wprofComputation = NULL;
     if(!element){
       fprintf(stderr, "In script runner, the element is null!\n");
-      wprofComputation = WprofController::getInstance()->createWprofComputation(4, frame()->page());
+      wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationExecScript, frame()->page());
     }
     else{
-      wprofComputation = WprofController::getInstance()->createWprofComputation(4, element->element()->wprofElement());
+      wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationExecScript, element->element()->wprofElement());
     }
     if (m_parsingBlockingScript.cachedScript())
 	wprofComputation->setUrlRecalcStyle(m_parsingBlockingScript.cachedScript()->url().string());

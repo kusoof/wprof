@@ -2440,8 +2440,8 @@ void Document::close()
     if(!p && parentDocument() && parentDocument()->page()){
       p = parentDocument()->page();
     }
-    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(5, p);
-    if(wprofComputation) wprofComputation->setUrlRecalcStyle(String::format("DOMLoaded"));
+    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationFireEvent, p);
+    if(wprofComputation) wprofComputation->setUrlRecalcStyle(String::format("CloseDocument"));
 #endif
     explicitClose();
 #if !WPROF_DISABLED

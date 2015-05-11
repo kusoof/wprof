@@ -323,7 +323,7 @@ void HTMLLinkElement::setCSSStyleSheet(const String& href, const KURL& baseURL, 
 #if !WPROF_DISABLED
 
     //Get the wprof element and create the computation
-    WprofComputation*  wprofComputation = WprofController::getInstance()->createWprofComputation(1, wprofElement());
+    WprofComputation*  wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationRecalcStyle, wprofElement());
     wprofComputation->setUrlRecalcStyle(href);
 #endif
 
@@ -495,7 +495,7 @@ void HTMLLinkElement::removePendingSheet()
 #if !WPROF_DISABLED
 	Page* p = wprofElement()->page()->page();
 	WprofComputation* comp = WprofController::getInstance()->getCurrentComputationForPage(p);
-	if(comp && (comp->type() ==1)){
+	if(comp && (comp->type() == ComputationRecalcStyle)){
 	  comp->end();
 	}
 #endif
@@ -506,7 +506,7 @@ void HTMLLinkElement::removePendingSheet()
 #if !WPROF_DISABLED
     Page* p = wprofElement()->page()->page();
     WprofComputation* comp = WprofController::getInstance()->getCurrentComputationForPage(p);
-    if(comp && (comp->type() ==1)){
+    if(comp && (comp->type() == ComputationRecalcStyle)){
       comp->end();
     }
 #endif

@@ -29,7 +29,7 @@
 
 namespace WebCore {
 
-  WprofComputation::WprofComputation(int type, WprofElement* element, WprofPage* page)
+  WprofComputation::WprofComputation(WprofComputationType type, WprofElement* element, WprofPage* page)
     : WprofElement(page),
       m_endTime(-1),
       m_urlRecalcStyle(emptyString())
@@ -40,7 +40,7 @@ namespace WebCore {
   };
         
   WprofComputation::~WprofComputation() {};      
-  int WprofComputation::type() { return m_type; }
+  WprofComputationType WprofComputation::type() { return m_type; }
   
   WprofElement* WprofComputation::fromWprofElement() { return m_fromWprofElement; }
   String WprofComputation::urlRecalcStyle() { return m_urlRecalcStyle; }
@@ -53,29 +53,46 @@ namespace WebCore {
     m_endTime = monotonicallyIncreasingTime();
 
     //if this is a script execution, notify the page
-    if((m_type == 4) || (m_type == 6) || (m_type == 5) || (m_type == 1)){
+    if(!isRenderType()){
       m_page->setCurrentComputationComplete();
     }
   }
         
   String WprofComputation::getTypeForPrint() {
     switch (m_type) {
-    case 1:
+    case ComputationRecalcStyle:
       return String::format("recalcStyle");
-    case 2:
+    case ComputationLayout:
       return String::format("layout");
-    case 3:
+    case ComputationPaint:
       return String::format("paint");
-    case 4:
+    case ComputationExecScript:
       return String::format("execScript");
-    case 5:
+    case ComputationFireEvent:
       return String::format("fireEvent");
-    case 6:
+    case ComputationTimer:
       return String::format("timer");
     default:
       break;
     }
     return String::format("undefined");
+  }
+
+  String WprofComputation::docUrl(){
+    if(m_fromWprofElement){
+      return m_fromWprofElement->docUrl();
+    }
+    else{
+      return m_page->pageURL();
+    }
+  }
+
+  bool WprofComputation::isComputation(){
+    return true;
+  }
+
+  WprofElement* WprofComputation::parent(){
+    return fromWprofElement();
   }
 
   void WprofComputation::print(){
@@ -103,5 +120,101 @@ namespace WebCore {
     fprintf(stderr, " ]}}\n");
   }
 
+
+  
+  
+  WprofEvent::WprofEvent (String name,
+			  WprofElement* target,
+			  WprofEventTargetType targetType,
+			  String info,
+			  String docUrl,
+			  WprofPage* page): WprofComputation(type(), target, page),
+					    m_targetType(targetType),
+					    m_info(info),
+					    m_docUrl(docUrl)
+  {
+    setUrlRecalcStyle(name);
+  }
+  
+  WprofEvent::WprofEvent (String name,
+			  WprofElement* target,
+			  WprofEventTargetType targetType,
+			  String docUrl,
+			  WprofPage* page)
+    : WprofComputation(type(), target, page),
+      m_targetType(targetType),
+      m_info(String()),
+      m_docUrl(docUrl)
+  {
+    setUrlRecalcStyle(name);
+  }
+
+  String WprofEvent::targetTypeString(){
+    switch(m_targetType){
+    case (EventTargetOther):{
+      return String::format("Other");
+    }
+    case(EventTargetElement):{
+      return String::format("Element");
+    }
+    case(EventTargetWindow):{
+      return String::format("Window");
+    }
+    case(EventTargetDocument):{
+      return String::format("Document");
+    }
+    case(EventTargetXMLHTTPRequest):{
+      return String::format("XMLHTTPRequest");
+    }
+    default:{
+      return String::format("Other");
+    }
+    }
+  }
+    
+
+  void WprofEvent::print(){
+    fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"target\": \"%p\", \"targetType\": \"%s\", \"info\": \"%s\", \"docUrl\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"name\": \"%s\", \"urls\": [ ",
+	    getTypeForPrint().utf8().data(),
+	    this,
+	    m_fromWprofElement,
+	    targetTypeString().utf8().data(),
+	    m_info.utf8().data(),
+	    m_docUrl.utf8().data(),
+	    m_startTime,
+	    m_endTime,
+	    m_urlRecalcStyle.utf8().data());
+
+    size_t numUrls = m_urls.size();
+    size_t i = 0;
+    for(Vector<String>::iterator it = m_urls.begin(); it!= m_urls.end(); it++){
+      if (i == (numUrls -1)){
+	fprintf(stderr, "\"%s\"", it->utf8().data());
+      }
+      else{
+	fprintf(stderr, "\"%s\", ", it->utf8().data());
+      }
+      i++;
+    }
+
+    fprintf(stderr, " ]}}\n");
+    }
+   
+
+  WprofElement* WprofEvent::target(){
+    return m_fromWprofElement;
+  }
+  
+  WprofEventTargetType WprofEvent::targetType(){
+    return m_targetType;
+  }
+  
+  String WprofEvent::info(){
+    return m_info;
+  }
+    
+  String WprofEvent::EventName(){
+    return urlRecalcStyle();
+  }
 }
 #endif

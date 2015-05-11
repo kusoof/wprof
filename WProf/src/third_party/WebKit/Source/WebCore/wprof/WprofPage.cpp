@@ -32,6 +32,7 @@
 #include "WprofGenTag.h"
 #include "WprofElement.h"
 #include "WprofPreload.h"
+#include "WprofCachedResource.h"
 
 #include <Frame.h>
 
@@ -97,6 +98,7 @@ namespace WebCore {
     unsigned connectionId = response.connectionID();
     bool connectionReused = response.connectionReused();
     bool wasCached = response.wasCached();
+    String httpMethod = request.httpMethod();
 
     //Get the URL from the request
     String url(request.url().string());
@@ -128,6 +130,7 @@ namespace WebCore {
 						mime,
 						expectedContentLength,
 						httpStatusCode,
+						httpMethod,
 						connectionId,
 						connectionReused,
 						wasCached,
@@ -180,6 +183,26 @@ namespace WebCore {
     }
     m_identifierElementMap.set(resourceId, element);
   }
+
+  /* ------------------------------------------------------------------------
+       Cached Resource Records
+       ------------------------------------------------------------------------*/
+  void WprofPage::createWprofCachedResource(unsigned long resourceId,
+					    ResourceRequest& request)
+  {
+    //Get the URL from the request
+    String url(request.url().string());
+	    
+    // Find the current time for the cache access
+    double time = monotonicallyIncreasingTime();
+    
+    WprofCachedResource* cached = new WprofCachedResource(resourceId,
+							  url,
+							  time,
+							  request.wprofElement());
+    m_cachedResources.append(cached);
+  }
+						    
 
   /*---------------------------------------------------------------------------------
     HTML Tags
@@ -327,9 +350,12 @@ namespace WebCore {
 
   
   // Attach the html tag to the request so we can refer to it later when the resource has finished downloading.
-  void WprofPage::createRequestWprofElementMapping(String url, ResourceRequest& request, WprofGenTag* element) {
+  void WprofPage::createRequestWprofElementMapping(String url, ResourceRequest& request, WprofElement* element) {
+    
+    request.setWprofPage(this);
+    
     //Check to see if we have this tag
-    if(element){
+    if(element && !element->isComputation()){
       Vector<WprofGenTag*>::iterator it = m_tags.begin();
       bool found = false;
       for(; it != m_tags.end(); it++){
@@ -344,32 +370,36 @@ namespace WebCore {
       }
     }
 
-    //Check whether we have a current computation
-    WprofComputation* currentComputation = NULL;
-    if(!m_computationStack.empty()){
-      currentComputation = m_computationStack.top();
-    }
-    if(currentComputation && (!element || (element->parentComputation() != currentComputation))){
-      
-      //If the selected element has the computation as the predecessor,
-      //then it's ok to let the resource's predecessor be the element, not the computation
+    WprofElement* resourceParent = element;
 
-      //Otherwise do the following
-      request.setWprofElement(currentComputation);
-      currentComputation->appendUrl(url);
-    }
-    //Assign the tag to the request
-    //This could be the very first request for the page, which has a null tag.
-    else if(element){
-      request.setWprofElement(element);
-	  
-      //Add the url to the list
-      element->appendUrl(url);
+    if(!element->isComputation()){
+      //Check whether we have a current computation
+      WprofComputation* currentComputation = NULL;
+      if(!m_computationStack.empty()){
+	currentComputation = m_computationStack.top();
+      }
+      if(currentComputation && (!element || (element->parent() != currentComputation))){
       
-      //Attempt to match the preloaded resource to the request from this tag.
-       matchWithPreload(element, url);
+	//If the selected tag has the computation as the predecessor,
+	//then it's ok to let the resource's predecessor be the tag, not the computation
+
+	//Otherwise use the computation as parent
+	resourceParent = currentComputation;
+      }
     }
-    request.setWprofPage(this);
+
+    //This could be the very first request for the page, which has a null tag.
+    if(resourceParent){
+      //Set the request's element correctly (either tag or computation)
+      request.setWprofElement(resourceParent);
+      //Add the url to the list
+      resourceParent->appendUrl(url);
+
+       //Attempt to match the preloaded resource to the request from this tag.
+      if(!resourceParent->isComputation()){
+	matchWithPreload((WprofGenTag*)resourceParent, url);
+      }
+    }
   }
 
   //If this is a redirect, remove the original url from the tag, and add the new url
@@ -411,11 +441,11 @@ namespace WebCore {
    *
    * @param int type of the WprofComputation
    */
-  WprofComputation* WprofPage::createWprofComputation(int type) {
+  WprofComputation* WprofPage::createWprofComputation(WprofComputationType type) {
     return createWprofComputation(type, NULL);
   }
 
-  WprofComputation* WprofPage::createWprofComputation(int type, WprofElement* element){
+  WprofComputation* WprofPage::createWprofComputation(WprofComputationType type, WprofElement* element){
 
     if(!element){
       element = tempWprofGenTag();
@@ -425,7 +455,7 @@ namespace WebCore {
     m_computations.append(event);
 
     //if this is a script, fire event, css, or timer, then set the current event
-    if((type == 4) || (type == 6) || (type == 5) || (type == 1)){
+    if(!event->isRenderType()){
       m_computationStack.push(event);
       //fprintf(stderr, "the start computation is here %s\n", event->getTypeForPrint().utf8().data()); 
     }
@@ -447,6 +477,15 @@ namespace WebCore {
       comp = m_computationStack.top();
     }
     return comp;
+  }
+
+  WprofEvent* WprofPage::createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl)
+  {
+    WprofEvent* event = new WprofEvent(name, target, targetType, info, docUrl, this);
+    m_computations.append(event);
+    m_computationStack.push(event);
+
+    return event;
   }
   
   /*-----------------------------------------------------------------
@@ -567,7 +606,7 @@ namespace WebCore {
       parent = m_timers.get(timerId);
     }
     
-    WprofComputation* comp = createWprofComputation(6, parent);
+    WprofComputation* comp = createWprofComputation(ComputationTimer, parent);
     
     if(m_timeouts.contains(timerId)){
       int timeout = m_timeouts.get(timerId);
@@ -660,11 +699,16 @@ namespace WebCore {
     m_uid = m_url + String::number(monotonicallyIncreasingTime());
   }
   
+  String WprofPage::pageURL(){
+    return m_url;
+  }
+  
   /* ----------------------------------------------------------------
      Clearing Methods
   ------------------------------------------------------------------*/
           
   void WprofPage::clearWprofComputations() {
+    fprintf(stderr, "clearing the computations\n");
     for(size_t i = 0; i < m_computations.size(); i++){
       delete m_computations[i];
     }
@@ -711,6 +755,7 @@ namespace WebCore {
     fprintf(stderr, "{\"DOMLoad\": %lf}\n", monotonicallyIncreasingTime());
 
     outputWprofResources();
+    outputWprofCachedResources();
     outputHOLMaps();
     outputWprofComputations();
     outputWprofPreloads();
@@ -722,6 +767,7 @@ namespace WebCore {
         
   void WprofPage::clear() {
     clearWprofResources();
+    clearWprofCachedResources();
     clearHOLMaps();
     clearWprofComputations();
     clearWprofPreloads();
@@ -740,7 +786,7 @@ namespace WebCore {
                 
       if (!timing)
 	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
-\"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
+\"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"httpMethod\": \"%s\", \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
 		info->getId(),
 		info->url().utf8().data(),
 		info->timeDownloadStart(),
@@ -749,13 +795,14 @@ namespace WebCore {
 		info->mimeType().utf8().data(),
 		info->expectedContentLength(),
 		info->httpStatusCode(),
+		info->httpMethod().utf8().data(),
 		info->connectionId(),
 		info->connectionReused(),
 		info->wasCached()
 		);
       else
 	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
-\"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"connId\": %u, \"connReused\": %d, \"cached\": %d, \
+\"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"httpMethod\": \"%s\", \"connId\": %u, \"connReused\": %d, \"cached\": %d, \
                             \"requestTime\": %f, \"proxyStart\": %d, \"proxyEnd\": %d, \"dnsStart\": %d, \"dnsEnd\": %d, \"connectStart\": %d,\
                             \"connectEnd\": %d, \"sendStart\": %d, \"sendEnd\": %d, \"receiveHeadersEnd\": %d, \"sslStart\": %d, \"sslEnd\": %d}}\n",
 		info->getId(),
@@ -766,6 +813,7 @@ namespace WebCore {
 		info->mimeType().utf8().data(),
 		info->expectedContentLength(),
 		info->httpStatusCode(),
+		info->httpMethod().utf8().data(),
 		info->connectionId(),
 		info->connectionReused(),
 		info->wasCached(),
@@ -800,6 +848,14 @@ namespace WebCore {
       element->print();
     }
   }
+
+  void WprofPage::outputWprofCachedResources()
+  {
+    for(unsigned int i= 0; i < m_cachedResources.size(); i++){
+      WprofCachedResource* cached = m_cachedResources[i];
+      cached->print();
+    }
+  }
         
   void WprofPage::outputHOLMaps() {
     // Output start tag vectors
@@ -825,11 +881,12 @@ namespace WebCore {
     for (unsigned int i = 0; i < m_computations.size(); ++i) {
       WprofComputation* event = m_computations[i];
                 
-      if (event == NULL)
-	continue;
+      /*if (event == NULL)
+      	continue;*/
 					
-      if (event->fromWprofElement() == NULL)
+      if ((event->fromWprofElement() == NULL) && (event->type() != ComputationFireEvent)){
 	continue;
+      }
                 
       event->print();
     }
@@ -868,6 +925,10 @@ namespace WebCore {
     m_resourceMap.clear();
     m_requestTimeMap.clear();
     m_tags.clear();
+  }
+
+  void WprofPage::clearWprofCachedResources(){
+    m_cachedResources.clear();
   }
         
   /*

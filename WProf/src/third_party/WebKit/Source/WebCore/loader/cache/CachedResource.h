@@ -108,6 +108,8 @@ public:
     ResourceRequest& resourceRequest() { return m_resourceRequest; }
     const KURL& url() const { return m_resourceRequest.url();}
     Type type() const { return static_cast<Type>(m_type); }
+
+    unsigned long identifier();
     
     ResourceLoadPriority loadPriority() const { return m_loadPriority; }
     void setLoadPriority(ResourceLoadPriority);
@@ -275,6 +277,7 @@ protected:
     ResourceRequest m_resourceRequest;
     String m_accept;
     RefPtr<SubresourceLoader> m_loader;
+    unsigned long m_identifier;
     ResourceLoaderOptions m_options;
     ResourceLoadPriority m_loadPriority;
 

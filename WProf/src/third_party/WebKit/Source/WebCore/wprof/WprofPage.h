@@ -18,7 +18,7 @@
 
 //Wprof includes
 //#include "WprofResource.h"
-//#include "WprofComputation.h"
+#include "WprofComputation.h"
 //#include "WprofHTMLTag.h"
 //#include "WprofElement.h"
 //#include "WprofPreload.h"
@@ -47,12 +47,12 @@ namespace WebCore
   class ResourceResponse;
 
   class WprofResource;
-  class WprofComputation;
   class WprofHTMLTag;
   class WprofGenTag;
   class WprofElement;
   class WprofPreload;
   class WprofReceivedChunk;
+  class WprofCachedResource;
 
   class Page;
   class Document;
@@ -114,6 +114,14 @@ namespace WebCore
 
     void createResourceElementMapping(unsigned long resourceId, WprofElement* element);
 
+    /* ------------------------------------------------------------------------
+       Cached Resource Records
+       ------------------------------------------------------------------------*/
+    void createWprofCachedResource(unsigned long resourceId,
+				   ResourceRequest& request);
+
+    
+
     /*-------------------------------------------------------------------------
       HTML Tag Creation
       --------------------------------------------------------------------------*/
@@ -147,7 +155,7 @@ namespace WebCore
 
 
     // Place the html tag inside the request for later reference when we actually receive the response.
-    void createRequestWprofElementMapping(String url, ResourceRequest& request, WprofGenTag* element);
+    void createRequestWprofElementMapping(String url, ResourceRequest& request, WprofElement* element);
     void createRequestWprofElementMapping(String url, ResourceRequest& request);
     void redirectRequest(String url, String redirectUrl, ResourceRequest& request, unsigned long resourceId);
 
@@ -159,12 +167,14 @@ namespace WebCore
      *
      * @param int type of the WprofComputation
      */
-    WprofComputation* createWprofComputation(int type);
-    WprofComputation* createWprofComputation(int type, WprofElement* element);
+    WprofComputation* createWprofComputation(WprofComputationType type);
+    WprofComputation* createWprofComputation(WprofComputationType type, WprofElement* element);
 
     void setCurrentComputationComplete();
 
     WprofComputation* getCurrentComputation();
+
+    WprofEvent* createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl);
 
     /*-------------------------------------------------------------------------
       Preloads
@@ -220,6 +230,8 @@ namespace WebCore
 
     void setElementTypePair(WprofGenTag* element, int value);
 
+    String pageURL();
+
   private:
     /*------------------------------------------------------------------------------
       Helper Methods
@@ -261,12 +273,16 @@ namespace WebCore
     void clearHOLMaps();
 
     void clearWprofResources();
+
+    void clearWprofCachedResources();
         
     String createFilename(String url);
         
     void clear();
 
     void outputWprofResources();
+
+    void outputWprofCachedResources();
         
     void outputHOLMaps();
         
@@ -307,6 +323,10 @@ namespace WebCore
     // Track computational events and what triggers them
     // This includes "recalcStyle", "layout" and "paint"
     Vector<WprofComputation*> m_computations;
+
+    // -------
+    // A list of the cached resource accesses 
+    Vector<WprofCachedResource*> m_cachedResources;
         
     // --------
     // Track the preloads

@@ -60,6 +60,9 @@ namespace WebCore {
 
     virtual void print();
     virtual String docUrl();
+
+    virtual bool isComputation();
+    virtual WprofElement* parent();
     
   protected:    
 

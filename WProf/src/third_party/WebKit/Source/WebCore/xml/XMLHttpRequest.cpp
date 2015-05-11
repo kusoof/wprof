@@ -712,6 +712,12 @@ void XMLHttpRequest::createRequest(ExceptionCode& ec)
     m_exceptionCode = 0;
     m_error = false;
 
+    #if !WPROF_DISABLED
+    //Set the correct computation in the request that triggers the download, this will call CachedResourceLoader::requestRawResource
+    WprofComputation* comp = WprofController::getInstance()->getCurrentComputationForPage(document()->page());
+    request.setWprofElement(comp);
+    #endif
+
     if (m_async) {
         if (m_upload)
             request.setReportUploadProgress(true);

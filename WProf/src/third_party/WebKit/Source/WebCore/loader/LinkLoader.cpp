@@ -52,6 +52,7 @@
 #if !WPROF_DISABLED
 #include "WprofController.h"
 #include "HTMLLinkElement.h"
+#include "WprofGenTag.h"
 #endif
 
 

@@ -167,6 +167,7 @@ CachedResource::CachedResource(const ResourceRequest& request, Type type)
 #ifndef NDEBUG
     cachedResourceLeakCounter.increment();
 #endif
+    m_identifier = 0;
 }
 
 CachedResource::~CachedResource()
@@ -283,6 +284,17 @@ bool CachedResource::isExpired() const
 
     return currentAge() > freshnessLifetime();
 }
+
+unsigned long CachedResource::identifier()
+{
+  //If we are still currently loading the resource
+  if (m_loader){
+    return m_loader->identifier();
+  }
+  else {
+    return m_identifier;
+  }   
+}
     
 double CachedResource::currentAge() const
 {
@@ -322,6 +334,11 @@ void CachedResource::setResponse(const ResourceResponse& response)
 {
     m_response = response;
     m_responseTimestamp = currentTime();
+
+    //WProf! Set the identifier
+    if (m_loader){
+      m_identifier = m_loader->identifier();
+    } 
     String encoding = response.textEncodingName();
     if (!encoding.isNull())
         setEncoding(encoding);

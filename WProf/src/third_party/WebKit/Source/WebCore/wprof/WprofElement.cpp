@@ -49,10 +49,18 @@ namespace WebCore {
   double WprofElement::endTime() { return m_endTime;}
   WprofPage* WprofElement::page() {return m_page;}
 
-  String WprofElement::docUrl() { return String::format("");}
+  String WprofElement::docUrl() { return String();}
   
   void WprofElement::appendUrl(String url){
     m_urls.append(url);
+  }
+
+  WprofElement* WprofElement::parent(){
+    return NULL;
+  }
+
+  bool WprofElement::isComputation(){
+    return false;
   }
 
   void WprofElement::removeUrl(String url){

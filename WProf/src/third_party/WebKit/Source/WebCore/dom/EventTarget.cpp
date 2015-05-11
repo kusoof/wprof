@@ -45,6 +45,8 @@
 #include "WprofComputation.h"
 #include <wtf/CurrentTime.h>
 #include "DOMWindow.h"
+#include "HTMLElement.h"
+#include "WprofGenTag.h"
 #endif
 
 using namespace WTF;
@@ -224,15 +226,59 @@ bool EventTarget::fireEventListeners(Event* event)
       if(!page){
 	fprintf(stderr, "attempting to log fire event computation but we don't have a page pointer\n");
       }
+
+      if(event->type().string() == String::format("readystatechange")){
+	  fprintf(stderr, "in here\n");
+      }
+
 	
       /*if (page && ((event->type().string() == String::format("load"))
 	|| (event->type().string() == String::format("DOMContentLoaded")))) {*/
       if(page){
-	  
-	wprofComputation = WprofController::getInstance()->createWprofComputation(5, page);
-	if(wprofComputation){
+
+	//Try to find the event target
+	if(node){
+	  if(node->isHTMLElement()){
+	    HTMLElement* element = (HTMLElement*) node;
+	    wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+										EventTargetElement,
+										element->wprofElement(),
+										String(),
+										element->wprofElement()->docUrl());
+	  }
+	  else if (node->isContainerNode() && (node->document() == node)){
+
+	    String docUrl = node->document()->url().string();
+
+	    //Check if ready state changed event
+	    if(event->type().string() == String::format("readystatechange")){
+	      String readyState = node->document()->readyState();
+	       wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+										   EventTargetDocument,
+										   readyState,
+										   docUrl,
+										   page);
+	    }
+	    else{ 
+	      wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+										  EventTargetDocument,
+										  String(),
+										  docUrl,
+										  page);
+	    }
+	  }
+	}
+	else if (window){
+	  String docUrl = window->url().string();
+	  wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									      EventTargetWindow,
+									      String(),
+									      docUrl,
+									      page);
+	}
+	if(!wprofComputation){
+	  wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationFireEvent, page);
 	  wprofComputation->setUrlRecalcStyle(event->type().string());
-	  //fprintf(stderr, "the event start is %s\n", event->type().string().utf8().data());
 	}
       }
     }

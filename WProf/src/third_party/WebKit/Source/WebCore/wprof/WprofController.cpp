@@ -131,6 +131,14 @@ namespace WebCore {
     wpage->createWprofResource(resourceId, request, response);
   }					   
 
+  void WprofController::createWprofCachedResource(unsigned long resourceId,
+						  ResourceRequest& request,
+						  Page* page)
+  {
+    WprofPage* wpage = getWprofPage(page);
+    wpage->createWprofCachedResource(resourceId, request);
+  }
+    
   /*
    * This function creates a WprofReceivedChunk object.
    * Called by ResourceLoader::didReceiveData().
@@ -237,7 +245,7 @@ namespace WebCore {
    *
    * @param int type of the WprofComputation
    */
-  WprofComputation* WprofController::createWprofComputation(int type, Page* page) {
+  WprofComputation* WprofController::createWprofComputation(WprofComputationType type, Page* page) {
     if(!page){
       fprintf(stderr, "The page is null when attempting to create a computation of type %d\n", type);
       return NULL;
@@ -247,7 +255,7 @@ namespace WebCore {
     return comp;
   }
 
-  WprofComputation* WprofController::createWprofComputation(int type, WprofElement* element){
+  WprofComputation* WprofController::createWprofComputation(WprofComputationType type, WprofElement* element){
     if(!element){
       fprintf(stderr, "The element is null when attempting to create a computation of type %d\n", type);
       return NULL;
@@ -255,6 +263,26 @@ namespace WebCore {
     WprofPage* wpage = element->page();
     WprofComputation* comp = wpage->createWprofComputation(type, element);
     return comp;
+  }
+
+  WprofEvent* WprofController::createWprofEvent(String name, WprofEventTargetType targetType, String info, String docUrl, Page* page) {
+    if(!page){
+      fprintf(stderr, "The page is null when attempting to create an event\n");
+      return NULL;
+    }
+    WprofPage* wpage = getWprofPage(page);
+    WprofEvent* event = wpage->createWprofEvent(name, targetType, NULL, info, docUrl);
+    return event;
+  }
+
+  WprofEvent* WprofController::createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl){
+    if(!target){
+      fprintf(stderr, "The element is null when attempting to create an event\n");
+      return NULL;
+    }
+    WprofPage* wpage = target->page();
+    WprofEvent* event = wpage->createWprofEvent(name, targetType, target, info, docUrl);
+    return event;
   }
 
   void WprofController::willFireEventListeners(Event* event, WprofComputation* comp, Page* page)
@@ -332,7 +360,7 @@ namespace WebCore {
         
   // CSS -> Image doesn't need this because this kind of dependency is
   // inferred by text matching
-  void WprofController::createRequestWprofElementMapping(String url, ResourceRequest& request, WprofGenTag* element) {
+  void WprofController::createRequestWprofElementMapping(String url, ResourceRequest& request, WprofElement* element) {
     WprofPage* wpage = element->page();
     if(wpage->isComplete()){
       fprintf(stderr, "the page has already completed, why are we setting the request tag mapping from the wrong page?\n");

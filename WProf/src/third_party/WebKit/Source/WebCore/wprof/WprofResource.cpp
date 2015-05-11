@@ -49,6 +49,7 @@ namespace WebCore {
 			       String mime,
 			       long long expectedContentLength,
 			       int httpStatusCode,
+			       String httpMethod,
 			       unsigned connectionId,
 			       bool connectionReused,
 			       bool wasCached,
@@ -65,6 +66,7 @@ namespace WebCore {
     
     m_url = url;
     m_mimeType = mime;
+    m_httpMethod = httpMethod;
     
     m_expectedContentLength = expectedContentLength;
     m_httpStatusCode = httpStatusCode;
@@ -92,6 +94,7 @@ namespace WebCore {
   double WprofResource::timeDownloadStart() { return m_timeDownloadStart; }
   unsigned long WprofResource::fromWprofObject() { return m_fromWprofObject; }
   unsigned long WprofResource::bytes() { return m_bytes; }
+  String WprofResource::httpMethod() { return m_httpMethod;}
 
   Vector<WprofReceivedChunk*>* WprofResource::receivedChunkInfoVector() { return m_receivedChunkInfoVector; }
         

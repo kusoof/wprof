@@ -30,6 +30,7 @@
 #include <wtf/CurrentTime.h>
 #include <wtf/text/CString.h>
 #include <wtf/text/StringBuilder.h>
+#include "WprofComputation.h"
 
 namespace WebCore {
 
@@ -56,6 +57,10 @@ namespace WebCore {
 
   bool WprofGenTag::matchesPreload(WprofPreload* preload, String url){
     return false;
+  }
+
+  WprofElement* WprofGenTag::parent(){
+    return parentComputation();
   }
 
   void WprofGenTag::print(){

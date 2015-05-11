@@ -61,6 +61,7 @@ namespace WebCore {
     void setParentComputation (WprofComputation* comp);
 
     virtual void print();
+    virtual WprofElement* parent();
     
   protected:    
 

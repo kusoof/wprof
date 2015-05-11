@@ -40,6 +40,7 @@
 #include "WprofController.h"
 #include "Frame.h"
 #include "HTMLFrameOwnerElement.h"
+#include "WprofGenTag.h"
 #endif
 
 

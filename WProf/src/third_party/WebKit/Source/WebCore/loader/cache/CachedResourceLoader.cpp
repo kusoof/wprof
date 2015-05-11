@@ -64,6 +64,7 @@
 #include "HTMLDocumentParser.h"
 #include "WprofController.h"
 #include "HTMLFrameOwnerElement.h"
+#include "WprofGenTag.h"
 #endif
 
 #define PRELOAD_DEBUG 0
@@ -255,9 +256,9 @@ CachedResourceHandle<CachedRawResource> CachedResourceLoader::requestRawResource
     HTMLDocumentParser* parser = (HTMLDocumentParser*)(document()->parser());
     
     Element* mediaElement = document()->findMediaElementWithUrl(request.url());
-    //If this function was called from the plugin route, the request should already have a wprof element set. Check it
+    //If this function was called from the plugin route, or via XMLHTTPRequest, the request should already have a wprof element set. Check it
     if(request.wprofElement()){
-      WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, (WprofGenTag*)request.wprofElement());
+      WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, request.wprofElement());
     }
     //Check if this is a video download, i.e. ask the document about its media elements
     else if (mediaElement){
@@ -490,6 +491,9 @@ CachedResourceHandle<CachedResource> CachedResourceLoader::requestResource(Cache
     case Use:
         memoryCache()->resourceAccessed(resource.get());
         notifyLoadedFromMemoryCache(resource.get());
+#if !WPROF_DISABLED
+	WprofController::getInstance()->createWprofCachedResource(resource.get()->identifier(), request, document()->page());
+#endif
         break;
     }
 
