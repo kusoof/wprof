@@ -4105,6 +4105,37 @@ void Document::dispatchWindowLoadEvent()
  #endif
 }
 
+#if !WPROF_DISABLED
+WprofComputation* Document::createWprofEventComputation(Event* event)
+{
+  Page* page = this->page();
+  WprofComputation* wprofComputation = NULL;
+  if(page){
+    String docUrl = url().string();
+
+    //Check if ready state changed event
+    if(event->type().string() == String::format("readystatechange")){
+      wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									  EventTargetDocument,
+									  readyState(),
+									  docUrl,
+									  page);
+    }
+    else{ 
+      wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									  EventTargetDocument,
+									  String(),
+									  docUrl,
+									  page);
+    }
+  }
+  else{
+    fprintf(stderr, "attempting to log fire event computation from document but we don't have a page pointer\n");
+  }
+  return wprofComputation;
+}
+#endif
+
 void Document::enqueueWindowEvent(PassRefPtr<Event> event)
 {
     event->setTarget(domWindow());

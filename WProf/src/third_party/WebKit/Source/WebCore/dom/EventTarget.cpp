@@ -193,6 +193,40 @@ void EventTarget::uncaughtExceptionInEventHandler()
 {
 }
 
+
+#if !WPROF_DISABLED
+  WprofComputation* EventTarget::createWprofEventComputation(Event* event){
+
+    WprofComputation* wprofComputation = NULL;
+    Page* page = NULL;
+   
+    
+    Node* node = toNode();
+    DOMWindow* window = toDOMWindow();
+    
+    if(node && node->document()->frame()){
+      page = node->document()->frame()->page();
+    }
+    else if (window && window->frame()){
+      page = window->frame()->page();
+    }
+    else if (scriptExecutionContext()->isDocument()){
+      Document* document = static_cast<Document*>(scriptExecutionContext());
+      page = document->frame()->page();
+    }
+
+    if(!page){
+      fprintf(stderr, "In event target: attempting to log fire event computation but we don't have a page pointer\n");
+    }
+    else{
+      wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationFireEvent, page);
+      wprofComputation->setUrlRecalcStyle(event->type().string());
+    }
+
+    return wprofComputation;
+   
+  }
+#endif
 bool EventTarget::fireEventListeners(Event* event)
 {
     ASSERT(!eventDispatchForbidden());
@@ -206,81 +240,8 @@ bool EventTarget::fireEventListeners(Event* event)
 
 #if !WPROF_DISABLED
     WprofComputation* wprofComputation = NULL;
-    Page* page = NULL;
     if(listenerVector && listenerVector->size()){
-    
-      Node* node = toNode();
-      DOMWindow* window = toDOMWindow();
-    
-      if(node && node->document()->frame()){
-	page = node->document()->frame()->page();
-      }
-      else if (window && window->frame()){
-	page = window->frame()->page();
-      }
-      else if (scriptExecutionContext()->isDocument()){
-	Document* document = static_cast<Document*>(scriptExecutionContext());
-	page = document->frame()->page();
-      }
-
-      if(!page){
-	fprintf(stderr, "attempting to log fire event computation but we don't have a page pointer\n");
-      }
-
-      if(event->type().string() == String::format("readystatechange")){
-	  fprintf(stderr, "in here\n");
-      }
-
-	
-      /*if (page && ((event->type().string() == String::format("load"))
-	|| (event->type().string() == String::format("DOMContentLoaded")))) {*/
-      if(page){
-
-	//Try to find the event target
-	if(node){
-	  if(node->isHTMLElement()){
-	    HTMLElement* element = (HTMLElement*) node;
-	    wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
-										EventTargetElement,
-										element->wprofElement(),
-										String(),
-										element->wprofElement()->docUrl());
-	  }
-	  else if (node->isContainerNode() && (node->document() == node)){
-
-	    String docUrl = node->document()->url().string();
-
-	    //Check if ready state changed event
-	    if(event->type().string() == String::format("readystatechange")){
-	      String readyState = node->document()->readyState();
-	       wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
-										   EventTargetDocument,
-										   readyState,
-										   docUrl,
-										   page);
-	    }
-	    else{ 
-	      wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
-										  EventTargetDocument,
-										  String(),
-										  docUrl,
-										  page);
-	    }
-	  }
-	}
-	else if (window){
-	  String docUrl = window->url().string();
-	  wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
-									      EventTargetWindow,
-									      String(),
-									      docUrl,
-									      page);
-	}
-	if(!wprofComputation){
-	  wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationFireEvent, page);
-	  wprofComputation->setUrlRecalcStyle(event->type().string());
-	}
-      }
+      wprofComputation = createWprofEventComputation(event);
     }
 #endif
 

@@ -253,8 +253,6 @@ CachedResourceHandle<CachedResource> CachedResourceLoader::requestLinkResource(C
 CachedResourceHandle<CachedRawResource> CachedResourceLoader::requestRawResource(ResourceRequest& request, const ResourceLoaderOptions& options)
 {
 #if !WPROF_DISABLED
-    HTMLDocumentParser* parser = (HTMLDocumentParser*)(document()->parser());
-    
     Element* mediaElement = document()->findMediaElementWithUrl(request.url());
     //If this function was called from the plugin route, or via XMLHTTPRequest, the request should already have a wprof element set. Check it
     if(request.wprofElement()){

@@ -392,6 +392,7 @@ DOMWindow::DOMWindow(Frame* frame)
     : FrameDestructionObserver(frame)
     , m_shouldPrintWhenFinishedLoading(false)
     , m_suspendedForPageCache(false)
+    , m_wprofParentComputation(0)
 {
 }
 
@@ -839,6 +840,12 @@ void DOMWindow::postMessage(PassRefPtr<SerializedScriptValue> message, const Mes
     if (InspectorInstrumentation::hasFrontends())
         stackTrace = createScriptCallStack(ScriptCallStack::maxCallStackSizeToCapture, true);
 
+    #if !WPROF_DISABLED
+    //Set the parent computation
+    if(document()->page()){
+      m_wprofParentComputation = WprofController::getInstance()->getCurrentComputationForPage(document()->page());
+    }
+    #endif
     // Schedule the message.
     PostMessageTimer* timer = new PostMessageTimer(this, message, sourceOrigin, source, channels.release(), target.get(), stackTrace.release());
     timer->startOneShot(0);
@@ -1665,6 +1672,53 @@ bool DOMWindow::dispatchEvent(PassRefPtr<Event> prpEvent, PassRefPtr<EventTarget
 
     return result;
 }
+
+#if !WPROF_DISABLED
+WprofComputation* DOMWindow::createWprofEventComputation(Event* event)
+{
+  WprofComputation* wprofComputation = NULL;
+  Page* page = this->page();
+
+  //Check to see if we are running any scripts at the moment
+  WprofComputation* currentScript = WprofController::getInstance()->getCurrentComputationForPage(page);
+  
+  if(page){
+    String docUrl = url().string();
+    
+    if((event->type().string() == String::format("message")) && m_wprofParentComputation){
+      //The parent computation is where the postMessage was called in a script
+      wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									  EventTargetWindow,
+									  m_wprofParentComputation,
+									  String(),
+									  docUrl);						       
+
+    }
+    else if ((event->type().string() == String::format("error")) && currentScript){
+      //If this is an error event against the window, then the current executing script has fired this error
+      wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									  EventTargetWindow,
+									  currentScript,
+									  String(),
+									  docUrl);						       
+
+    }
+    else{
+    
+      wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									  EventTargetWindow,
+									  String(),
+									  docUrl,
+									  page);
+    }
+  }
+  else{
+    fprintf(stderr, "attempting to log fire event in DOMWindow but we don't have a page pointer\n");
+  }
+  return wprofComputation;  
+}
+
+#endif
 
 void DOMWindow::removeAllEventListeners()
 {

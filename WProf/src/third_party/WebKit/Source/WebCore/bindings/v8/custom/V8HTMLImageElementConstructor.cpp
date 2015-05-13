@@ -42,6 +42,10 @@
 
 #include <wtf/RefPtr.h>
 
+#if !WPROF_DISABLED
+#include "WprofController.h"
+#endif
+
 namespace WebCore {
 
 WrapperTypeInfo V8HTMLImageElementConstructor::info = { V8HTMLImageElementConstructor::GetTemplate, 0, 0, 0, 0, WrapperTypeObjectPrototype };
@@ -84,6 +88,9 @@ static v8::Handle<v8::Value> v8HTMLImageElementConstructorCallback(const v8::Arg
         optionalHeight = &height;
     }
 
+#if !WPROF_DISABLED
+    WprofController::getInstance()->createWprofGenTag(document->url().string(), document, String::format("img"));
+#endif
     RefPtr<HTMLImageElement> image = HTMLImageElement::createForJSConstructor(document, optionalWidth, optionalHeight);
     V8DOMWrapper::setDOMWrapper(args.Holder(), &V8HTMLImageElementConstructor::info, image.get());
     V8DOMWrapper::setJSWrapperForDOMNode(image.release(), v8::Persistent<v8::Object>::New(args.Holder()));

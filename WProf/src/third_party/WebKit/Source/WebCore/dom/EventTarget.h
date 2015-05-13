@@ -38,6 +38,10 @@
 #include <wtf/HashMap.h>
 #include <wtf/text/AtomicStringHash.h>
 
+#if !WPROF_DISABLED
+#include "WprofComputation.h"
+#endif
+
 namespace WebCore {
 
     class AudioContext;
@@ -107,6 +111,10 @@ namespace WebCore {
 
         virtual Node* toNode();
         virtual DOMWindow* toDOMWindow();
+
+#if !WPROF_DISABLED
+	virtual WprofComputation* createWprofEventComputation(Event* event);
+#endif
 
         virtual bool addEventListener(const AtomicString& eventType, PassRefPtr<EventListener>, bool useCapture);
         virtual bool removeEventListener(const AtomicString& eventType, EventListener*, bool useCapture);

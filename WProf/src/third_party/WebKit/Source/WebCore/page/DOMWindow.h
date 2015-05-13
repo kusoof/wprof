@@ -265,6 +265,10 @@ namespace WebCore {
         virtual bool removeEventListener(const AtomicString& eventType, EventListener*, bool useCapture);
         virtual void removeAllEventListeners();
 
+#if !WPROF_DISABLED
+	virtual WprofComputation* createWprofEventComputation(Event* event);
+#endif
+
         using EventTarget::dispatchEvent;
         bool dispatchEvent(PassRefPtr<Event> prpEvent, PassRefPtr<EventTarget> prpTarget);
         void dispatchLoadEvent();
@@ -444,6 +448,10 @@ namespace WebCore {
         mutable RefPtr<Storage> m_sessionStorage;
         mutable RefPtr<Storage> m_localStorage;
         mutable RefPtr<DOMApplicationCache> m_applicationCache;
+
+	#if !WPROF_DISABLED
+	WprofComputation* m_wprofParentComputation;
+	#endif
 
 #if ENABLE(WEB_TIMING)
         mutable RefPtr<Performance> m_performance;

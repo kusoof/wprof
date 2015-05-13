@@ -83,6 +83,10 @@
 #include "SVGNames.h"
 #endif
 
+#if !WPROF_DISABLED
+#include "WprofGenTag.h"
+#endif
+
 namespace WebCore {
 
 using namespace HTMLNames;
@@ -735,6 +739,36 @@ void Element::attributeChanged(const Attribute& attribute)
     else if (attrName == aria_invalidAttr)
         document()->axObjectCache()->postNotification(renderer(), AXObjectCache::AXInvalidStatusChanged, true);
 }
+
+#if !WPROF_DISABLED
+WprofComputation* Element::createWprofEventComputation(Event* event)
+{
+  Page* page = NULL;
+  if(document()->frame()){
+    page = document()->frame()->page();
+  }
+
+  WprofComputation* wprofComputation;
+
+  if(page){
+    /*if(event->type().string() == String::format("error")){
+      fprintf(stderr, "we have an error with element as target\n");
+      fprintf(stderr, "tag name is %s and src url is %s\n", tagName().utf8().data(), fastGetAttribute(imageSourceAttributeName()).string().utf8().data());
+      }*/
+    wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									EventTargetElement,
+									wprofElement(),
+									String(),
+									wprofElement()->docUrl());
+  }
+  else{  
+    fprintf(stderr, "In node, attempting to log fire event computation but we don't have a page pointer\n");
+  }
+  
+  return wprofComputation;  
+}
+#endif
+
 
 // Returns true is the given attribute is an event handler.
 // We consider an event handler any attribute that begins with "on".

@@ -67,6 +67,9 @@ public:
     virtual void setWprofElement(WprofGenTag* objHash) {
       m_wprofTag = objHash;
     }
+
+    virtual WprofComputation* createWprofEventComputation(Event* event);
+
 #endif
 
     DEFINE_ATTRIBUTE_EVENT_LISTENER(abort);

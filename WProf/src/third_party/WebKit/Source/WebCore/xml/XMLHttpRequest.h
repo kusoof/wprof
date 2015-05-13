@@ -134,6 +134,10 @@ public:
     using RefCounted<XMLHttpRequest>::ref;
     using RefCounted<XMLHttpRequest>::deref;
 
+#if !WPROF_DISABLED
+	virtual WprofComputation* createWprofEventComputation(Event* event);
+#endif
+
 private:
     XMLHttpRequest(ScriptExecutionContext*, PassRefPtr<SecurityOrigin>);
 
@@ -188,6 +192,10 @@ private:
     bool m_async;
     bool m_includeCredentials;
     RefPtr<Blob> m_responseBlob;
+
+    #if !WPROF_DISABLED
+    WprofComputation* m_wprofParentComputation;
+    #endif
 
     RefPtr<ThreadableLoader> m_loader;
     State m_state;

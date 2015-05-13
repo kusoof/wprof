@@ -747,6 +747,11 @@ public:
     void dispatchWindowEvent(PassRefPtr<Event>, PassRefPtr<EventTarget> = 0);
     void dispatchWindowLoadEvent();
 
+#if !WPROF_DISABLED
+    virtual WprofComputation* createWprofEventComputation(Event* event);
+#endif
+    
+
     PassRefPtr<Event> createEvent(const String& eventType, ExceptionCode&);
 
     // keep track of what types of event listeners are registered, so we don't

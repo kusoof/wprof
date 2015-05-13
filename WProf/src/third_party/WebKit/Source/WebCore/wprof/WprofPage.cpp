@@ -372,7 +372,7 @@ namespace WebCore {
 
     WprofElement* resourceParent = element;
 
-    if(!element->isComputation()){
+    if(!element || !element->isComputation()){
       //Check whether we have a current computation
       WprofComputation* currentComputation = NULL;
       if(!m_computationStack.empty()){

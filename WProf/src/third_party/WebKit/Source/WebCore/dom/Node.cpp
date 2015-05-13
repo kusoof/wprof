@@ -120,6 +120,10 @@
 #include "HTMLPropertiesCollection.h"
 #endif
 
+#if !WPROF_DISABLED
+#include "WprofGenTag.h"
+#endif
+
 using namespace std;
 
 namespace WebCore {

@@ -166,6 +166,7 @@ XMLHttpRequest::XMLHttpRequest(ScriptExecutionContext* context, PassRefPtr<Secur
     : ActiveDOMObject(context, this)
     , m_async(true)
     , m_includeCredentials(false)
+    , m_wprofParentComputation(0)
     , m_state(UNSENT)
     , m_createdDocument(false)
     , m_error(false)
@@ -399,6 +400,44 @@ void XMLHttpRequest::callReadyStateChangeListener()
         m_progressEventThrottle.dispatchEvent(XMLHttpRequestProgressEvent::create(eventNames().loadendEvent));
     }
 }
+
+#if !WPROF_DISABLED
+  WprofComputation* XMLHttpRequest::createWprofEventComputation(Event* event)
+  {
+    Page* page = document()->page();
+    WprofComputation* wprofComputation = NULL;
+    if(page){
+      String docUrl = document()->url().string();
+      if(event->type().string() == String::format("readystatechange")){
+	if(m_wprofParentComputation){
+	  wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									      EventTargetXMLHTTPRequest,
+									      m_wprofParentComputation,
+									      String::format("%d : %s", readyState(), url().string().utf8().data()),
+									      docUrl);
+	}
+	else{
+	  wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									      EventTargetXMLHTTPRequest,
+									      String::format("%d : %s", readyState(), url().string().utf8().data()),
+									      docUrl,
+									      page);
+	}
+      }
+      else{
+	wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									    EventTargetXMLHTTPRequest,
+									    url().string().utf8().data(),
+									    docUrl,
+									    page);
+      }
+    }
+    else{
+      fprintf(stderr, "In xmlhttprequest: the page is nil, cannot create computation\n");
+    }
+    return wprofComputation;
+  }
+#endif
 
 void XMLHttpRequest::setWithCredentials(bool value, ExceptionCode& ec)
 {
@@ -716,6 +755,7 @@ void XMLHttpRequest::createRequest(ExceptionCode& ec)
     //Set the correct computation in the request that triggers the download, this will call CachedResourceLoader::requestRawResource
     WprofComputation* comp = WprofController::getInstance()->getCurrentComputationForPage(document()->page());
     request.setWprofElement(comp);
+    m_wprofParentComputation = comp;
     #endif
 
     if (m_async) {
