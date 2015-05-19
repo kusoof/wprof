@@ -41,6 +41,7 @@ namespace WebCore {
   class WprofHTMLTag : public WprofGenTag {
   public:
   WprofHTMLTag(WprofPage* page,
+	       Frame* frame,
 	       TextPosition tp,
 	       String docUrl,
 	       String tag,

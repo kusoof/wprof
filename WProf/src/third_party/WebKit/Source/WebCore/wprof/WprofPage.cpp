@@ -37,6 +37,7 @@
 #include <Frame.h>
 
 #include "Document.h"
+#include "DocumentFragment.h"
 #include "Page.h"
 #include "ResourceRequest.h"
 
@@ -173,8 +174,14 @@ namespace WebCore {
    *
    * @param const char request url
    */
-  void WprofPage::createRequestTimeMapping(unsigned long resourceId) {
+  void WprofPage::createRequestTimeMapping(unsigned long resourceId, Frame* frame) {
     m_requestTimeMap.set(resourceId, monotonicallyIncreasingTime());
+
+    //If this is the first time we encounter the frame, we are in fact downloading the frame resource
+    //Add a mapping to the identifier
+    if (!m_frameMap.contains(frame)){
+      m_frameMap.set(frame, resourceId);
+    }
   }
 
   void WprofPage::createResourceElementMapping(unsigned long resourceId, WprofElement* element){
@@ -235,6 +242,7 @@ namespace WebCore {
     }
 
     WprofHTMLTag* tag = new WprofHTMLTag(this,
+					 document->frame(),
 					 textPosition,
 					 docUrl,
 					 token,
@@ -275,7 +283,7 @@ namespace WebCore {
 
     
 
-    WprofGenTag* element = new WprofGenTag(this, docUrl, token);
+    WprofGenTag* element = new WprofGenTag(this, document->frame(), docUrl, token);
     // Add WprofHTMLTag to its vector
     m_tags.append(element);
 
@@ -312,6 +320,7 @@ namespace WebCore {
     CurrentPosition* charPos = m_fragmentCurrentPositionMap.get(fragment);
 
     WprofHTMLTag* tag = new WprofHTMLTag(this,
+					 fragment->document()->frame(),
 					 textPosition,
 					 docUrl,
 					 token,
@@ -778,6 +787,14 @@ namespace WebCore {
     -----------------------------------------------------------------------------------*/
 
   void WprofPage::outputWprofResources() {
+
+    //First output the frame mapping
+    for (HashMap<Frame*, unsigned long>::iterator it = m_frameMap.begin(); it != m_frameMap.end(); ++it){
+      Frame* frame = it->first;
+      unsigned long resourceId = it->second;
+      fprintf(stderr, "{\"Frame\": {\"code\": %p, \"id\": %ld}}\n", frame, resourceId);
+    }
+    
     for (unsigned int i = 0; i < m_resources.size(); ++i) {
       // Output one resource info
       WprofResource* info = m_resources[i];

@@ -44,7 +44,7 @@ namespace WebCore {
   }
 
   void WprofCachedResource::print(){
-    fprintf(stderr, "{\"Cached\": {\"id\": \"%ld\", \"url\": \"%s\", \"from\": \"%p\", \"accessTime\": %lf}}\n",
+    fprintf(stderr, "{\"Cached\": {\"id\": %ld, \"url\": \"%s\", \"from\": \"%p\", \"accessTime\": %lf}}\n",
 	    m_id,
 	    m_url.utf8().data(),
 	    m_fromWprofElement,

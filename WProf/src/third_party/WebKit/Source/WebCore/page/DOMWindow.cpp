@@ -105,6 +105,10 @@
 #include "RequestAnimationFrameCallback.h"
 #endif
 
+#if !WPROF_DISABLED
+#include "WprofGenTag.h"
+#endif
+
 using std::min;
 using std::max;
 
@@ -1679,11 +1683,15 @@ WprofComputation* DOMWindow::createWprofEventComputation(Event* event)
   WprofComputation* wprofComputation = NULL;
   Page* page = this->page();
 
-  //Check to see if we are running any scripts at the moment
-  WprofComputation* currentScript = WprofController::getInstance()->getCurrentComputationForPage(page);
-  
   if(page){
     String docUrl = url().string();
+
+    //Check to see if we are running any scripts at the moment
+    WprofComputation* currentScript = WprofController::getInstance()->getCurrentComputationForPage(page);
+  
+    /*if(event->type().string() == String::format("error")){
+      fprintf(stderr, "we have an error event\n");
+      }*/
     
     if((event->type().string() == String::format("message")) && m_wprofParentComputation){
       //The parent computation is where the postMessage was called in a script
@@ -1694,13 +1702,27 @@ WprofComputation* DOMWindow::createWprofEventComputation(Event* event)
 									  docUrl);						       
 
     }
-    else if ((event->type().string() == String::format("error")) && currentScript){
-      //If this is an error event against the window, then the current executing script has fired this error
-      wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
-									  EventTargetWindow,
-									  currentScript,
-									  String(),
-									  docUrl);						       
+    else if (event->type().string() == String::format("error")){
+      if (currentScript){
+	//If this is an error event against the window, then the current executing script has fired this error
+	wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									    EventTargetWindow,
+									    currentScript,
+									    String(),
+									    docUrl);
+      }
+      //Check if we have a captured error event fired against an element (usually an image element)
+      else if (event->target() != this){
+	Node* node = event->target()->toNode();
+	if(node && node->isHTMLElement()){
+	  WprofElement* element = static_cast<HTMLElement*>(node)->wprofElement();
+	  wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									      EventTargetWindow,
+									      element,
+									      String(),
+									      docUrl);
+	}
+      }
 
     }
     else{

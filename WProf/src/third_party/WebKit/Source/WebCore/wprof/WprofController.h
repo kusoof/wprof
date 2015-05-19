@@ -95,7 +95,7 @@ namespace WebCore {
      *
      * @param const char request url
      */
-    void createRequestTimeMapping(unsigned long resourceId, Page* page);
+    void createRequestTimeMapping(unsigned long resourceId, Frame* frame, Page* page);
   
     /*
      * This function creates a WprofHTMLTag object.

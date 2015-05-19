@@ -249,7 +249,7 @@ void ResourceLoader::willSendRequest(ResourceRequest& request, const ResourceRes
      }*/
 
 #if !WPROF_DISABLED
-    WprofController::getInstance()->createRequestTimeMapping(identifier(), m_frame->page());
+    WprofController::getInstance()->createRequestTimeMapping(identifier(), m_frame.get(), m_frame->page());
     
     //If the request is a redirect, we need to add the tag in the request for the right resource
     if(!request.wprofElement() && !redirectResponse.isNull()){

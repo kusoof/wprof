@@ -41,13 +41,14 @@ namespace WebCore {
   class WprofPage;
   class WprofComputation;
   class WprofPreload;
+  class Frame;
 
   // Define a hash of an object (we use its text position)
   // All WprofHTMLTag instances are created once, this means that we can
   // just use its pointer as the key to retrieve it.
   class WprofGenTag : public WprofElement {
   public:
-    WprofGenTag(WprofPage* page, String docUrl, String name);
+    WprofGenTag(WprofPage* page, Frame* frame, String docUrl, String name);
         
     virtual ~WprofGenTag();
 
@@ -56,6 +57,7 @@ namespace WebCore {
     String docUrl();
     String name();
     bool isFragment();
+    Frame* frame();
     
     WprofComputation* parentComputation ();
     void setParentComputation (WprofComputation* comp);
@@ -68,6 +70,7 @@ namespace WebCore {
     String m_docUrl;
     String m_name;
     bool m_isFragment;
+    Frame* m_frame;
     WprofComputation* m_parentComputation;
   };
 

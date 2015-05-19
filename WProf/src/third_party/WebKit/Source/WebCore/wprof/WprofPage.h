@@ -58,6 +58,7 @@ namespace WebCore
   class Document;
   class DocumentFragment;
   class Event;
+  class Frame;
 
   typedef struct CurrentPosition {
     int position;
@@ -105,13 +106,15 @@ namespace WebCore
     /*
      * This function adds a <url, request time> mapping.
      * Called by ResourceLoader::willSendRequest().
-     * To save memory, especially that of the url, we should move this info to WprofResource
-     * a corresponding WprofResource object is created.
-     *
+     * 
+     * Also creates a mapping between the frame pointer and resource identifier if this
+     * is the first time we see the frame.
+     * 
      * @param const char request url
      */
-    void createRequestTimeMapping(unsigned long resourceId);
+    void createRequestTimeMapping(unsigned long resourceId, Frame* frame);
 
+    //Needed for redirects
     void createResourceElementMapping(unsigned long resourceId, WprofElement* element);
 
     /* ------------------------------------------------------------------------
@@ -306,6 +309,9 @@ namespace WebCore
     
     // A map of resource id -> WprofResource
     HashMap<unsigned long, WprofResource*> m_resourceMap;
+
+    // A map from a frame to the resource identifier of the frame download
+    HashMap<Frame*, unsigned long> m_frameMap;
     
     // This is ugly but creating WprofResource in ResourceLoader::willSendRequest
     // results in a pointer but. Thus, we create this map in ResourceLoader::willSendRequest

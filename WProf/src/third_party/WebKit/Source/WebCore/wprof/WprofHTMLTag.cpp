@@ -14,19 +14,21 @@ namespace WebCore {
 
 
   WprofHTMLTag::WprofHTMLTag(WprofPage* page,
+			     Frame* frame,
 			     TextPosition tp,
 			     String docUrl,
 			     String tag,
 			     int pos,
 			     bool isFragment,
 			     bool isStartTag)
-    : WprofGenTag(page, docUrl, tag)
+    : WprofGenTag(page, frame, docUrl, tag)
             
   {
     m_textPosition = tp;
     m_startTagEndPos = pos;
     m_isStartTag = isStartTag;
     m_isFragment = isFragment;
+    m_startTime = 0;
   }
         
   WprofHTMLTag::~WprofHTMLTag() { 
@@ -38,10 +40,11 @@ namespace WebCore {
   bool WprofHTMLTag::isStartTag() { return m_isStartTag; }
 
   void WprofHTMLTag::print(){
-    fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"comp\": \"%p\", \"doc\": \"%s\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
+    fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"comp\": \"%p\", \"doc\": \"%s\", \"frame\": \"%p\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
 	      this,
 	      m_parentComputation,
 	      m_docUrl.utf8().data(),
+	      m_frame,
 	      m_textPosition.m_line.zeroBasedInt(),
 	      m_textPosition.m_column.zeroBasedInt(),
 	      m_name.utf8().data(),

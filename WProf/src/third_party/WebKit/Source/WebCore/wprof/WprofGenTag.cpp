@@ -34,7 +34,7 @@
 
 namespace WebCore {
 
-  WprofGenTag::WprofGenTag(WprofPage* page, String docUrl, String name)
+  WprofGenTag::WprofGenTag(WprofPage* page, Frame* frame, String docUrl, String name)
     : WprofElement(page),
       m_docUrl(docUrl)
   {
@@ -43,6 +43,7 @@ namespace WebCore {
     m_parentComputation = NULL;
     m_startTime = monotonicallyIncreasingTime();
     m_endTime = m_startTime;
+    m_frame = frame;
   }
        
   WprofGenTag::~WprofGenTag() { 
@@ -52,6 +53,7 @@ namespace WebCore {
   String WprofGenTag::docUrl() { return m_docUrl; }
   String WprofGenTag::name() { return m_name; }
   bool WprofGenTag::isFragment() {return m_isFragment;}
+  Frame* WprofGenTag::frame() { return m_frame;}
   WprofComputation* WprofGenTag::parentComputation () {return m_parentComputation;}
   void WprofGenTag::setParentComputation (WprofComputation* comp) {m_parentComputation = comp;}
 
@@ -67,10 +69,11 @@ namespace WebCore {
 
     //Get the urls that might be requested by this tag, note that scripts
     //can request multiple resources, like images.		    
-    fprintf(stderr, "{\"Element\": {\"code\": \"%p\", \"comp\": \"%p\", \"doc\": \"%s\", \"name\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
+    fprintf(stderr, "{\"Element\": {\"code\": \"%p\", \"comp\": \"%p\", \"doc\": \"%s\", \"frame\": \"%p\", \"name\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
 	    this,
 	    m_parentComputation,
 	    m_docUrl.utf8().data(),
+	    m_frame,
 	    m_name.utf8().data(),
 	    m_startTime,
 	    m_endTime);

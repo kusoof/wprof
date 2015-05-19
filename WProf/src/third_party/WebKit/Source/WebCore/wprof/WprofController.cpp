@@ -158,9 +158,9 @@ namespace WebCore {
    *
    * @param resource identifier
    */
-  void WprofController::createRequestTimeMapping(unsigned long resourceId, Page* page) {
+  void WprofController::createRequestTimeMapping(unsigned long resourceId, Frame* frame, Page* page) {
     WprofPage* wpage = getWprofPage(page);
-    wpage->createRequestTimeMapping(resourceId);
+    wpage->createRequestTimeMapping(resourceId, frame);
   }
 
   void WprofController::createResourceElementMapping(unsigned long resourceId, WprofElement* element, Page* page) {
