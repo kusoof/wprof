@@ -57,7 +57,7 @@ namespace WebCore {
     String docUrl();
     String name();
     bool isFragment();
-    Frame* frame();
+    virtual Frame* frame();
     
     WprofComputation* parentComputation ();
     void setParentComputation (WprofComputation* comp);

@@ -45,6 +45,7 @@ namespace WebCore {
 
   WprofResource::WprofResource(unsigned long id,
 			       String url,
+			       Frame* frame,
 			       RefPtr<ResourceLoadTiming> resourceLoadTiming,
 			       String mime,
 			       long long expectedContentLength,
@@ -58,6 +59,8 @@ namespace WebCore {
     : m_bytes(0)
   {
     m_id = id;
+
+    m_frame = frame;
     
     // [Note] deep copy
     if (resourceLoadTiming != NULL){
@@ -95,6 +98,7 @@ namespace WebCore {
   unsigned long WprofResource::fromWprofObject() { return m_fromWprofObject; }
   unsigned long WprofResource::bytes() { return m_bytes; }
   String WprofResource::httpMethod() { return m_httpMethod;}
+  Frame* WprofResource::frame() { return m_frame;}
 
   Vector<WprofReceivedChunk*>* WprofResource::receivedChunkInfoVector() { return m_receivedChunkInfoVector; }
         

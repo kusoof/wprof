@@ -39,6 +39,7 @@
 #include "Document.h"
 #include "DocumentFragment.h"
 #include "Page.h"
+#include "Frame.h"
 #include "ResourceRequest.h"
 
 namespace WebCore {
@@ -89,6 +90,7 @@ namespace WebCore {
    * @param
    */
   void WprofPage::createWprofResource(unsigned long resourceId,
+				      Frame* frame,
 				      ResourceRequest& request,
 				      const ResourceResponse& response){
 
@@ -127,6 +129,7 @@ namespace WebCore {
     // [Note] deep copy request url
     WprofResource* resource = new WprofResource(resourceId,
 						url,
+						frame,
 						resourceLoadTiming,
 						mime,
 						expectedContentLength,
@@ -180,7 +183,7 @@ namespace WebCore {
     //If this is the first time we encounter the frame, we are in fact downloading the frame resource
     //Add a mapping to the identifier
     if (!m_frameMap.contains(frame)){
-      m_frameMap.set(frame, resourceId);
+      m_frameMap.set(frame, std::make_pair(resourceId, frame->tree()->parent()));
     }
   }
 
@@ -488,9 +491,9 @@ namespace WebCore {
     return comp;
   }
 
-  WprofEvent* WprofPage::createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl)
+  WprofEvent* WprofPage::createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl, Frame* frame)
   {
-    WprofEvent* event = new WprofEvent(name, target, targetType, info, docUrl, this);
+    WprofEvent* event = new WprofEvent(name, target, targetType, info, docUrl, frame, this);
     m_computations.append(event);
     m_computationStack.push(event);
 
@@ -789,10 +792,11 @@ namespace WebCore {
   void WprofPage::outputWprofResources() {
 
     //First output the frame mapping
-    for (HashMap<Frame*, unsigned long>::iterator it = m_frameMap.begin(); it != m_frameMap.end(); ++it){
+    for (HashMap<Frame*, pair<unsigned long, Frame*> >::iterator it = m_frameMap.begin(); it != m_frameMap.end(); ++it){
       Frame* frame = it->first;
-      unsigned long resourceId = it->second;
-      fprintf(stderr, "{\"Frame\": {\"code\": %p, \"id\": %ld}}\n", frame, resourceId);
+      unsigned long resourceId = it->second.first;
+      Frame* parent = it->second.second;
+      fprintf(stderr, "{\"Frame\": {\"code\": \"%p\", \"id\": %ld, \"parent\": \"%p\"}}\n", frame, resourceId, parent);
     }
     
     for (unsigned int i = 0; i < m_resources.size(); ++i) {
@@ -802,10 +806,11 @@ namespace WebCore {
       RefPtr<ResourceLoadTiming> timing = info->resourceLoadTiming();
                 
       if (!timing)
-	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
+	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%p\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
 \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"httpMethod\": \"%s\", \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
 		info->getId(),
 		info->url().utf8().data(),
+		info->frame(),
 		info->timeDownloadStart(),
 		info->bytes(),
 		(void*)info->fromWprofObject(),
@@ -818,12 +823,13 @@ namespace WebCore {
 		info->wasCached()
 		);
       else
-	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
+	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%p\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
 \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"httpMethod\": \"%s\", \"connId\": %u, \"connReused\": %d, \"cached\": %d, \
                             \"requestTime\": %f, \"proxyStart\": %d, \"proxyEnd\": %d, \"dnsStart\": %d, \"dnsEnd\": %d, \"connectStart\": %d,\
                             \"connectEnd\": %d, \"sendStart\": %d, \"sendEnd\": %d, \"receiveHeadersEnd\": %d, \"sslStart\": %d, \"sslEnd\": %d}}\n",
 		info->getId(),
 		info->url().utf8().data(),
+		info->frame(),
 		info->timeDownloadStart(),
 		info->bytes(),
 		(void*)info->fromWprofObject(),

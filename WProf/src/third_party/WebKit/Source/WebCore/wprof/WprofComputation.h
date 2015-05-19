@@ -32,6 +32,7 @@
 
 namespace WebCore {
 
+  class Frame;
 
   typedef enum {
     ComputationRecalcStyle = 1,
@@ -65,6 +66,7 @@ namespace WebCore {
     }
 
     virtual String docUrl();
+    virtual Frame* frame();
         
   protected:
     WprofComputationType m_type; // 1: recalcStyle; 2: layout; 3: paint
@@ -84,8 +86,8 @@ namespace WebCore {
 
   class WprofEvent : public WprofComputation {
   public:
-    WprofEvent (String name, WprofElement* target, WprofEventTargetType targetType, String info, String docUrl, WprofPage* page);
-    WprofEvent (String name, WprofElement* target, WprofEventTargetType targetType, String docUrl, WprofPage* page);
+    WprofEvent (String name, WprofElement* target, WprofEventTargetType targetType, String info, String docUrl, Frame* frame,  WprofPage* page);
+    WprofEvent (String name, WprofElement* target, WprofEventTargetType targetType, String docUrl, Frame* frame, WprofPage* page);
 
     void print();
     WprofComputationType type () {return ComputationFireEvent;}
@@ -93,12 +95,14 @@ namespace WebCore {
     WprofElement* target();
     WprofEventTargetType targetType();
     String info();
+    Frame* frame();
     String EventName();
 
   protected:
     WprofEventTargetType m_targetType;
     String m_info;
     String m_docUrl;
+    Frame* m_frame;
 
     //Helper Function
     String targetTypeString();

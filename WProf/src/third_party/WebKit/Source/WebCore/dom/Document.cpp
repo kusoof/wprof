@@ -4119,6 +4119,7 @@ WprofComputation* Document::createWprofEventComputation(Event* event)
 									  EventTargetDocument,
 									  readyState(),
 									  docUrl,
+									  frame(),
 									  page);
     }
     else{ 
@@ -4126,6 +4127,7 @@ WprofComputation* Document::createWprofEventComputation(Event* event)
 									  EventTargetDocument,
 									  String(),
 									  docUrl,
+									  frame(),
 									  page);
     }
   }

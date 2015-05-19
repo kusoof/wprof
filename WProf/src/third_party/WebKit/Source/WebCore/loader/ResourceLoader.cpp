@@ -274,7 +274,7 @@ void ResourceLoader::didReceiveResponse(const ResourceResponse& r)
     ASSERT(!m_reachedTerminalState);
 
 #if !WPROF_DISABLED
-    WprofController::getInstance()->createWprofResource(identifier(), m_request, r, m_frame->page());
+    WprofController::getInstance()->createWprofResource(identifier(), m_request, r, m_frame.get(),  m_frame->page());
     LOG(DependencyLog, "ResourceLoader::didReceiveResponse %p", r.resourceLoadTiming());
 #endif
 

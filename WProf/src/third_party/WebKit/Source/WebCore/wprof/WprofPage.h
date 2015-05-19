@@ -36,6 +36,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <stack>
+#include <utility>
 
 #include "Logging.h"
 #include "ResourceLoadTiming.h"
@@ -91,6 +92,7 @@ namespace WebCore
 
     
     void createWprofResource(unsigned long resourceId,
+			     Frame* frame,
 			     ResourceRequest& request,
 			     const ResourceResponse& response);
 
@@ -177,7 +179,7 @@ namespace WebCore
 
     WprofComputation* getCurrentComputation();
 
-    WprofEvent* createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl);
+    WprofEvent* createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl, Frame* frame);
 
     /*-------------------------------------------------------------------------
       Preloads
@@ -311,7 +313,7 @@ namespace WebCore
     HashMap<unsigned long, WprofResource*> m_resourceMap;
 
     // A map from a frame to the resource identifier of the frame download
-    HashMap<Frame*, unsigned long> m_frameMap;
+    HashMap<Frame*, pair<unsigned long, Frame*> > m_frameMap;
     
     // This is ugly but creating WprofResource in ResourceLoader::willSendRequest
     // results in a pointer but. Thus, we create this map in ResourceLoader::willSendRequest

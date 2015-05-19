@@ -36,6 +36,7 @@ namespace WebCore {
 
   class WprofComputation;
   class WprofElement;
+  class Frame;
 
 
 // Define WprofReceivedChunk
@@ -67,6 +68,7 @@ public:
 
   WprofResource(unsigned long id,
 		String url,
+		Frame* frame,
 		RefPtr<ResourceLoadTiming> resourceLoadTiming,
 		String mime,
 		long long expectedContentLength,
@@ -93,6 +95,7 @@ public:
   unsigned long fromWprofObject();
   unsigned long bytes();
   String httpMethod();
+  Frame* frame();
 
   Vector<WprofReceivedChunk*>* receivedChunkInfoVector();
         
@@ -108,6 +111,7 @@ private:
         unsigned long m_id;
         String m_url;
         double m_timeDownloadStart;
+	Frame* m_frame;
         
         Vector<WprofReceivedChunk*>* m_receivedChunkInfoVector;
         

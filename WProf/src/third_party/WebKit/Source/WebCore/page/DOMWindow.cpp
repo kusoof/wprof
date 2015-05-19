@@ -1699,7 +1699,8 @@ WprofComputation* DOMWindow::createWprofEventComputation(Event* event)
 									  EventTargetWindow,
 									  m_wprofParentComputation,
 									  String(),
-									  docUrl);						       
+									  docUrl,
+									  frame());						       
 
     }
     else if (event->type().string() == String::format("error")){
@@ -1709,7 +1710,8 @@ WprofComputation* DOMWindow::createWprofEventComputation(Event* event)
 									    EventTargetWindow,
 									    currentScript,
 									    String(),
-									    docUrl);
+									    docUrl,
+									    frame());
       }
       //Check if we have a captured error event fired against an element (usually an image element)
       else if (event->target() != this){
@@ -1720,7 +1722,8 @@ WprofComputation* DOMWindow::createWprofEventComputation(Event* event)
 									      EventTargetWindow,
 									      element,
 									      String(),
-									      docUrl);
+									      docUrl,
+									      frame());
 	}
       }
 
@@ -1731,6 +1734,7 @@ WprofComputation* DOMWindow::createWprofEventComputation(Event* event)
 									  EventTargetWindow,
 									  String(),
 									  docUrl,
+									  frame(),
 									  page);
     }
   }

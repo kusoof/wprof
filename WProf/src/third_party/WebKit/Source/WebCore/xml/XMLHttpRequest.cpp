@@ -414,13 +414,15 @@ void XMLHttpRequest::callReadyStateChangeListener()
 									      EventTargetXMLHTTPRequest,
 									      m_wprofParentComputation,
 									      String::format("%d : %s", readyState(), url().string().utf8().data()),
-									      docUrl);
+									      docUrl,
+									      document()->frame());
 	}
 	else{
 	  wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
 									      EventTargetXMLHTTPRequest,
 									      String::format("%d : %s", readyState(), url().string().utf8().data()),
 									      docUrl,
+									      document()->frame(),
 									      page);
 	}
       }
@@ -429,6 +431,7 @@ void XMLHttpRequest::callReadyStateChangeListener()
 									    EventTargetXMLHTTPRequest,
 									    url().string().utf8().data(),
 									    docUrl,
+									    document()->frame(),
 									    page);
       }
     }

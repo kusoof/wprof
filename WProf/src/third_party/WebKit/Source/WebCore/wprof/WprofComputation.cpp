@@ -87,6 +87,15 @@ namespace WebCore {
     }
   }
 
+  Frame* WprofComputation::frame(){
+    if (m_fromWprofElement){
+      return m_fromWprofElement->frame();
+    }
+    else {
+      return NULL;
+    }
+  }
+
   bool WprofComputation::isComputation(){
     return true;
   }
@@ -96,11 +105,12 @@ namespace WebCore {
   }
 
   void WprofComputation::print(){
-    fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"from\": \"%p\",\"docUrl\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urlRecalcStyle\": \"%s\", \"urls\": [ ",
+    fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"from\": \"%p\",\"docUrl\": \"%s\", \"frame\": \"%p\", \"startTime\": %lf, \"endTime\": %lf, \"urlRecalcStyle\": \"%s\", \"urls\": [ ",
 	    getTypeForPrint().utf8().data(),
 	    this,
 	    m_fromWprofElement,
 	    m_fromWprofElement->docUrl().utf8().data(),
+	    frame(),
 	    m_startTime,
 	    m_endTime,
 	    m_urlRecalcStyle.utf8().data());
@@ -128,10 +138,12 @@ namespace WebCore {
 			  WprofEventTargetType targetType,
 			  String info,
 			  String docUrl,
+			  Frame* frame,
 			  WprofPage* page): WprofComputation(type(), target, page),
 					    m_targetType(targetType),
 					    m_info(info),
-					    m_docUrl(docUrl)
+					    m_docUrl(docUrl),
+					    m_frame(frame)
   {
     setUrlRecalcStyle(name);
   }
@@ -140,11 +152,13 @@ namespace WebCore {
 			  WprofElement* target,
 			  WprofEventTargetType targetType,
 			  String docUrl,
+			  Frame* frame,
 			  WprofPage* page)
     : WprofComputation(type(), target, page),
       m_targetType(targetType),
       m_info(String()),
-      m_docUrl(docUrl)
+      m_docUrl(docUrl),
+      m_frame(frame)
   {
     setUrlRecalcStyle(name);
   }
@@ -174,13 +188,14 @@ namespace WebCore {
     
 
   void WprofEvent::print(){
-    fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"target\": \"%p\", \"targetType\": \"%s\", \"info\": \"%s\", \"docUrl\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"name\": \"%s\", \"urls\": [ ",
+    fprintf(stderr, "{\"Computation\": {\"type\": \"%s\", \"code\": \"%p\", \"target\": \"%p\", \"targetType\": \"%s\", \"info\": \"%s\", \"docUrl\": \"%s\", \"frame\": \"%p\", \"startTime\": %lf, \"endTime\": %lf, \"name\": \"%s\", \"urls\": [ ",
 	    getTypeForPrint().utf8().data(),
 	    this,
 	    m_fromWprofElement,
 	    targetTypeString().utf8().data(),
 	    m_info.utf8().data(),
 	    m_docUrl.utf8().data(),
+	    m_frame,
 	    m_startTime,
 	    m_endTime,
 	    m_urlRecalcStyle.utf8().data());
@@ -200,6 +215,9 @@ namespace WebCore {
     fprintf(stderr, " ]}}\n");
     }
    
+  Frame* WprofEvent::frame(){
+    return m_frame;
+  }
 
   WprofElement* WprofEvent::target(){
     return m_fromWprofElement;

@@ -759,7 +759,8 @@ WprofComputation* Element::createWprofEventComputation(Event* event)
 									EventTargetElement,
 									wprofElement(),
 									String(),
-									wprofElement()->docUrl());
+									wprofElement()->docUrl(),
+									document()->frame());
   }
   else{  
     fprintf(stderr, "In node, attempting to log fire event computation but we don't have a page pointer\n");

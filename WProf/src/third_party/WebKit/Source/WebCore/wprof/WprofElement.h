@@ -38,6 +38,7 @@
 namespace WebCore {
 
   class WprofPage;
+  class Frame;
 
   // Define a hash of an object (we use its text position)
   // All WprofHTMLTag instances are created once, this means that we can
@@ -60,6 +61,8 @@ namespace WebCore {
 
     virtual void print();
     virtual String docUrl();
+
+    virtual Frame* frame();
 
     virtual bool isComputation();
     virtual WprofElement* parent();

@@ -72,6 +72,7 @@ namespace WebCore {
     void createWprofResource(unsigned long resourceId,
 			     ResourceRequest& request,
 			     const ResourceResponse& response,
+			     Frame* frame,
 			     Page* page);
 
     void createWprofCachedResource(unsigned long resourceId,
@@ -133,8 +134,8 @@ namespace WebCore {
 
     WprofComputation* getCurrentComputationForPage(Page* page);
 
-    WprofEvent* createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl);
-    WprofEvent* createWprofEvent(String name, WprofEventTargetType targetType, String info, String docUrl, Page* page);
+    WprofEvent* createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl, Frame* frame);
+    WprofEvent* createWprofEvent(String name, WprofEventTargetType targetType, String info, String docUrl, Frame* frame, Page* page);
 
 
     WprofGenTag* tempElementForPage(Page* page);

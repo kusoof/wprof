@@ -121,6 +121,7 @@ namespace WebCore {
   void WprofController::createWprofResource(unsigned long resourceId,
 					    ResourceRequest& request,
 					    const ResourceResponse& response,
+					    Frame* frame,
 					    Page* page)
   {
     //Dispatch to the correct page
@@ -128,7 +129,7 @@ namespace WebCore {
     if(wpage->isComplete()){
       fprintf(stderr, "the page has already completed, why are we downloading resources?\n");
     }
-    wpage->createWprofResource(resourceId, request, response);
+    wpage->createWprofResource(resourceId, frame, request, response);
   }					   
 
   void WprofController::createWprofCachedResource(unsigned long resourceId,
@@ -265,23 +266,23 @@ namespace WebCore {
     return comp;
   }
 
-  WprofEvent* WprofController::createWprofEvent(String name, WprofEventTargetType targetType, String info, String docUrl, Page* page) {
+  WprofEvent* WprofController::createWprofEvent(String name, WprofEventTargetType targetType, String info, String docUrl, Frame* frame, Page* page) {
     if(!page){
       fprintf(stderr, "The page is null when attempting to create an event\n");
       return NULL;
     }
     WprofPage* wpage = getWprofPage(page);
-    WprofEvent* event = wpage->createWprofEvent(name, targetType, NULL, info, docUrl);
+    WprofEvent* event = wpage->createWprofEvent(name, targetType, NULL, info, docUrl, frame);
     return event;
   }
 
-  WprofEvent* WprofController::createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl){
+  WprofEvent* WprofController::createWprofEvent(String name, WprofEventTargetType targetType, WprofElement* target, String info, String docUrl, Frame* frame){
     if(!target){
       fprintf(stderr, "The element is null when attempting to create an event\n");
       return NULL;
     }
     WprofPage* wpage = target->page();
-    WprofEvent* event = wpage->createWprofEvent(name, targetType, target, info, docUrl);
+    WprofEvent* event = wpage->createWprofEvent(name, targetType, target, info, docUrl, frame);
     return event;
   }
 
