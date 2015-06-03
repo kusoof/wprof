@@ -182,8 +182,12 @@ namespace WebCore {
 
     //If this is the first time we encounter the frame, we are in fact downloading the frame resource
     //Add a mapping to the identifier
-    if (!m_frameMap.contains(frame)){
-      m_frameMap.set(frame, std::make_pair(resourceId, frame->tree()->parent()));
+    if (!m_frameMap.contains(frame->identifier())){
+      unsigned long parentId = 0;
+      if (frame->tree()->parent()){
+	parentId = frame->tree()->parent()->identifier();
+      }
+      m_frameMap.set(frame->identifier(), std::make_pair(resourceId, parentId));
     }
   }
 
@@ -277,6 +281,16 @@ namespace WebCore {
       WprofComputation* currentComputation = m_computationStack.top();
       tag->setParentComputation(currentComputation);
     }
+
+    if (isFragment && !tag->parentComputation()){
+      fprintf(stderr, "in gen tag for doc, fragment and no computation!\n");
+      //The best we can do is attribute the fragment to the previous computation
+      //since the computation didn't trigger a pumptokenizer to get through in HTMLDocumentParser
+      WprofComputation* previousComputation = m_computations.last();
+      if (!previousComputation->isRenderType()){
+	tag->setParentComputation(previousComputation);
+      }
+    }
     //tag->print();
   }
 
@@ -315,6 +329,7 @@ namespace WebCore {
   //Wprof tags created from parsing a document fragment.
   void WprofPage::createWprofHTMLTag(TextPosition textPosition,
 				     String docUrl,
+				     Frame* frame,
 				     DocumentFragment* fragment,
 				     String token,
 				     bool isStartTag) {
@@ -323,7 +338,7 @@ namespace WebCore {
     CurrentPosition* charPos = m_fragmentCurrentPositionMap.get(fragment);
 
     WprofHTMLTag* tag = new WprofHTMLTag(this,
-					 fragment->document()->frame(),
+					 frame,
 					 textPosition,
 					 docUrl,
 					 token,
@@ -356,6 +371,16 @@ namespace WebCore {
     if(!m_computationStack.empty()){
       WprofComputation* currentComputation = m_computationStack.top();
       tag->setParentComputation(currentComputation);
+    }
+
+    if (!tag->parentComputation()){
+      fprintf(stderr, "in gen tag for fragment, fragment and no computation!\n");
+      //The best we can do is attribute the fragment to the previous computation
+      //since the computation didn't trigger a pumptokenizer to get through in HTMLDocumentParser
+      WprofComputation* previousComputation = m_computations.last();
+      if(! previousComputation->isRenderType()){
+	tag->setParentComputation(previousComputation);
+      }
     }
     //tag->print();
   }
@@ -792,11 +817,11 @@ namespace WebCore {
   void WprofPage::outputWprofResources() {
 
     //First output the frame mapping
-    for (HashMap<Frame*, pair<unsigned long, Frame*> >::iterator it = m_frameMap.begin(); it != m_frameMap.end(); ++it){
-      Frame* frame = it->first;
+    for (HashMap<unsigned long, pair<unsigned long, unsigned long> >::iterator it = m_frameMap.begin(); it != m_frameMap.end(); ++it){
+      unsigned long frameId = it->first;
       unsigned long resourceId = it->second.first;
-      Frame* parent = it->second.second;
-      fprintf(stderr, "{\"Frame\": {\"code\": \"%p\", \"id\": %ld, \"parent\": \"%p\"}}\n", frame, resourceId, parent);
+      unsigned long parentId = it->second.second;
+      fprintf(stderr, "{\"Frame\": {\"code\": \"%ld\", \"id\": %ld, \"parent\": \"%ld\"}}\n", frameId, resourceId, parentId);
     }
     
     for (unsigned int i = 0; i < m_resources.size(); ++i) {
@@ -806,11 +831,11 @@ namespace WebCore {
       RefPtr<ResourceLoadTiming> timing = info->resourceLoadTiming();
                 
       if (!timing)
-	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%p\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
+	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%ld\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
 \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"httpMethod\": \"%s\", \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
 		info->getId(),
 		info->url().utf8().data(),
-		info->frame(),
+		info->frameId(),
 		info->timeDownloadStart(),
 		info->bytes(),
 		(void*)info->fromWprofObject(),
@@ -823,13 +848,13 @@ namespace WebCore {
 		info->wasCached()
 		);
       else
-	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%p\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
+	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%ld\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
 \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"httpMethod\": \"%s\", \"connId\": %u, \"connReused\": %d, \"cached\": %d, \
                             \"requestTime\": %f, \"proxyStart\": %d, \"proxyEnd\": %d, \"dnsStart\": %d, \"dnsEnd\": %d, \"connectStart\": %d,\
                             \"connectEnd\": %d, \"sendStart\": %d, \"sendEnd\": %d, \"receiveHeadersEnd\": %d, \"sslStart\": %d, \"sslEnd\": %d}}\n",
 		info->getId(),
 		info->url().utf8().data(),
-		info->frame(),
+		info->frameId(),
 		info->timeDownloadStart(),
 		info->bytes(),
 		(void*)info->fromWprofObject(),

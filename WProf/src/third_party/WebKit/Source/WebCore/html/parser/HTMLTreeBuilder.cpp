@@ -468,6 +468,7 @@ void HTMLTreeBuilder::constructTreeFromToken(HTMLToken& rawToken)
 	WprofController::getInstance()->createWprofHTMLTag(
 	    m_parser->textPosition(),
             m_document->url().string(),
+	    m_document->frame(),
 	    m_fragmentContext.fragment(),
 	    token.name().string(),
 	    token.type() == HTMLTokenTypes::StartTag

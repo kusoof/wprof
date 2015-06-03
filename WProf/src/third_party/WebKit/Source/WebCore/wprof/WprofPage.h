@@ -149,6 +149,7 @@ namespace WebCore
     //Wprof tags created from parsing a document fragment.
     void createWprofHTMLTag(TextPosition textPosition,
 			    String docUrl,
+			    Frame* frame,
 			    DocumentFragment* fragment,
 			    String token,
 			    bool isStartTag);
@@ -313,7 +314,7 @@ namespace WebCore
     HashMap<unsigned long, WprofResource*> m_resourceMap;
 
     // A map from a frame to the resource identifier of the frame download
-    HashMap<Frame*, pair<unsigned long, Frame*> > m_frameMap;
+    HashMap<unsigned long, pair<unsigned long, unsigned long> > m_frameMap;
     
     // This is ugly but creating WprofResource in ResourceLoader::willSendRequest
     // results in a pointer but. Thus, we create this map in ResourceLoader::willSendRequest

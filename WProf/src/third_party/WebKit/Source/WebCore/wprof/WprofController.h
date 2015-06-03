@@ -116,6 +116,7 @@ namespace WebCore {
     //Wprof tags created from parsing a document fragment.
     void createWprofHTMLTag(TextPosition textPosition,
 			    String docUrl,
+			    Frame* frame,
 			    DocumentFragment* fragment,
 			    String token,
 			    bool isStartTag);

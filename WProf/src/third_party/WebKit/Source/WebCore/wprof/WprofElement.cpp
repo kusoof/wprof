@@ -50,7 +50,7 @@ namespace WebCore {
   WprofPage* WprofElement::page() {return m_page;}
 
   String WprofElement::docUrl() { return String();}
-  Frame* WprofElement::frame() { return NULL;}
+  unsigned long WprofElement::frameId() { return 0;}
   
   void WprofElement::appendUrl(String url){
     m_urls.append(url);

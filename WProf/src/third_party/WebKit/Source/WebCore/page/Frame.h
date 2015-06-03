@@ -198,6 +198,8 @@ namespace WebCore {
         void notifyChromeClientWheelEventHandlerCountChanged() const;
         void notifyChromeClientTouchEventHandlerCountChanged() const;
 
+	unsigned long identifier(){return m_identifier;}
+
     // ========
 
     private:
@@ -217,6 +219,13 @@ namespace WebCore {
         HTMLFrameOwnerElement* m_ownerElement;
         RefPtr<FrameView> m_view;
         RefPtr<Document> m_doc;
+
+	static unsigned long nextIdentifier(){
+	  static unsigned long id = 0;
+	  return ++id;
+	}
+	
+	unsigned long m_identifier;
 
         ScriptController m_script;
 

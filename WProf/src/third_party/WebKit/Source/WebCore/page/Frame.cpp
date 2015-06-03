@@ -199,7 +199,9 @@ inline Frame::Frame(Page* page, HTMLFrameOwnerElement* ownerElement, FrameLoader
     // Pause future ActiveDOMObjects if this frame is being created while the page is in a paused state.
     Frame* parent = parentFromOwnerElement(ownerElement);
     if (parent && parent->activeDOMObjectsAndAnimationsSuspended())
-        suspendActiveDOMObjectsAndAnimations();
+      suspendActiveDOMObjectsAndAnimations();
+    
+    m_identifier = Frame::nextIdentifier();
 }
 
 PassRefPtr<Frame> Frame::create(Page* page, HTMLFrameOwnerElement* ownerElement, FrameLoaderClient* client)

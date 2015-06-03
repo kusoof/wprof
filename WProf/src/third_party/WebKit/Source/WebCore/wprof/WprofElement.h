@@ -62,7 +62,7 @@ namespace WebCore {
     virtual void print();
     virtual String docUrl();
 
-    virtual Frame* frame();
+    virtual unsigned long frameId();
 
     virtual bool isComputation();
     virtual WprofElement* parent();

@@ -95,7 +95,7 @@ public:
   unsigned long fromWprofObject();
   unsigned long bytes();
   String httpMethod();
-  Frame* frame();
+  unsigned long frameId();
 
   Vector<WprofReceivedChunk*>* receivedChunkInfoVector();
         
@@ -111,7 +111,7 @@ private:
         unsigned long m_id;
         String m_url;
         double m_timeDownloadStart;
-	Frame* m_frame;
+	unsigned long m_frameId;
         
         Vector<WprofReceivedChunk*>* m_receivedChunkInfoVector;
         

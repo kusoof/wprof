@@ -219,6 +219,7 @@ namespace WebCore {
   //Wprof tags created from parsing a document fragment.
   void WprofController::createWprofHTMLTag(TextPosition textPosition,
 					   String docUrl,
+					   Frame* frame,
 					   DocumentFragment* fragment,
 					   String token,
 					   bool isStartTag) {
@@ -229,7 +230,7 @@ namespace WebCore {
     
     if(page){
       WprofPage* wpage = getWprofPage(page);
-      wpage->createWprofHTMLTag(textPosition, docUrl, document, token, isStartTag);
+      wpage->createWprofHTMLTag(textPosition, docUrl, frame, fragment, token, isStartTag);
     }
     else{
       //Complain!

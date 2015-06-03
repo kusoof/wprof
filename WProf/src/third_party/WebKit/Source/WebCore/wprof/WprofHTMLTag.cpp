@@ -40,11 +40,11 @@ namespace WebCore {
   bool WprofHTMLTag::isStartTag() { return m_isStartTag; }
 
   void WprofHTMLTag::print(){
-    fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"comp\": \"%p\", \"doc\": \"%s\", \"frame\": \"%p\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
+    fprintf(stderr, "{\"WprofHTMLTag\": {\"code\": \"%p\", \"comp\": \"%p\", \"doc\": \"%s\", \"frame\": \"%ld\", \"row\": %d, \"column\": %d, \"tagName\": \"%s\", \"startTime\": %lf, \"endTime\": %lf, \"urls\":  [ ",
 	      this,
 	      m_parentComputation,
 	      m_docUrl.utf8().data(),
-	      m_frame,
+	      m_frameId,
 	      m_textPosition.m_line.zeroBasedInt(),
 	      m_textPosition.m_column.zeroBasedInt(),
 	      m_name.utf8().data(),

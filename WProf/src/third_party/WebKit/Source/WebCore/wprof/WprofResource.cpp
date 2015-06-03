@@ -27,6 +27,7 @@
 #if !WPROF_DISABLED
 
 #include "WprofResource.h"
+#include "Frame.h"
 
 namespace WebCore {
 
@@ -60,7 +61,7 @@ namespace WebCore {
   {
     m_id = id;
 
-    m_frame = frame;
+    m_frameId = frame->identifier();
     
     // [Note] deep copy
     if (resourceLoadTiming != NULL){
@@ -98,7 +99,7 @@ namespace WebCore {
   unsigned long WprofResource::fromWprofObject() { return m_fromWprofObject; }
   unsigned long WprofResource::bytes() { return m_bytes; }
   String WprofResource::httpMethod() { return m_httpMethod;}
-  Frame* WprofResource::frame() { return m_frame;}
+  unsigned long WprofResource::frameId() { return m_frameId;}
 
   Vector<WprofReceivedChunk*>* WprofResource::receivedChunkInfoVector() { return m_receivedChunkInfoVector; }
         

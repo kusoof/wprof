@@ -66,7 +66,7 @@ namespace WebCore {
     }
 
     virtual String docUrl();
-    virtual Frame* frame();
+    virtual unsigned long frameId();
         
   protected:
     WprofComputationType m_type; // 1: recalcStyle; 2: layout; 3: paint
@@ -95,14 +95,14 @@ namespace WebCore {
     WprofElement* target();
     WprofEventTargetType targetType();
     String info();
-    Frame* frame();
+    unsigned long frameId();
     String EventName();
 
   protected:
     WprofEventTargetType m_targetType;
     String m_info;
     String m_docUrl;
-    Frame* m_frame;
+    unsigned long m_frameId;
 
     //Helper Function
     String targetTypeString();
