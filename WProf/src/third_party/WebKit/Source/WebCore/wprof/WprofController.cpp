@@ -241,6 +241,12 @@ namespace WebCore {
     element->page()->setElementTypePair(element, value);
   }
 
+  void WprofController::addWprofFrameSourceChange(Frame* frame, String url, WprofComputation* comp, Page* page)
+  {
+    WprofPage* wpage = getWprofPage(page);
+    wpage->addWprofFrameSourceChange(frame, url, comp);
+  }
+
   /*
    * Create a WprofComputation object.
    * Called by TODO

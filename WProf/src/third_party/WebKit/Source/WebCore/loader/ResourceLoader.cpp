@@ -276,7 +276,7 @@ void ResourceLoader::didReceiveResponse(const ResourceResponse& r)
 #if !WPROF_DISABLED
     WprofController::getInstance()->createWprofResource(identifier(), m_request, r, m_frame.get(),  m_frame->page());
 
-    fprintf(stderr, "creating resource in did receive response with id %ld for frame id %ld\n", identifier(), m_frame->identifier());
+    //fprintf(stderr, "creating resource in did receive response with id %ld for frame id %ld\n", identifier(), m_frame->identifier());
     LOG(DependencyLog, "ResourceLoader::didReceiveResponse %p", r.resourceLoadTiming());
 #endif
 
@@ -339,7 +339,7 @@ void ResourceLoader::didFinishLoading(double finishTime)
         return;
     ASSERT(!m_reachedTerminalState);
 
-    fprintf(stderr, "did finish loading resource  with id %ld for frame id %ld\n", identifier(), m_frame->identifier());
+    //fprintf(stderr, "did finish loading resource  with id %ld for frame id %ld\n", identifier(), m_frame->identifier());
     
     didFinishLoadingOnePart(finishTime);
     releaseResources();

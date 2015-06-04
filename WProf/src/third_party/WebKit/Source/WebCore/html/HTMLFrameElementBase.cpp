@@ -203,6 +203,12 @@ void HTMLFrameElementBase::setLocation(const String& str)
     if (settings && settings->needsAcrobatFrameReloadingQuirk() && m_URL == str)
         return;
 
+#if !WPROF_DISABLED
+    WprofComputation* comp = WprofController::getInstance()->getCurrentComputationForPage(document()->page());
+    if (!m_URL.isEmpty() && comp && contentFrame()){
+      WprofController::getInstance()->addWprofFrameSourceChange(contentFrame(), str, comp, document()->page());
+    }
+#endif
     m_URL = AtomicString(str);
 
     if (inDocument())

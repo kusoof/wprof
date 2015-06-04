@@ -143,6 +143,8 @@ namespace WebCore {
 
     void setElementTypePair(WprofGenTag* element, int value);
 
+    void addWprofFrameSourceChange(Frame* frame, String url, WprofComputation* comp, Page* page);
+
     /*
       ----------------------------------------------------------
       Event listeners

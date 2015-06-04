@@ -624,15 +624,19 @@ namespace WebCore {
       WprofComputation* currentComputation = m_computationStack.top();
       m_timers.set(timerId, currentComputation);
     }
+    else{
+      fprintf(stderr, "no computation for timer with id %d\n", timerId);
+    }
+    
     m_timeouts.set(timerId, timeout);
   }
 
   void WprofPage::removeTimer(int timerId)
   {
-    if(m_timers.contains(timerId)){
+    /*if(m_timers.contains(timerId)){
       m_timers.remove(timerId);
       m_timeouts.remove(timerId);
-    }
+      }*/
   }
 
   WprofComputation*  WprofPage::willFireTimer(int timerId)
@@ -642,12 +646,18 @@ namespace WebCore {
     if(m_timers.contains(timerId)){
       parent = m_timers.get(timerId);
     }
+    else{
+      fprintf(stderr, "we don't have a computation for timer with id %d\n", timerId);
+    }
     
     WprofComputation* comp = createWprofComputation(ComputationTimer, parent);
     
     if(m_timeouts.contains(timerId)){
       int timeout = m_timeouts.get(timerId);
       comp->setUrlRecalcStyle(String::format("%d", timeout));
+    }
+    else{
+      fprintf(stderr, "we don't have a timeout for timer with id %d\n", timerId);
     }
     return comp;
   }
@@ -675,6 +685,12 @@ namespace WebCore {
       }
     }
     m_elementTypeMap.set(key, value);
+  }
+
+  void WprofPage::addWprofFrameSourceChange(Frame* frame, String url, WprofComputation* comp)
+  {
+    FrameSourceChange* change= new FrameSourceChange(frame->identifier(), url, comp);
+    m_frameSrcChanges.append(change);
   }
         
   // For temporarily stored obj hash
@@ -822,6 +838,11 @@ namespace WebCore {
       unsigned long resourceId = it->second.first;
       unsigned long parentId = it->second.second;
       fprintf(stderr, "{\"Frame\": {\"code\": \"%ld\", \"id\": %ld, \"parent\": \"%ld\"}}\n", frameId, resourceId, parentId);
+    }
+
+    //And then the frame source changes
+    for (Vector<FrameSourceChange*>::iterator it = m_frameSrcChanges.begin(); it != m_frameSrcChanges.end(); it++){
+      fprintf(stderr, "{\"FrameChange\": {\"code\": \"%ld\", \"url\": \"%s\", \"comp\": \"%p\"}}\n", (*it)->frameId, (*it)->url.utf8().data(), (*it)->comp);
     }
     
     for (unsigned int i = 0; i < m_resources.size(); ++i) {

@@ -69,6 +69,18 @@ namespace WebCore
       lastSeenRow = l;
     }
   } CurrentPosition;
+
+  typedef struct FrameSourceChange{
+    unsigned long frameId;
+    String url;
+    WprofComputation* comp;
+
+    FrameSourceChange(unsigned long id, String u, WprofComputation* c){
+      frameId = id;
+      url = u;
+      comp = c;
+    }
+  } FrameSourceChange;
   
   class WprofPage {
 
@@ -236,6 +248,8 @@ namespace WebCore
 
     void setElementTypePair(WprofGenTag* element, int value);
 
+    void addWprofFrameSourceChange(Frame* frame, String url, WprofComputation* comp);
+
     String pageURL();
 
   private:
@@ -315,6 +329,9 @@ namespace WebCore
 
     // A map from a frame to the resource identifier of the frame download
     HashMap<unsigned long, pair<unsigned long, unsigned long> > m_frameMap;
+
+    // A list of changes to a particular frame's source url, and the computation that triggered it
+    Vector<FrameSourceChange*> m_frameSrcChanges;
     
     // This is ugly but creating WprofResource in ResourceLoader::willSendRequest
     // results in a pointer but. Thus, we create this map in ResourceLoader::willSendRequest
