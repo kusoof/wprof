@@ -2435,18 +2435,8 @@ void Document::close()
     if (!scriptableDocumentParser() || !scriptableDocumentParser()->wasCreatedByScript() || !scriptableDocumentParser()->isParsing())
         return;
 
-#if !WPROF_DISABLED
-    Page* p = page();
-    if(!p && parentDocument() && parentDocument()->page()){
-      p = parentDocument()->page();
-    }
-    WprofComputation* wprofComputation = WprofController::getInstance()->createWprofComputation(ComputationFireEvent, p);
-    if(wprofComputation) wprofComputation->setUrlRecalcStyle(String::format("CloseDocument"));
-#endif
     explicitClose();
-#if !WPROF_DISABLED
-    if(wprofComputation) wprofComputation->end();
-#endif
+
 }
 
 void Document::explicitClose()
