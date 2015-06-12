@@ -1154,7 +1154,7 @@ void FrameLoader::loadFrameRequest(const FrameLoadRequest& request, bool lockHis
 void FrameLoader::loadURL(const KURL& newURL, const String& referrer, const String& frameName, bool lockHistory, FrameLoadType newLoadType,
     PassRefPtr<Event> event, PassRefPtr<FormState> prpFormState)
 {
-    if (m_inStopAllLoaders)
+  if (m_inStopAllLoaders)
         return;
 
     RefPtr<FormState> formState = prpFormState;
@@ -1335,7 +1335,9 @@ void FrameLoader::loadWithDocumentLoader(DocumentLoader* loader, FrameLoadType t
     bool isFormSubmission = formState;
 
 #if !WPROF_DISABLED
-    if(Element* ownerElement = m_frame->ownerElement()){
+    if(loader->request().wprofElement()){
+    }
+    else if(Element* ownerElement = m_frame->ownerElement()){
       WprofController::getInstance()->createRequestWprofElementMapping(loader->request().url().string(), loader->request(), ownerElement->wprofElement());
     }
     else{
@@ -2507,6 +2509,14 @@ void FrameLoader::loadPostRequest(const ResourceRequest& inRequest, const String
     workingResourceRequest.setHTTPBody(formData);
     workingResourceRequest.setHTTPContentType(contentType);
     addExtraFieldsToRequest(workingResourceRequest, loadType, true);
+
+ #if !WPROF_DISABLED
+    //Hacky, casting as non-const.
+    WprofElement* element = ((ResourceRequest&)inRequest).wprofElement();
+    WprofPage* wprofPage = ((ResourceRequest&)inRequest).wprofPage();
+    workingResourceRequest.setWprofElement(element);
+    workingResourceRequest.setWprofPage(wprofPage);
+#endif
 
     NavigationAction action(workingResourceRequest, loadType, true, event);
 

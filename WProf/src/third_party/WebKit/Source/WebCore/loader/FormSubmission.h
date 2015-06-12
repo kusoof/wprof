@@ -111,7 +111,7 @@ public:
     void setOrigin(const String& origin) { m_origin = origin; }
 
 private:
-    FormSubmission(Method, const KURL& action, const String& target, const String& contentType, PassRefPtr<FormState>, PassRefPtr<FormData>, const String& boundary, bool lockHistory, PassRefPtr<Event>);
+    FormSubmission(HTMLFormElement* formElement, Method, const KURL& action, const String& target, const String& contentType, PassRefPtr<FormState>, PassRefPtr<FormData>, const String& boundary, bool lockHistory, PassRefPtr<Event>);
 
     // FIXME: Hold an instance of Attributes instead of individual members.
     Method m_method;
@@ -125,6 +125,8 @@ private:
     RefPtr<Event> m_event;
     String m_referrer;
     String m_origin;
+
+    HTMLFormElement* m_formElement;
 };
 
 }

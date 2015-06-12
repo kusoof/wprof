@@ -49,6 +49,11 @@
 #include <wtf/CurrentTime.h>
 #include <wtf/RandomNumber.h>
 
+#if !WPROF_DISABLED
+#include "WprofController.h"
+#include "WprofGenTag.h"
+#endif
+
 namespace WebCore {
 
 using namespace HTMLNames;
@@ -124,7 +129,7 @@ void FormSubmission::Attributes::copyFrom(const Attributes& other)
     m_acceptCharset = other.m_acceptCharset;
 }
 
-inline FormSubmission::FormSubmission(Method method, const KURL& action, const String& target, const String& contentType, PassRefPtr<FormState> state, PassRefPtr<FormData> data, const String& boundary, bool lockHistory, PassRefPtr<Event> event)
+  inline FormSubmission::FormSubmission(HTMLFormElement* formElement, Method method, const KURL& action, const String& target, const String& contentType, PassRefPtr<FormState> state, PassRefPtr<FormData> data, const String& boundary, bool lockHistory, PassRefPtr<Event> event)
     : m_method(method)
     , m_action(action)
     , m_target(target)
@@ -134,6 +139,7 @@ inline FormSubmission::FormSubmission(Method method, const KURL& action, const S
     , m_boundary(boundary)
     , m_lockHistory(lockHistory)
     , m_event(event)
+    , m_formElement(formElement)
 {
 }
 
@@ -216,7 +222,7 @@ PassRefPtr<FormSubmission> FormSubmission::create(HTMLFormElement* form, const A
     formData->setContainsPasswordData(containsPasswordData);
     String targetOrBaseTarget = copiedAttributes.target().isEmpty() ? document->baseTarget() : copiedAttributes.target();
     RefPtr<FormState> formState = FormState::create(form, formValues, document, trigger);
-    return adoptRef(new FormSubmission(copiedAttributes.method(), actionURL, targetOrBaseTarget, encodingType, formState.release(), formData.release(), boundary, lockHistory, event));
+    return adoptRef(new FormSubmission(form, copiedAttributes.method(), actionURL, targetOrBaseTarget, encodingType, formState.release(), formData.release(), boundary, lockHistory, event));
 }
 
 KURL FormSubmission::requestURL() const
@@ -250,6 +256,12 @@ void FormSubmission::populateFrameLoadRequest(FrameLoadRequest& frameRequest)
 
     frameRequest.resourceRequest().setURL(requestURL());
     FrameLoader::addHTTPOriginIfNeeded(frameRequest.resourceRequest(), m_origin);
+
+#if !WPROF_DISABLED
+    WprofController::getInstance()->createRequestWprofElementMapping(frameRequest.resourceRequest().url().string(),
+								     frameRequest.resourceRequest(),
+								     m_formElement->wprofElement());
+#endif
 }
 
 }

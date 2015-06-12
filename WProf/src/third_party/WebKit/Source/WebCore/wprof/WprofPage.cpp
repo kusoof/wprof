@@ -409,12 +409,15 @@ namespace WebCore {
 
     WprofElement* resourceParent = element;
 
-    if(!element || !element->isComputation()){
+    if(!element || (!element->isComputation() && (!((WprofGenTag*)element)->name().contains(String::format("iframe"))))){
       //Check whether we have a current computation
       WprofComputation* currentComputation = NULL;
       if(!m_computationStack.empty()){
 	currentComputation = m_computationStack.top();
       }
+
+      //Note: iframes can be downloaded after we encounter their tag, i.e. they are scheduled for later
+      //In this case, the computation didn't really trigger the iframe download
       if(currentComputation && (!element || (element->parent() != currentComputation))){
       
 	//If the selected tag has the computation as the predecessor,

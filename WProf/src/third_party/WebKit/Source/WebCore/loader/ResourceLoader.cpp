@@ -244,10 +244,6 @@ void ResourceLoader::willSendRequest(ResourceRequest& request, const ResourceRes
     ResourceRequest oldRequest = m_request;
     m_request = request;
 
-    /*if(m_request.url().string().contains(String::format("gateway-center-stage"))){
-      fprintf(stderr, "in here\n");
-     }*/
-
 #if !WPROF_DISABLED
     WprofController::getInstance()->createRequestTimeMapping(identifier(), m_frame.get(), m_frame->page());
     
