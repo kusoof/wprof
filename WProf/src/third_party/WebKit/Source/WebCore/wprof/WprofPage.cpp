@@ -202,18 +202,35 @@ namespace WebCore {
        Cached Resource Records
        ------------------------------------------------------------------------*/
   void WprofPage::createWprofCachedResource(unsigned long resourceId,
-					    ResourceRequest& request)
+					    unsigned size,
+					    ResourceRequest& request,
+					    const ResourceResponse& response,
+					    Frame* frame)
   {
     //Get the URL from the request
     String url(request.url().string());
 	    
     // Find the current time for the cache access
     double time = monotonicallyIncreasingTime();
-    
+
+
+    String mime = response.mimeType();
+    String httpMethod = request.httpMethod();
+
+    unsigned long frameId = 0;
+    if(frame){
+      frameId = frame->identifier();
+    }
+      
     WprofCachedResource* cached = new WprofCachedResource(resourceId,
 							  url,
 							  time,
+							  mime,
+							  size,
+							  httpMethod,
+							  frameId,
 							  request.wprofElement());
+							  
     m_cachedResources.append(cached);
   }
 						    
@@ -264,16 +281,16 @@ namespace WebCore {
     setTempWprofGenTag(tag);
 
     if (isStartTag) {
-      // Add tag to the start vector
-      addStartTag(tag);
-
+      
       if (token == String::format("script")) {
 	// Add tag to tempWprofHTMLTag for EndTag
 	// This works because there is no children inside elements
 	// we care about (<script>, <link> and <style>)
 
-	// Set type as normal. We will change it if async or defer
-	setElementTypePair(tag, 1); // normal
+	// Set type as normal if we already hadn't set it. We will change it if async or defer
+	if (!m_elementTypeMap.contains(tag)){
+	  setElementTypePair(tag, 1); // normal
+	}
       }
     }
     //Set computation if it triggered the current tag
@@ -312,7 +329,9 @@ namespace WebCore {
       // we care about (<script>, <link> and <style>)
 
       // Set type as normal. We will change it if async or defer
-      setElementTypePair(element, 1); // normal
+      if(!m_elementTypeMap.contains(element)){
+	setElementTypePair(element, 1); // normal
+      }
     }
     
     //Set computation if it triggered the event
@@ -353,16 +372,16 @@ namespace WebCore {
     setTempWprofGenTag(tag);
 
     if (isStartTag) {
-      // Add tag to the start vector
-      addStartTag(tag);
-
+      
       if (token == String::format("script")) {
 	// Add tag to tempWprofHTMLTag for EndTag
 	// This works because there is no children inside elements
 	// we care about (<script>, <link> and <style>)
 
 	// Set type as normal. We will change it if async or defer
-	setElementTypePair(tag, 1); // normal
+	if (!m_elementTypeMap.contains(tag)){
+	  setElementTypePair(tag, 1); // normal
+	}
       }
     }
 
@@ -558,6 +577,26 @@ namespace WebCore {
     }
   }
 
+  /*----------------------------------------------------------------------
+    MessagePort post message
+    ----------------------------------------------------------------------*/
+
+  void WprofPage::appendWprofComputationForPostMessage(){
+    WprofComputation* comp = getCurrentComputation();
+    if(comp){
+      m_postMessageComputations.append(comp);
+    }
+  }
+
+  WprofComputation* WprofPage::getComputationForRecentPostMessage(){
+    if (m_postMessageComputations.size()){
+      WprofComputation* first = m_postMessageComputations[0];
+      m_postMessageComputations.remove(0);
+      return first;
+    }
+    return NULL;
+  }
+
   /*------------------------------------------------------------------------
     Parse Characters Consumed
     ---------------------------------------------------------------------*/
@@ -671,22 +710,10 @@ namespace WebCore {
     removeTimer(timerId);
   }
         
-  void WprofPage::addStartTag(WprofHTMLTag* tag) {
-    m_startTags.append(tag);
-  }
-        
   void WprofPage::setElementTypePair(WprofGenTag* key, int value) {
     if (key == NULL)
       return;
-            
-    // Should check whether key has existed
-    HashMap<WprofGenTag*, int>::iterator iter = m_elementTypeMap.begin();
-    for (; iter != m_elementTypeMap.end(); ++iter) {
-      if (*key == *iter->first) {
-	m_elementTypeMap.set(iter->first, value);
-	return;
-      }
-    }
+
     m_elementTypeMap.set(key, value);
   }
 
@@ -777,17 +804,8 @@ namespace WebCore {
     }
     m_preloads.clear();
   }
-
-  void WprofPage::clearStartTags() {
-    for(size_t i = 0; i < m_startTags.size(); i++){
-      delete m_startTags[i];
-    }
-    m_startTags.clear();
-    ASSERT(m_startTags.isEmpty());
-  }
         
   void WprofPage::clearHOLMaps() {
-    clearStartTags();
     m_elementTypeMap.clear();
   }
         
@@ -930,22 +948,15 @@ namespace WebCore {
   }
         
   void WprofPage::outputHOLMaps() {
-    // Output start tag vectors
-    unsigned int i = 0;
-    for (; i < m_startTags.size(); i++) {
-      WprofGenTag* startObjHash = m_startTags[i];
-                
-      if (startObjHash == NULL)
-	continue;
-                
-      // Skip non-script and non-css
-      if (!m_elementTypeMap.get(startObjHash))
-	continue;
-      
+
+    // Output the blocking scripts map
+    for(HashMap<WprofGenTag*, int>::iterator it = m_elementTypeMap.begin(); it != m_elementTypeMap.end(); ++it){
+      //lookup the actual wprof tag
+      WprofGenTag* tag = it->first;
       fprintf(stderr, "{\"HOL\": {\"type\": %d, \"docUrl\": \"%s\", \"code\": \"%p\"}}\n",
-	      m_elementTypeMap.get(startObjHash),
-	      startObjHash->docUrl().utf8().data(),
-	      startObjHash);
+	      it->second,
+	      tag->docUrl().utf8().data(),
+	      tag);
     }
   }
         

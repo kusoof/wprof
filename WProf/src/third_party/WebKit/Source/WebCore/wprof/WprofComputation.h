@@ -82,6 +82,7 @@ namespace WebCore {
     EventTargetWindow,
     EventTargetDocument,
     EventTargetXMLHTTPRequest,
+    EventTargetMessagePort
   } WprofEventTargetType;
 
   class WprofEvent : public WprofComputation {

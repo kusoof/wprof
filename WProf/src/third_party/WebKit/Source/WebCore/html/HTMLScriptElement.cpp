@@ -34,6 +34,7 @@
 #if !WPROF_DISABLED
 #include "Logging.h"
 #include "WprofController.h"
+#include "WprofGenTag.h"
 #endif
 
 namespace WebCore {
@@ -105,8 +106,22 @@ void HTMLScriptElement::setText(const String &value)
     appendChild(document()->createTextNode(value.impl()), ec);
 }
 
+  void HTMLScriptElement::setBooleanAttribute(const QualifiedName& name, bool value){
+#if !WPROF_DISABLED
+    if ((name == deferAttr) && value){
+      WprofController::getInstance()->setElementTypePair(wprofElement(), 2);
+    }
+#endif
+    HTMLElement::setBooleanAttribute(name, value);
+  }
+
 void HTMLScriptElement::setAsync(bool async)
 {
+#if !WPROF_DISABLED
+  if (async){
+    WprofController::getInstance()->setElementTypePair(wprofElement(), 3);  
+  }
+#endif
     setBooleanAttribute(asyncAttr, async);
     handleAsyncAttribute();
 }
@@ -185,5 +200,48 @@ PassRefPtr<Element> HTMLScriptElement::cloneElementWithoutAttributesAndChildren(
 {
     return adoptRef(new HTMLScriptElement(tagQName(), document(), false, alreadyStarted()));
 }
+
+#if !WPROF_DISABLED
+WprofComputation* HTMLScriptElement::createWprofEventComputation(Event* event)
+{
+  Page* page = NULL;
+  if(document()->frame()){
+    page = document()->frame()->page();
+  }
+
+  WprofComputation* wprofComputation = NULL;
+
+  if(page){
+
+    //Check whether this event is triggered by a computation
+    //For example this could be a focus event triggered by setFocus called from javascript
+    //Or this could be a DOMNodeInserted event etc.
+    
+    WprofComputation* parent = WprofController::getInstance()->getCurrentComputationForPage(page);
+    String info = parent? String::format("Computation:%p", parent) : String();
+
+    if ((event->type() == eventNames().loadEvent) || ( event->type() == eventNames().errorEvent)){
+      //Get the actual cached image and its resource identifier
+      if(cachedScript()){
+	unsigned long identifier = cachedScript()->identifier();
+	info = String::format("Resource:%lu", identifier);
+      }
+    }
+
+    wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									EventTargetElement,
+									wprofElement(),
+									info,
+									wprofElement()->docUrl(),
+									document()->frame());
+    
+  }
+  else{  
+    fprintf(stderr, "In node, attempting to log fire event computation but we don't have a page pointer\n");
+  }
+  
+  return wprofComputation;  
+}
+#endif
 
 }

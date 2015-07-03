@@ -82,7 +82,7 @@ namespace WebCore {
         class EventData {
             WTF_MAKE_NONCOPYABLE(EventData); WTF_MAKE_FAST_ALLOCATED;
         public:
-            static PassOwnPtr<EventData> create(PassRefPtr<SerializedScriptValue>, PassOwnPtr<MessagePortChannelArray>);
+	    static PassOwnPtr<EventData> create(PassRefPtr<SerializedScriptValue>, PassOwnPtr<MessagePortChannelArray>);
 
             SerializedScriptValue* message() { return m_message.get(); }
             PassOwnPtr<MessagePortChannelArray> channels() { return m_channels.release(); }

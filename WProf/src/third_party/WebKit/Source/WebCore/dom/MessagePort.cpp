@@ -91,6 +91,15 @@ void MessagePort::postMessage(PassRefPtr<SerializedScriptValue> message, const M
         if (ec)
             return;
     }
+
+    if(m_scriptExecutionContext->isDocument()){
+      Document* document = static_cast<Document*>(m_scriptExecutionContext);
+      Page* page = document->page();
+      if(page){
+        WprofController::getInstance()->appendWprofComputationForPostMessage(page);
+      }
+    }
+
     m_entangledChannel->postMessageToRemote(MessagePortChannel::EventData::create(message, channels.release()));
 }
 
@@ -259,6 +268,27 @@ EventTargetData* MessagePort::eventTargetData()
 EventTargetData* MessagePort::ensureEventTargetData()
 {
     return &m_eventTargetData;
+}
+
+WprofComputation* MessagePort::createWprofEventComputation(Event* event){
+  if(m_scriptExecutionContext->isDocument()){
+    Document* document = static_cast<Document*>(m_scriptExecutionContext);
+    Page* page = document->page();
+    
+    if(page){
+      WprofComputation* target = WprofController::getInstance()->getComputationForRecentPostMessage(page);
+      
+      WprofComputation* comp = WprofController::getInstance()->createWprofEvent(event->type().string(),
+										EventTargetMessagePort,
+										target,
+										emptyString(),
+										document->url().string(),
+										document->frame());
+      return comp;
+      
+    }
+  }
+  return NULL;
 }
 
 } // namespace WebCore

@@ -133,11 +133,14 @@ namespace WebCore {
   }					   
 
   void WprofController::createWprofCachedResource(unsigned long resourceId,
+						  unsigned size,
 						  ResourceRequest& request,
+						  const ResourceResponse& response,
+						  Frame* frame,
 						  Page* page)
   {
     WprofPage* wpage = getWprofPage(page);
-    wpage->createWprofCachedResource(resourceId, request);
+    wpage->createWprofCachedResource(resourceId, size, request, response, frame);
   }
     
   /*
@@ -438,7 +441,21 @@ namespace WebCore {
       WprofPage* wpage = getWprofPage(page);
       wpage->setWindowLoadEventFired(document);
     }
-  }    
+  }
+
+  /*-------------------------------------------------------------------------
+      Deal with MessagePort postMessage
+      -------------------------------------------------------------------------*/
+
+  void WprofController::appendWprofComputationForPostMessage(Page* page){
+    WprofPage* wpage = getWprofPage(page);
+    wpage->appendWprofComputationForPostMessage();
+  }
+
+  WprofComputation* WprofController::getComputationForRecentPostMessage(Page* page){
+    WprofPage* wpage = getWprofPage(page);
+    return wpage->getComputationForRecentPostMessage();
+  } 
 }
 
 

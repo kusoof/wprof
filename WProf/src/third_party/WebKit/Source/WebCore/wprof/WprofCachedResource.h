@@ -21,14 +21,22 @@ public:
   WprofCachedResource(unsigned long id,
 		      String url,
 		      double time,
+		      String mimeType,
+		      unsigned size,
+		      String httpMethod,
+		      unsigned long frameId,
 		      WprofElement* from);
 	        
   ~WprofCachedResource();
         
   unsigned long getId();
   String url();
+  String mimeType();
+  String httpMethod();
+  unsigned size();
   double timeCacheAccessed();
   WprofElement* fromWprofElement();
+  unsigned long frameId();
 
   void print();
         
@@ -43,6 +51,11 @@ private:
         // such object for each url. Only the page request does not have one.
 	// Or if the resource is preloaded.
 	WprofElement*  m_fromWprofElement;
+
+	String m_mimeType;
+        unsigned m_size;
+	String m_httpMethod;
+	unsigned long m_frameId;
 };
 	
 }

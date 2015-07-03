@@ -408,28 +408,23 @@ void XMLHttpRequest::callReadyStateChangeListener()
     WprofComputation* wprofComputation = NULL;
     if(page){
       String docUrl = document()->url().string();
+      String info = url().string();
+      
       if(event->type().string() == String::format("readystatechange")){
-	if(m_wprofParentComputation){
-	  wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
-									      EventTargetXMLHTTPRequest,
-									      m_wprofParentComputation,
-									      String::format("%d : %s", readyState(), url().string().utf8().data()),
-									      docUrl,
-									      document()->frame());
-	}
-	else{
-	  wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
-									      EventTargetXMLHTTPRequest,
-									      String::format("%d : %s", readyState(), url().string().utf8().data()),
-									      docUrl,
-									      document()->frame(),
-									      page);
-	}
+	info = String::format("%d : %s", readyState(), url().string().utf8().data());
+      }
+      if(m_wprofParentComputation){
+	wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									    EventTargetXMLHTTPRequest,
+									    m_wprofParentComputation,
+									    info,
+									    docUrl,
+									    document()->frame());
       }
       else{
 	wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
 									    EventTargetXMLHTTPRequest,
-									    url().string().utf8().data(),
+									    info,
 									    docUrl,
 									    document()->frame(),
 									    page);
@@ -538,6 +533,12 @@ void XMLHttpRequest::open(const String& method, const KURL& url, bool async, Exc
     m_async = async;
 
     ASSERT(!m_loader);
+
+#if !WPROF_DISABLED
+    //Set the correct computation
+    WprofComputation* comp = WprofController::getInstance()->getCurrentComputationForPage(document()->page());
+    m_wprofParentComputation = comp;
+#endif
 
     // Check previous state to avoid dispatching readyState event
     // when calling open several times in a row.

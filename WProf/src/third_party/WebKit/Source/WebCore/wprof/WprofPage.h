@@ -135,7 +135,19 @@ namespace WebCore
        Cached Resource Records
        ------------------------------------------------------------------------*/
     void createWprofCachedResource(unsigned long resourceId,
-				   ResourceRequest& request);
+				   unsigned size,
+				   ResourceRequest& request,
+				   const ResourceResponse& response,
+				   Frame* frame);
+
+
+    /*-------------------------------------------------------------------------
+      Deal with MessagePort postMessage
+      -------------------------------------------------------------------------*/
+
+    void appendWprofComputationForPostMessage();
+
+    WprofComputation* getComputationForRecentPostMessage();
 
     
 
@@ -256,7 +268,6 @@ namespace WebCore
     /*------------------------------------------------------------------------------
       Helper Methods
       ---------------------------------------------------------------------------*/
-    void addStartTag(WprofHTMLTag* tag);
 
     //Match a preloaded resource with the HTML tag that references it
     void matchWithPreload(WprofGenTag* tag, String tagUrl);
@@ -287,8 +298,6 @@ namespace WebCore
     void clearWprofComputations();
         
     void clearWprofPreloads();
-
-    void clearStartTags();
         
     void clearHOLMaps();
 
@@ -375,7 +384,6 @@ namespace WebCore
     // - defer:  s_exec triggered by dom load
     // - async:  s_exec triggered by e_download
     // See WebCore/html/parser/HTMLTreeBuilder.cpp for more details
-    Vector<WprofHTMLTag*> m_startTags; // s_download(element) > position
     HashMap<WprofGenTag*, int> m_elementTypeMap; // 1: normal; 2: defer; 3: async; 4: CSS
     
     //A map of timers that have been installed, and waiting to fire, pointing to the computations that triggered them
@@ -383,6 +391,9 @@ namespace WebCore
 
     //A map of the timer installed and its timeout value
     HashMap<int, int> m_timeouts;
+
+    //A queue of computations that have called MessagePort postMessage
+    Vector<WprofComputation*> m_postMessageComputations;
         
     // --------
     // Temp WprofElement, which could be an HTML tag, or a javascript generated element

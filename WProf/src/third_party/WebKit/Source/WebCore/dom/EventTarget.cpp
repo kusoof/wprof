@@ -205,14 +205,14 @@ void EventTarget::uncaughtExceptionInEventHandler()
     DOMWindow* window = toDOMWindow();
     
     if(node && node->document()->frame()){
-      page = node->document()->frame()->page();
+      page = node->document()->page();
     }
     else if (window && window->frame()){
       page = window->frame()->page();
     }
     else if (scriptExecutionContext()->isDocument()){
       Document* document = static_cast<Document*>(scriptExecutionContext());
-      page = document->frame()->page();
+      page = document->page();
     }
 
     if(!page){

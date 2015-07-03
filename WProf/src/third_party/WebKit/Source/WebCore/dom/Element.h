@@ -251,7 +251,7 @@ public:
     void normalizeAttributes();
     String nodeNamePreservingCase() const;
 
-    void setBooleanAttribute(const QualifiedName& name, bool);
+    virtual void setBooleanAttribute(const QualifiedName& name, bool);
 
     // For exposing to DOM only.
     NamedNodeMap* attributes() const;

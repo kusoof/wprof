@@ -417,7 +417,7 @@ public:
 
     Vector<RenderLayer*>* posZOrderList() const
     {
-        ASSERT(!m_zOrderListsDirty);
+      //ASSERT(!m_zOrderListsDirty);
         ASSERT(isStackingContext() || !m_posZOrderList);
         return m_posZOrderList;
     }
@@ -426,7 +426,7 @@ public:
 
     Vector<RenderLayer*>* negZOrderList() const
     {
-        ASSERT(!m_zOrderListsDirty);
+      //ASSERT(!m_zOrderListsDirty);
         ASSERT(isStackingContext() || !m_negZOrderList);
         return m_negZOrderList;
     }

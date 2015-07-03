@@ -181,6 +181,9 @@ namespace WebCore {
     case(EventTargetXMLHTTPRequest):{
       return String::format("XMLHTTPRequest");
     }
+    case(EventTargetMessagePort):{
+      return String::format("MessagePort");
+    }
     default:{
       return String::format("Other");
     }

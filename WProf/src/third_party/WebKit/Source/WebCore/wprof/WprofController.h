@@ -76,7 +76,10 @@ namespace WebCore {
 			     Page* page);
 
     void createWprofCachedResource(unsigned long resourceId,
+				   unsigned size,
 				   ResourceRequest& request,
+				   const ResourceResponse& response,
+				   Frame* frame,
 				   Page* page);
     
     /*
@@ -144,6 +147,16 @@ namespace WebCore {
     void setElementTypePair(WprofGenTag* element, int value);
 
     void addWprofFrameSourceChange(Frame* frame, String url, WprofComputation* comp, Page* page);
+
+    /*-------------------------------------------------------------------------
+      Deal with MessagePort postMessage
+      -------------------------------------------------------------------------*/
+
+    void appendWprofComputationForPostMessage(Page* page);
+
+    WprofComputation* getComputationForRecentPostMessage(Page* page);
+
+    
 
     /*
       ----------------------------------------------------------

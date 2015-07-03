@@ -2522,10 +2522,15 @@ void FrameLoader::loadPostRequest(const ResourceRequest& inRequest, const String
 
     if (!frameName.isEmpty()) {
         // The search for a target frame is done earlier in the case of form submission.
-        if (Frame* targetFrame = formState ? 0 : findFrameForNavigation(frameName))
+      if (Frame* targetFrame = formState ? 0 : findFrameForNavigation(frameName)){
             targetFrame->loader()->loadWithNavigationAction(workingResourceRequest, action, lockHistory, loadType, formState.release());
-        else
-            policyChecker()->checkNewWindowPolicy(action, FrameLoader::callContinueLoadAfterNewWindowPolicy, workingResourceRequest, formState.release(), frameName, this);
+	    #if !WPROF_DISABLED
+	    WprofController::getInstance()->addWprofFrameSourceChange(targetFrame, workingResourceRequest.url().string(), NULL, targetFrame->page());
+	    #endif
+      }
+      else{
+	policyChecker()->checkNewWindowPolicy(action, FrameLoader::callContinueLoadAfterNewWindowPolicy, workingResourceRequest, formState.release(), frameName, this);
+      }
     } else {
         // must grab this now, since this load may stop the previous load and clear this flag
         bool isRedirect = m_quickRedirectComing;
@@ -2535,6 +2540,10 @@ void FrameLoader::loadPostRequest(const ResourceRequest& inRequest, const String
             if (m_provisionalDocumentLoader)
                 m_provisionalDocumentLoader->setIsClientRedirect(true);
         }
+
+#if !WPROF_DISABLED
+	WprofController::getInstance()->addWprofFrameSourceChange(m_frame, workingResourceRequest.url().string(), NULL, m_frame->page());
+#endif
     }
 }
 

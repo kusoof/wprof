@@ -27,6 +27,10 @@
 #include "ScriptElement.h"
 #include "HTMLElement.h"
 
+#if !WPROF_DISABLED
+class WprofComputation;
+#endif
+
 namespace WebCore {
 
 class HTMLScriptElement : public HTMLElement, public ScriptElement {
@@ -39,7 +43,13 @@ public:
     KURL src() const;
 
     void setAsync(bool);
+    void setBooleanAttribute(const QualifiedName& name, bool value);
     bool async() const;
+
+#if !WPROF_DISABLED
+    WprofComputation* createWprofEventComputation(Event* event);
+#endif
+
 
 private:
     HTMLScriptElement(const QualifiedName&, Document*, bool wasInsertedByParser, bool alreadyStarted);

@@ -40,6 +40,10 @@ namespace WebCore {
 class HTMLLinkElement;
 class KURL;
 
+#if !WPROF_DISABLED
+ class WprofComputation;
+#endif
+
 template<typename T> class EventSender;
 typedef EventSender<HTMLLinkElement> LinkEventSender;
 
@@ -66,6 +70,11 @@ public:
 
     void dispatchPendingEvent(LinkEventSender*);
     static void dispatchPendingLoadEvents();
+
+#if !WPROF_DISABLED
+    WprofComputation* createWprofEventComputation(Event* event);
+#endif
+
 
 private:
     virtual void parseAttribute(const Attribute&) OVERRIDE;

@@ -108,6 +108,10 @@ namespace WebCore {
         // A port is cloned if its entangled channel has been removed and sent to a new owner via postMessage().
         bool isCloned() { return !m_entangledChannel; }
 
+#if !WPROF_DISABLED
+	WprofComputation* createWprofEventComputation(Event* event);
+#endif
+
     private:
         MessagePort(ScriptExecutionContext&);
 

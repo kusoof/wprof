@@ -490,7 +490,12 @@ CachedResourceHandle<CachedResource> CachedResourceLoader::requestResource(Cache
         memoryCache()->resourceAccessed(resource.get());
         notifyLoadedFromMemoryCache(resource.get());
 #if !WPROF_DISABLED
-	WprofController::getInstance()->createWprofCachedResource(resource.get()->identifier(), request, document()->page());
+	WprofController::getInstance()->createWprofCachedResource(resource.get()->identifier(),
+								  resource.get()->encodedSize(),
+								  request,
+								  resource.get()->response(),
+								  frame(),
+								  document()->page());
 #endif
         break;
     }

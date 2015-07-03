@@ -223,6 +223,8 @@
 #include "HTMLDocumentParser.h"
 #include "WprofController.h"
 #include "WprofComputation.h"
+#include "MutationEvent.h"
+#include "WprofGenTag.h"
 #endif
 
 using namespace std;
@@ -4100,9 +4102,20 @@ WprofComputation* Document::createWprofEventComputation(Event* event)
 {
   Page* page = this->page();
   WprofComputation* wprofComputation = NULL;
+
+
   if(page){
     String docUrl = url().string();
 
+    //Figure out whether this event is called as a result of a computation. E.g. setFocus causing 
+    //an onfocus event, or an appendChild which causes a DOMNodeInserted event.
+    WprofComputation* parent = WprofController::getInstance()->getCurrentComputationForPage(page);
+    String info = parent? String::format("Computation:%p", parent) : String();
+
+    //Sometimes the target is the element in the document, which is captured or bubbles up to the document
+    //Check whether this is the case.
+    Node* eventTarget = event->target()->toNode();
+    
     //Check if ready state changed event
     if(event->type().string() == String::format("readystatechange")){
       wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
@@ -4112,10 +4125,25 @@ WprofComputation* Document::createWprofEventComputation(Event* event)
 									  frame(),
 									  page);
     }
-    else{ 
+    //If the event target is an element, and it's not the document, this is a capture or bubble event
+    //Find the actual wprof tag that this event targets
+    else if (eventTarget && (eventTarget != this) && eventTarget->isHTMLElement()){
+      Element* targetElement = static_cast<Element*>(eventTarget);
+
       wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
 									  EventTargetDocument,
-									  String(),
+									  targetElement->wprofElement(),
+									  info,
+									  docUrl,
+									  frame());
+      
+    
+    }
+    
+    else{
+      wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									  EventTargetDocument,
+									  info,
 									  docUrl,
 									  frame(),
 									  page);

@@ -32,6 +32,11 @@ namespace WebCore {
 
 class HTMLFormElement;
 
+#if !WPROF_DISABLED
+ class WprofElement;
+ class WprofComputation;
+#endif
+
 class HTMLImageElement : public HTMLElement {
     friend class HTMLFormElement;
 public:
@@ -77,6 +82,10 @@ public:
     bool hasPendingActivity() const { return m_imageLoader.hasPendingLoadEvent(); }
 
     virtual bool canContainRangeEndPoint() const { return false; }
+
+#if !WPROF_DISABLED
+    WprofComputation* createWprofEventComputation(Event* event);
+#endif
 
 protected:
     HTMLImageElement(const QualifiedName&, Document*, HTMLFormElement* = 0);

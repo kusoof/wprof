@@ -748,19 +748,36 @@ WprofComputation* Element::createWprofEventComputation(Event* event)
     page = document()->frame()->page();
   }
 
-  WprofComputation* wprofComputation;
+  WprofComputation* wprofComputation = NULL;
 
   if(page){
-    /*if(event->type().string() == String::format("error")){
-      fprintf(stderr, "we have an error with element as target\n");
-      fprintf(stderr, "tag name is %s and src url is %s\n", tagName().utf8().data(), fastGetAttribute(imageSourceAttributeName()).string().utf8().data());
+
+    //Check whether this event is triggered by a computation
+    //For example this could be a focus event triggered by setFocus called from javascript
+    //Or this could be a DOMNodeInserted event etc.
+    
+    WprofComputation* parent = WprofController::getInstance()->getCurrentComputationForPage(page);
+    String info = parent? String::format("Computation:%p", parent) : String();
+
+    //Check whether this is a DOMNodeInserted or DOMNodeRemoved event
+    /*if((event->type() == eventNames().DOMNodeInsertedEvent)
+       || (event->type() == eventNames().DOMNodeInsertedIntoDocumentEvent)
+       || (event->type() == eventNames().DOMNodeRemovedEvent)
+       || (event->type() == eventNames().DOMNodeRemovedFromDocumentEvent)){
+      //For these type of events, the dependency is on the computation that is calling appendChild etc. which is
+      //updating the DOM tree.
+      
+      WprofComputation* parent = WprofController::getInstance()->getCurrentComputationForPage(page);
+      info = String::format("Computation:%p", parent);
       }*/
+
     wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
 									EventTargetElement,
 									wprofElement(),
-									String(),
+									info,
 									wprofElement()->docUrl(),
 									document()->frame());
+    
   }
   else{  
     fprintf(stderr, "In node, attempting to log fire event computation but we don't have a page pointer\n");

@@ -534,4 +534,48 @@ void HTMLLinkElement::setItemValueText(const String& value, ExceptionCode&)
 }
 #endif
 
+#if !WPROF_DISABLED
+WprofComputation* HTMLLinkElement::createWprofEventComputation(Event* event)
+{
+  Page* page = NULL;
+  if(document()->frame()){
+    page = document()->frame()->page();
+  }
+
+  WprofComputation* wprofComputation = NULL;
+
+  if(page){
+
+    //Check whether this event is triggered by a computation
+    //For example this could be a focus event triggered by setFocus called from javascript
+    //Or this could be a DOMNodeInserted event etc.
+    
+    WprofComputation* parent = WprofController::getInstance()->getCurrentComputationForPage(page);
+    String info = parent? String::format("Computation:%p", parent) : String();
+
+    if ((event->type() == eventNames().loadEvent) || ( event->type() == eventNames().errorEvent)){
+      //Get the actual cached image and its resource identifier
+      if (m_cachedSheet){
+	unsigned long identifier = m_cachedSheet->identifier();
+	info = String::format("Resource:%lu", identifier);
+      }
+    }
+
+    wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
+									EventTargetElement,
+									wprofElement(),
+									info,
+									wprofElement()->docUrl(),
+									document()->frame());
+    
+  }
+  else{  
+    fprintf(stderr, "In node, attempting to log fire event computation but we don't have a page pointer\n");
+  }
+  
+  return wprofComputation;  
+}
+#endif
+
+
 } // namespace WebCore

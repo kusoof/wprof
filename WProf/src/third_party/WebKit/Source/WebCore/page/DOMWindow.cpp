@@ -1689,10 +1689,6 @@ WprofComputation* DOMWindow::createWprofEventComputation(Event* event)
     //Check to see if we are running any scripts at the moment
     WprofComputation* currentScript = WprofController::getInstance()->getCurrentComputationForPage(page);
   
-    /*if(event->type().string() == String::format("error")){
-      fprintf(stderr, "we have an error event\n");
-      }*/
-    
     if((event->type().string() == String::format("message")) && m_wprofParentComputation){
       //The parent computation is where the postMessage was called in a script
       wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
@@ -1714,14 +1710,16 @@ WprofComputation* DOMWindow::createWprofEventComputation(Event* event)
 									    frame());
       }
       //Check if we have a captured error event fired against an element (usually an image element)
+      //Or any other event that bubbles or is captured, e.g. focus events
       else if (event->target() != this){
 	Node* node = event->target()->toNode();
 	if(node && node->isHTMLElement()){
 	  WprofElement* element = static_cast<HTMLElement*>(node)->wprofElement();
+	  String info = currentScript? String::format("Computation:%p", currentScript) : String();
 	  wprofComputation = WprofController::getInstance()->createWprofEvent(event->type().string(),
 									      EventTargetWindow,
 									      element,
-									      String(),
+									      info,
 									      docUrl,
 									      frame());
 	}
