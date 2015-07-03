@@ -148,6 +148,8 @@ namespace WebCore {
 
     void addWprofFrameSourceChange(Frame* frame, String url, WprofComputation* comp, Page* page);
 
+    void setFrameLoadTime(Frame* frame, Page* page);
+
     /*-------------------------------------------------------------------------
       Deal with MessagePort postMessage
       -------------------------------------------------------------------------*/

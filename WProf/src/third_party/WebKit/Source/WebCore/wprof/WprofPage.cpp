@@ -187,7 +187,8 @@ namespace WebCore {
       if (frame->tree()->parent()){
 	parentId = frame->tree()->parent()->identifier();
       }
-      m_frameMap.set(frame->identifier(), std::make_pair(resourceId, parentId));
+      WprofFrame* wframe = new WprofFrame(frame->identifier(), parentId, resourceId);
+      m_frameMap.set(frame->identifier(), wframe);
     }
   }
 
@@ -722,6 +723,14 @@ namespace WebCore {
     FrameSourceChange* change= new FrameSourceChange(frame->identifier(), url, comp);
     m_frameSrcChanges.append(change);
   }
+
+  void WprofPage::setFrameLoadTime(Frame* frame){
+    unsigned long frameId = frame->identifier();
+    if (m_frameMap.contains(frameId)){
+      WprofFrame* wframe = m_frameMap.get(frameId);
+      wframe->setLoadTime(monotonicallyIncreasingTime());
+    }
+  }
         
   // For temporarily stored obj hash
   WprofGenTag* WprofPage::tempWprofGenTag() { return m_tempWprofGenTag; }
@@ -854,13 +863,10 @@ namespace WebCore {
   void WprofPage::outputWprofResources() {
 
     //First output the frame mapping
-    for (HashMap<unsigned long, pair<unsigned long, unsigned long> >::iterator it = m_frameMap.begin(); it != m_frameMap.end(); ++it){
-      unsigned long frameId = it->first;
-      unsigned long resourceId = it->second.first;
-      unsigned long parentId = it->second.second;
-      fprintf(stderr, "{\"Frame\": {\"code\": \"%ld\", \"id\": %ld, \"parent\": \"%ld\"}}\n", frameId, resourceId, parentId);
+    for (HashMap<unsigned long, WprofFrame*>::iterator it = m_frameMap.begin(); it != m_frameMap.end(); ++it){
+      it->second->print();
     }
-
+    
     //And then the frame source changes
     for (Vector<FrameSourceChange*>::iterator it = m_frameSrcChanges.begin(); it != m_frameSrcChanges.end(); it++){
       fprintf(stderr, "{\"FrameChange\": {\"code\": \"%ld\", \"url\": \"%s\", \"comp\": \"%p\"}}\n", (*it)->frameId, (*it)->url.utf8().data(), (*it)->comp);

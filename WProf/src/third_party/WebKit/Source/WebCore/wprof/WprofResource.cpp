@@ -42,7 +42,42 @@ namespace WebCore {
   unsigned long WprofReceivedChunk::getId() { return m_id; }
   unsigned long WprofReceivedChunk::len() { return m_len; }
   double WprofReceivedChunk::time() { return m_time; }
-        
+
+  
+  WprofFrame::WprofFrame(unsigned long frameId, unsigned long parentId, unsigned long resourceId):
+    m_frameId(frameId),
+    m_parentId(parentId),
+    m_resourceId(resourceId),
+    m_loadTime(0.0)
+  {
+  }
+  
+  WprofFrame::~WprofFrame(){
+  }
+
+  unsigned long WprofFrame::frameId(){
+    return m_frameId;
+  }
+  
+  unsigned long WprofFrame::parentId(){
+    return m_parentId;
+  }
+  
+  unsigned long WprofFrame::resourceId(){
+    return m_resourceId;
+  }
+  
+  double WprofFrame::loadTime(){
+    return m_loadTime;
+  }
+  
+  void WprofFrame::setLoadTime (double time){
+    m_loadTime = time;
+  }
+
+  void WprofFrame::print(){
+    fprintf(stderr, "{\"Frame\": {\"code\": \"%ld\", \"id\": %ld, \"parent\": \"%ld\", \"loadTime\": %lf}}\n", m_frameId, m_resourceId, m_parentId, m_loadTime);
+  }
 
   WprofResource::WprofResource(unsigned long id,
 			       String url,

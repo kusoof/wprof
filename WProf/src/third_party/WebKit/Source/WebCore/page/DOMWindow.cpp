@@ -1656,6 +1656,10 @@ void DOMWindow::dispatchLoadEvent()
     if (ownerElement)
         ownerElement->dispatchEvent(Event::create(eventNames().loadEvent, false, false));
 
+#if !WPROF_DISABLED
+    WprofController::getInstance()->setFrameLoadTime(m_frame, page());
+#endif
+
     InspectorInstrumentation::loadEventFired(frame());
 }
 

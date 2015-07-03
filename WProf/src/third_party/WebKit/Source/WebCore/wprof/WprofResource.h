@@ -58,27 +58,48 @@ namespace WebCore {
     double m_time;
   };
 
+  //A record of the frame which is executing withing a page
+  class WprofFrame {
+  public:
+    WprofFrame(unsigned long frameId, unsigned long parentId, unsigned long resourceId);
+    ~WprofFrame();
+
+    unsigned long frameId();
+    unsigned long parentId();
+    unsigned long resourceId();
+    double loadTime();
+    void setLoadTime (double time);
+
+    void print();
+
+  private:
+    unsigned long m_frameId;
+    unsigned long m_parentId;
+    unsigned long m_resourceId;
+    double m_loadTime;
+  };
+
 // Define WprofResource
 // This is the data structure to store all info about resources
 // Note: Created only in ResourceLoader::didReceiveResponse()
 //
 // This can be retrieved by either a Vector or a HashMap with m_id as the key
-class WprofResource {
-public:
+  class WprofResource {
+  public:
 
-  WprofResource(unsigned long id,
-		String url,
-		Frame* frame,
-		RefPtr<ResourceLoadTiming> resourceLoadTiming,
-		String mime,
-		long long expectedContentLength,
-		int httpStatusCode,
-		String httpMethod,
-		unsigned connectionId,
-		bool connectionReused,
-		bool wasCached,
-		double time,
-		WprofElement* from);
+    WprofResource(unsigned long id,
+		  String url,
+		  Frame* frame,
+		  RefPtr<ResourceLoadTiming> resourceLoadTiming,
+		  String mime,
+		  long long expectedContentLength,
+		  int httpStatusCode,
+		  String httpMethod,
+		  unsigned connectionId,
+		  bool connectionReused,
+		  bool wasCached,
+		  double time,
+		  WprofElement* from);
 	        
   ~WprofResource();
         

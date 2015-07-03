@@ -250,6 +250,11 @@ namespace WebCore {
     wpage->addWprofFrameSourceChange(frame, url, comp);
   }
 
+  void WprofController::setFrameLoadTime(Frame* frame, Page* page){
+    WprofPage* wpage = getWprofPage(page);
+    wpage->setFrameLoadTime(frame);
+  }
+
   /*
    * Create a WprofComputation object.
    * Called by TODO

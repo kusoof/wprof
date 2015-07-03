@@ -17,7 +17,7 @@
 #include <wtf/text/WTFString.h>
 
 //Wprof includes
-//#include "WprofResource.h"
+#include "WprofResource.h"
 #include "WprofComputation.h"
 //#include "WprofHTMLTag.h"
 //#include "WprofElement.h"
@@ -261,6 +261,7 @@ namespace WebCore
     void setElementTypePair(WprofGenTag* element, int value);
 
     void addWprofFrameSourceChange(Frame* frame, String url, WprofComputation* comp);
+    void setFrameLoadTime(Frame* frame);
 
     String pageURL();
 
@@ -336,8 +337,8 @@ namespace WebCore
     // A map of resource id -> WprofResource
     HashMap<unsigned long, WprofResource*> m_resourceMap;
 
-    // A map from a frame to the resource identifier of the frame download
-    HashMap<unsigned long, pair<unsigned long, unsigned long> > m_frameMap;
+    // A map from a frame identifier to the WprofFrame object (which contains info about frame resource, parent, and load time)
+    HashMap<unsigned long, WprofFrame*> m_frameMap;
 
     // A list of changes to a particular frame's source url, and the computation that triggered it
     Vector<FrameSourceChange*> m_frameSrcChanges;
