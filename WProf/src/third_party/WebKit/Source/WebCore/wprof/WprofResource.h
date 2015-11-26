@@ -113,6 +113,7 @@ namespace WebCore {
   bool connectionReused();
   bool wasCached();
   double timeDownloadStart();
+  double timeReceiveComplete();
   unsigned long fromWprofObject();
   unsigned long bytes();
   String httpMethod();

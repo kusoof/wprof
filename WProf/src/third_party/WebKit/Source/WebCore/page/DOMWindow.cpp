@@ -1637,6 +1637,13 @@ bool DOMWindow::removeEventListener(const AtomicString& eventType, EventListener
 
 void DOMWindow::dispatchLoadEvent()
 {
+
+#if !WPROF_DISABLED
+  if (m_frame && page()){
+    WprofController::getInstance()->setFrameLoadTime(m_frame, page());
+  }
+#endif
+
     RefPtr<Event> loadEvent(Event::create(eventNames().loadEvent, false, false));
     if (m_frame && m_frame->loader()->documentLoader() && !m_frame->loader()->documentLoader()->timing()->loadEventStart()) {
         // The DocumentLoader (and thus its DocumentLoadTiming) might get destroyed while dispatching
@@ -1655,10 +1662,6 @@ void DOMWindow::dispatchLoadEvent()
     Element* ownerElement = m_frame ? m_frame->ownerElement() : 0;
     if (ownerElement)
         ownerElement->dispatchEvent(Event::create(eventNames().loadEvent, false, false));
-
-#if !WPROF_DISABLED
-    WprofController::getInstance()->setFrameLoadTime(m_frame, page());
-#endif
 
     InspectorInstrumentation::loadEventFired(frame());
 }

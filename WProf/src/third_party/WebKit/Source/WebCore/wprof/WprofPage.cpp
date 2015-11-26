@@ -167,6 +167,10 @@ namespace WebCore {
       resource->appendWprofReceivedChunk(chunk);
       resource->addBytes(length);
     }
+    else 
+    { 
+      fprintf(stderr, "received chunk resource identifier not found %ld\n", resourceId);
+    }
   }
         
   /*
@@ -879,12 +883,13 @@ namespace WebCore {
       RefPtr<ResourceLoadTiming> timing = info->resourceLoadTiming();
                 
       if (!timing)
-	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%ld\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
+	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%ld\", \"sentTime\": %lf, \"recieveTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
 \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"httpMethod\": \"%s\", \"connId\": %u, \"connReused\": %d, \"cached\": %d}}\n",
 		info->getId(),
 		info->url().utf8().data(),
 		info->frameId(),
 		info->timeDownloadStart(),
+		info->timeReceiveComplete(),
 		info->bytes(),
 		(void*)info->fromWprofObject(),
 		info->mimeType().utf8().data(),
@@ -896,7 +901,7 @@ namespace WebCore {
 		info->wasCached()
 		);
       else
-	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%ld\", \"sentTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
+	fprintf(stderr, "{\"Resource\": {\"id\": %ld, \"url\": \"%s\", \"frame\": \"%ld\", \"sentTime\": %lf,  \"recieveTime\": %lf, \"len\": %ld, \"from\": \"%p\", \
 \"mimeType\": \"%s\", \"contentLength\": %lld, \"httpStatus\": %d, \"httpMethod\": \"%s\", \"connId\": %u, \"connReused\": %d, \"cached\": %d, \
                             \"requestTime\": %f, \"proxyStart\": %d, \"proxyEnd\": %d, \"dnsStart\": %d, \"dnsEnd\": %d, \"connectStart\": %d,\
                             \"connectEnd\": %d, \"sendStart\": %d, \"sendEnd\": %d, \"receiveHeadersEnd\": %d, \"sslStart\": %d, \"sslEnd\": %d}}\n",
@@ -904,6 +909,7 @@ namespace WebCore {
 		info->url().utf8().data(),
 		info->frameId(),
 		info->timeDownloadStart(),
+		info->timeReceiveComplete(),
 		info->bytes(),
 		(void*)info->fromWprofObject(),
 		info->mimeType().utf8().data(),
@@ -931,7 +937,8 @@ namespace WebCore {
       Vector<WprofReceivedChunk*>* v = info->receivedChunkInfoVector();
       for (unsigned int j = 0; j < v->size(); ++j) {
 	WprofReceivedChunk* chunkInfo = (*v)[j];
-	fprintf(stderr, "{\"ReceivedChunk\": {\"receivedTime\": %lf, \"len\": %ld}}\n",
+	fprintf(stderr, "{\"ReceivedChunk\": {\"resourceId\": %ld, \"receivedTime\": %lf, \"len\": %ld}}\n",
+		info->getId(),
 		chunkInfo->time(),
 		chunkInfo->len()
 		);

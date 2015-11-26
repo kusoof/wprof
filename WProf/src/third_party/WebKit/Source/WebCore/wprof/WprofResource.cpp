@@ -131,6 +131,17 @@ namespace WebCore {
   bool WprofResource::connectionReused() { return m_connectionReused; }
   bool WprofResource::wasCached() { return m_wasCached; }
   double WprofResource::timeDownloadStart() { return m_timeDownloadStart; }
+  double WprofResource::timeReceiveComplete()
+  {
+    if(!m_receivedChunkInfoVector->isEmpty()){
+      WprofReceivedChunk* lastChunk = m_receivedChunkInfoVector->last();
+      return lastChunk->time();
+    }
+    else
+    {
+      return 0.0;
+    }
+  }  
   unsigned long WprofResource::fromWprofObject() { return m_fromWprofObject; }
   unsigned long WprofResource::bytes() { return m_bytes; }
   String WprofResource::httpMethod() { return m_httpMethod;}
