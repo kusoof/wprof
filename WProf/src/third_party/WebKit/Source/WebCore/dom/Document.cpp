@@ -839,8 +839,12 @@ PassRefPtr<Element> Document::createElement(const AtomicString& name, ExceptionC
         return 0;
     }
 
-    if (m_isXHTML)
-        return HTMLElementFactory::createHTMLElement(QualifiedName(nullAtom, name, xhtmlNamespaceURI), this, 0, false);
+    if (m_isXHTML){
+#if !WPROF_DISABLED
+      WprofController::getInstance()->createWprofGenTag(this->url().string(), this, name);
+#endif
+      return HTMLElementFactory::createHTMLElement(QualifiedName(nullAtom, name, xhtmlNamespaceURI), this, 0, false);
+    }
 
     return createElement(QualifiedName(nullAtom, name, nullAtom), false);
 }
@@ -1075,6 +1079,10 @@ bool Document::hasValidNamespaceForAttributes(const QualifiedName& qName)
 PassRefPtr<Element> Document::createElement(const QualifiedName& qName, bool createdByParser)
 {
     RefPtr<Element> e;
+
+#if !WPROF_DISABLED
+    WprofController::getInstance()->createWprofGenTag(this->url().string(), this, qName.localName());
+#endif
 
     // FIXME: Use registered namespaces and look up in a hash to find the right factory.
     if (qName.namespaceURI() == xhtmlNamespaceURI)
