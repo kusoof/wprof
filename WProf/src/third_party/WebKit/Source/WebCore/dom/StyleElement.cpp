@@ -64,10 +64,9 @@ StyleElement::StyleElement(Document* document, bool createdByParser)
 	Page* page = WprofController::getInstance()->getPageFromDocument(document);
 	if(page){
 	  setWprofElement(WprofController::getInstance()->tempElementForPage(page));
+	  // Set type css
+	  WprofController::getInstance()->setElementTypePair(wprofElement(), 4);
 	}
-
-        // Set type css
-        WprofController::getInstance()->setElementTypePair(wprofElement(), 4);
 #endif
 }
 

@@ -42,6 +42,9 @@
 #include "Frame.h"
 #include "ResourceRequest.h"
 
+#include <stdlib.h>
+#include <sstream>
+
 namespace WebCore {
 
 
@@ -416,7 +419,7 @@ namespace WebCore {
     request.setWprofPage(this);
     
     //Check to see if we have this tag
-    if(element && !element->isComputation()){
+    /*if(element && !element->isComputation()){
       Vector<WprofGenTag*>::iterator it = m_tags.begin();
       bool found = false;
       for(; it != m_tags.end(); it++){
@@ -429,7 +432,7 @@ namespace WebCore {
       if(!found){
 	fprintf(stderr, "The tag is not found in the page\n");
       }
-    }
+      }*/
 
     WprofElement* resourceParent = element;
 
@@ -850,6 +853,12 @@ namespace WebCore {
 			
     fprintf(stderr, "{\"Complete\": \"%s\"}\n", m_url.utf8().data());
     m_complete = true;
+
+    //Clear the cache
+    std::string cachePath = "/home/kusoof/.cache/chromium/Default/Cache/*";
+    std::stringstream ss;
+    ss << "rm -rf " << cachePath;
+    system(ss.str().c_str());
   }
         
   void WprofPage::clear() {
