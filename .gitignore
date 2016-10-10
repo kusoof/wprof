@@ -1,2 +1,5 @@
 .DS_Store
 WProf/src/out
+*.diff
+WProf/build
+*.svn
