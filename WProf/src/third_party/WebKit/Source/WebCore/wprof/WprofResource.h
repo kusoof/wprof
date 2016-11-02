@@ -31,6 +31,8 @@
 #include "config.h"
 #include "ResourceLoadTiming.h"
 #include <wtf/text/WTFString.h>
+#include <wtf/RefCounted.h>
+#include "SharedBuffer.h"
 
 namespace WebCore {
 
@@ -123,10 +125,12 @@ namespace WebCore {
         
         
   // Called only in WprofController::createWprofReceivedChunk()
-  void addBytes(unsigned long bytes);
-        
+  void addBytes(const char* data, unsigned long bytes);
+      
   // Called only in WprofController::createWprofReceivedChunk()
   void appendWprofReceivedChunk(WprofReceivedChunk* info);
+
+  void outputDataToPath(const String& path);
         
 private:
 
@@ -139,6 +143,9 @@ private:
         
         // Tracks how many bytes have been downloaded
         unsigned long m_bytes;
+
+	//Shared buffer, which stores data downloaded, so we can log it
+	RefPtr<SharedBuffer> m_resourceData;
         
         
         // The WprofHTMLTag this resource is triggered from. There is only one

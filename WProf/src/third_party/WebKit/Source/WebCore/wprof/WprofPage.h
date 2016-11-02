@@ -15,6 +15,7 @@
 #include <wtf/text/StringBuilder.h>
 #include <wtf/text/TextPosition.h>
 #include <wtf/text/WTFString.h>
+#include <wtf/RefCounted.h>
 
 //Wprof includes
 #include "WprofResource.h"
@@ -24,6 +25,7 @@
 //#include "WprofPreload.h"
 
 //WebCore includes
+#include "SharedBuffer.h"
 /*#include "Page.h"
 #include "Document.h"
 #include "DocumentFragment.h"
@@ -37,6 +39,7 @@
 #include <errno.h>
 #include <stack>
 #include <utility>
+#include <string>
 
 #include "Logging.h"
 #include "ResourceLoadTiming.h"
@@ -60,6 +63,7 @@ namespace WebCore
   class DocumentFragment;
   class Event;
   class Frame;
+  class SharedBuffer;
 
   typedef struct CurrentPosition {
     int position;
@@ -93,6 +97,8 @@ namespace WebCore
 
     Page* page ();
 
+    void setOutputPath(const String& outputPath);
+
     /*----------------------------------------------------------------
       Document Addition
       --------------------------------------------------------------*/
@@ -115,8 +121,8 @@ namespace WebCore
      * @param unsigned long id of the corresponding request
      * @param unsigned long length of the received chunk
      */
-    void createWprofReceivedChunk(unsigned long resourceId, unsigned long length);
-        
+    void createWprofReceivedChunk(unsigned long resourceId, const char* data, int length);
+    
     /*
      * This function adds a <url, request time> mapping.
      * Called by ResourceLoader::willSendRequest().
@@ -319,6 +325,11 @@ namespace WebCore
     void outputWprofComputations();
         
     void outputWprofPreloads();
+
+    //Methods for creating directories
+    void CheckAndCreateDirectory(const String& path);
+
+    String CreateDirectoryRecursive(const String& url, const String& outputPath);
         
     // -------- Instance Variables --------------------
 
@@ -409,6 +420,8 @@ namespace WebCore
     int m_domCounter;
 
     bool m_complete;
+
+    String m_outputPath;
 
     enum WprofControllerState {
       WPROF_BEGIN = 1,

@@ -28,6 +28,7 @@
 
 #include "WprofResource.h"
 #include "Frame.h"
+#include <fstream>
 
 namespace WebCore {
 
@@ -151,8 +152,45 @@ namespace WebCore {
         
         
         // Called only in WprofController::createWprofReceivedChunk()
-  void WprofResource::addBytes(unsigned long bytes) {
+  void WprofResource::addBytes(const char* data, unsigned long bytes) {
     m_bytes += bytes;
+
+    //copy the data
+    //char copy[bytes];
+    //memcpy(copy, data, bytes);
+
+    if (!m_resourceData)
+    {
+      m_resourceData = SharedBuffer::create(data, bytes);
+    }
+    else
+    {
+      m_resourceData->append(data, bytes);
+    }
+  }
+
+  void WprofResource::outputDataToPath(const String& path)
+  {
+    std::ofstream outputStream;
+    outputStream.open(path.utf8().data(), std::ofstream::binary);
+
+    const char* segment;
+    unsigned pos = 0;
+    unsigned prevPos = 0;
+    
+    if (m_resourceData)
+    {
+      while (unsigned length = m_resourceData->getSomeData(segment, pos)) {  
+	pos += length;
+	outputStream.write(segment, pos - prevPos);
+	prevPos = pos;
+      }
+    }
+
+    //const char* data = resourceData->data();
+    //outputStream << data;
+
+    outputStream.close();
   }
         
   // Called only in WprofController::createWprofReceivedChunk()

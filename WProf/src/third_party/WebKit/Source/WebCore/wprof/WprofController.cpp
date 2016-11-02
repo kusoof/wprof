@@ -41,6 +41,8 @@ namespace WebCore {
 
   WprofController::WprofController()
   {
+    //For now, statically set output path, may need to modify this to be a chrome flag.
+    m_outputPath = String::format("/home/kusoof/Traces/website_resources/");
   }
    
   /*
@@ -84,6 +86,7 @@ namespace WebCore {
   
   void WprofController::createPage(Page* page){
     WprofPage* wpage = new WprofPage(page);
+    wpage->setOutputPath(m_outputPath);
     m_pageMap.set(page, wpage);
   }
 
@@ -150,10 +153,10 @@ namespace WebCore {
    * @param unsigned long id of the corresponding request
    * @param unsigned long length of the received chunk
    */
-  void WprofController::createWprofReceivedChunk(unsigned long id_url, unsigned long length, Page* page) {
+  void WprofController::createWprofReceivedChunk(unsigned long id_url, const char* data, int length, Page* page) {
     LOG(DependencyLog, "WprofController::addWprofReceivedChunk %lu", id_url);
     WprofPage* wpage = getWprofPage(page);
-    wpage->createWprofReceivedChunk(id_url, length);
+    wpage->createWprofReceivedChunk(id_url, data, length);
   }
         
   /*

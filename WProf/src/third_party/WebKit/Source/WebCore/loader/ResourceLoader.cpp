@@ -307,7 +307,7 @@ void ResourceLoader::didReceiveData(const char* data, int length, long long enco
     RefPtr<ResourceLoader> protector(this);
 
 #if !WPROF_DISABLED
-    WprofController::getInstance()->createWprofReceivedChunk(identifier(), (unsigned long)length, m_frame->page());
+    WprofController::getInstance()->createWprofReceivedChunk(identifier(), data, length, m_frame->page());
 #endif
 
     addData(data, length, allAtOnce);

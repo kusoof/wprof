@@ -30,6 +30,15 @@
 #include "StyleSheetContents.h"
 #include <wtf/StdLibExtras.h>
 
+#if !WPROF_DISABLED
+#include "Logging.h"
+#include "WprofController.h"
+#include "Frame.h"
+#include "HTMLFrameOwnerElement.h"
+#include "WprofGenTag.h"
+#include "Page.h"
+#endif
+
 namespace WebCore {
 
 PassRefPtr<StyleRuleImport> StyleRuleImport::create(const String& href, PassRefPtr<MediaQuerySet> media)
@@ -113,6 +122,21 @@ void StyleRuleImport::requestStyleSheet()
     }
 
     ResourceRequest request(document->completeURL(absHref));
+
+#if !WPROF_DISABLED
+    //Try to get the associated wprof tag
+    if(cachedResourceLoader->frame() && cachedResourceLoader->frame()->ownerElement()){
+      WprofGenTag* element = cachedResourceLoader->frame()->ownerElement()->wprofElement();
+      WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(), request, element);
+    }
+    else{
+      if(WprofController::getInstance()->getPageFromDocument(document)){
+	WprofController::getInstance()->createRequestWprofElementMapping(request.url().string(),
+									 request, WprofController::getInstance()->getPageFromDocument(document));
+      }
+    }
+#endif
+    
     if (m_parentStyleSheet->isUserStyleSheet())
         m_cachedSheet = cachedResourceLoader->requestUserCSSStyleSheet(request, m_parentStyleSheet->charset());
     else

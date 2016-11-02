@@ -41,9 +41,13 @@
 #include "Page.h"
 #include "Frame.h"
 #include "ResourceRequest.h"
+#include "SharedBuffer.h"
+#include "FileSystem.h"
 
 #include <stdlib.h>
 #include <sstream>
+#include <sys/stat.h>
+#include <unistd.h>
 
 namespace WebCore {
 
@@ -64,6 +68,11 @@ namespace WebCore {
   }
 
   Page* WprofPage::page () {return m_page;}
+
+  void WprofPage::setOutputPath(const String& outputPath)
+  {
+    m_outputPath = outputPath;
+  }
 
 
   /*--------------------------------------------------------------------------
@@ -163,12 +172,12 @@ namespace WebCore {
    * @param unsigned long id of the corresponding request
    * @param unsigned long length of the received chunk
    */
-  void WprofPage::createWprofReceivedChunk(unsigned long resourceId, unsigned long length) {
+  void WprofPage::createWprofReceivedChunk(unsigned long resourceId, const char* data,  int length) {
     WprofReceivedChunk* chunk = new WprofReceivedChunk(resourceId, length, monotonicallyIncreasingTime());
     WprofResource* resource = m_resourceMap.get(resourceId);
     if(resource){
       resource->appendWprofReceivedChunk(chunk);
-      resource->addBytes(length);
+      resource->addBytes(data, length);
     }
     else 
     { 
@@ -858,7 +867,7 @@ namespace WebCore {
     std::string cachePath = "/home/kusoof/.cache/chromium/Default/Cache/*";
     std::stringstream ss;
     ss << "rm -rf " << cachePath;
-    system(ss.str().c_str());
+    int result = system(ss.str().c_str());
   }
         
   void WprofPage::clear() {
@@ -952,6 +961,17 @@ namespace WebCore {
 		chunkInfo->len()
 		);
       }
+
+      //Output the resource data to disk
+      String url = info->url();
+
+      if (url.startsWith(String::format("data:")) || url.startsWith(String::format("about:blank")))
+      {
+	continue;
+      }
+    
+      String filePath = CreateDirectoryRecursive(url, m_outputPath);
+      info->outputDataToPath(filePath);
     }
                 
     // Output info of parsed objects
@@ -1056,6 +1076,67 @@ namespace WebCore {
   void WprofPage::setTempWprofGenTag(WprofGenTag* tempWprofGenTag) {
     m_tempWprofGenTag = tempWprofGenTag;
 
+  }
+
+  void WprofPage::CheckAndCreateDirectory(const String& path)
+  {
+    if(access(path.utf8().data(), F_OK ) == -1 ){
+      const int error = mkdir(path.utf8().data(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+      
+      if(error == -1){
+	fprintf (stderr, "Could not create directory %s with error %d\n",  path.utf8().data(), errno);
+      }
+    }
+  }
+
+  String WprofPage::CreateDirectoryRecursive(const String& url, const String& outputPath)
+  {
+    String trimUrl = url;
+    //Remove http:// and https://
+    if (url.startsWith("http://"))
+    {
+      trimUrl = url.substring(7, url.length() - 6);
+    }
+    else if (url.startsWith("https://"))
+    {
+      trimUrl = url.substring(8, url.length() - 7);
+    }
+    
+    Vector<String> urlPaths;
+    //Split the URL
+    trimUrl.split(String::format("/"), urlPaths);
+    
+    String path(outputPath);
+
+    //Use the page url as a directory
+    String pageUrl = m_url;
+    //Remove http:// and https://
+    if (pageUrl.startsWith("http://"))
+    {
+      pageUrl = pageUrl.substring(7, pageUrl.length() - 6);
+    }
+    else if (pageUrl.startsWith("https://"))
+    {
+      pageUrl = pageUrl.substring(8, pageUrl.length() - 7);
+    }
+    
+    path.append("/");
+    path.append(pageUrl);
+    
+    Vector<String>::iterator it = urlPaths.begin();
+    for (; it != urlPaths.end() - 1; ++it)
+    {
+      path.append(*it);
+      path.append("/");
+    }
+    
+    makeAllDirectories(path);
+
+    path.append("/");
+    path.append(*(urlPaths.end() - 1));
+    
+    return path;
+    
   }
     
 }

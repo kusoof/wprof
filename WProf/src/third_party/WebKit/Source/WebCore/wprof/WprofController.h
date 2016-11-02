@@ -87,9 +87,10 @@ namespace WebCore {
      * Called by ResourceLoader::didReceiveData().
      *
      * @param unsigned long id of the corresponding request
+     * @param 
      * @param unsigned long length of the received chunk
      */
-    void createWprofReceivedChunk(unsigned long id_url, unsigned long length, Page* page);
+    void createWprofReceivedChunk(unsigned long id_url, const char* data,  int length, Page* page);
         
     /*
      * This function adds a <url, request time> mapping.
@@ -223,6 +224,8 @@ namespace WebCore {
         
   HashMap<Page*, WprofPage*> m_pageMap;  
   WprofPage* getWprofPage(Page* page);
+
+  String m_outputPath;
   };
 }
 #endif // WPROF_DISABLED
