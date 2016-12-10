@@ -1105,6 +1105,9 @@ bool DOMWindow::offscreenBuffering() const
 
 int DOMWindow::outerHeight() const
 {
+  //lynne + rui always return same value
+  return 1000;
+
     if (!m_frame)
         return 0;
 
@@ -1117,6 +1120,9 @@ int DOMWindow::outerHeight() const
 
 int DOMWindow::outerWidth() const
 {
+    //lynne + rui always return same value
+  return 1200;
+  
     if (!m_frame)
         return 0;
 
@@ -1129,6 +1135,8 @@ int DOMWindow::outerWidth() const
 
 int DOMWindow::innerHeight() const
 {
+    //lynne + rui always return same value
+  return 900;
     if (!m_frame)
         return 0;
 
@@ -1143,6 +1151,9 @@ int DOMWindow::innerHeight() const
 
 int DOMWindow::innerWidth() const
 {
+    //lynne + rui always return same value
+  return 1100;
+
     if (!m_frame)
         return 0;
 
@@ -1157,6 +1168,9 @@ int DOMWindow::innerWidth() const
 
 int DOMWindow::screenX() const
 {
+  //lynne + rui always return same value
+  return 0;
+  
     if (!m_frame)
         return 0;
 
@@ -1169,6 +1183,9 @@ int DOMWindow::screenX() const
 
 int DOMWindow::screenY() const
 {
+  //lynne + rui always return same value
+  return 0;
+  
     if (!m_frame)
         return 0;
 
@@ -1641,6 +1658,10 @@ void DOMWindow::dispatchLoadEvent()
 #if !WPROF_DISABLED
   if (m_frame && page()){
     WprofController::getInstance()->setFrameLoadTime(m_frame, page());
+  }
+  else
+  {
+    fprintf(stderr, "****************** frame is %p page is %p\n", m_frame, page());
   }
 #endif
 

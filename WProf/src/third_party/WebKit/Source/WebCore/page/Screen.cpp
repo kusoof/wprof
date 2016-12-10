@@ -60,6 +60,8 @@ unsigned Screen::verticalDPI() const
 
 unsigned Screen::height() const
 {
+    //lynne + rui always return same value
+  return 1200;
     if (!m_frame)
         return 0;
     long height = static_cast<long>(screenRect(m_frame->view()).height());
@@ -69,6 +71,8 @@ unsigned Screen::height() const
 
 unsigned Screen::width() const
 {
+    //lynne + rui always return same value
+  return 1600;
     if (!m_frame)
         return 0;
     long width = static_cast<long>(screenRect(m_frame->view()).width());
@@ -78,6 +82,8 @@ unsigned Screen::width() const
 
 unsigned Screen::colorDepth() const
 {
+    //lynne + rui always return same value
+  return 24;
     if (!m_frame)
         return 0;
     return static_cast<unsigned>(screenDepth(m_frame->view()));
@@ -85,6 +91,8 @@ unsigned Screen::colorDepth() const
 
 unsigned Screen::pixelDepth() const
 {
+    //lynne + rui always return same value
+  return 24;
     if (!m_frame)
         return 0;
     return static_cast<unsigned>(screenDepth(m_frame->view()));
@@ -92,6 +100,8 @@ unsigned Screen::pixelDepth() const
 
 int Screen::availLeft() const
 {
+    //lynne + rui always return same value
+  return 300;
     if (!m_frame)
         return 0;
     return static_cast<int>(screenAvailableRect(m_frame->view()).x());
@@ -99,6 +109,8 @@ int Screen::availLeft() const
 
 int Screen::availTop() const
 {
+    //lynne + rui always return same value
+  return 300;
     if (!m_frame)
         return 0;
     return static_cast<int>(screenAvailableRect(m_frame->view()).y());
@@ -106,6 +118,8 @@ int Screen::availTop() const
 
 unsigned Screen::availHeight() const
 {
+    //lynne + rui always return same value
+  return 1200;
     if (!m_frame)
         return 0;
     return static_cast<unsigned>(screenAvailableRect(m_frame->view()).height());
@@ -113,6 +127,8 @@ unsigned Screen::availHeight() const
 
 unsigned Screen::availWidth() const
 {
+    //lynne + rui always return same value
+  return 1600;
     if (!m_frame)
         return 0;
     return static_cast<unsigned>(screenAvailableRect(m_frame->view()).width());

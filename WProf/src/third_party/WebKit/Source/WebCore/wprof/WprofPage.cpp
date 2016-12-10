@@ -772,8 +772,9 @@ namespace WebCore {
       m_state = WPROF_WAITING_LAST_RESOURCE;
     }
 
+    Frame* frame = document->frame();
     //if the pending request list is already empty, call the complete event
-    if(hasPageLoaded()){
+    if(hasPageLoaded() && (frame == frame->page()->mainFrame())){
       setPageLoadComplete();
     }
  
@@ -962,16 +963,20 @@ namespace WebCore {
 		);
       }
 
-      //Output the resource data to disk
-      String url = info->url();
-
-      if (url.startsWith(String::format("data:")) || url.startsWith(String::format("about:blank")))
+      if (true)
       {
-	continue;
-      }
+
+	//Output the resource data to disk
+	String url = info->url();
+
+	if (url.startsWith(String::format("data:")) || url.startsWith(String::format("about:blank")))
+	{
+	  continue;
+	}
     
-      String filePath = CreateDirectoryRecursive(url, m_outputPath);
-      info->outputDataToPath(filePath);
+	String filePath = CreateDirectoryRecursive(url, m_outputPath);
+	info->outputDataToPath(filePath);
+      }
     }
                 
     // Output info of parsed objects
@@ -1120,20 +1125,42 @@ namespace WebCore {
       pageUrl = pageUrl.substring(8, pageUrl.length() - 7);
     }
     
+    /* For now we will put all domains in the same level
     path.append("/");
     path.append(pageUrl);
+    */
     
     Vector<String>::iterator it = urlPaths.begin();
-    for (; it != urlPaths.end() - 1; ++it)
+    for (; it != urlPaths.end(); ++it)
     {
+      String pathPart = *it;
+      for (unsigned i = 255; i < it->length(); i += 255)
+      {
+	it->insert("/", i);
+      }
       path.append(*it);
-      path.append("/");
+
+      if (it != urlPaths.end() -1)
+      {
+	path.append("/");
+      }
     }
     
-    makeAllDirectories(path);
+    size_t lastSlash = path.reverseFind("/");
+    String prefix = path.left(lastSlash);
+    
+    if (!makeAllDirectories(prefix))
+    {
+      fprintf(stderr, "Could not create the path %s\n", path.utf8().data());
+    }
 
+    /*String last = *(urlPaths.end() - 1);
+    for (unsigned i = 255; i < last->length(); i += 255)
+    {
+      last.insert("/", i);
+    }
     path.append("/");
-    path.append(*(urlPaths.end() - 1));
+    path.append(last);*/
     
     return path;
     
